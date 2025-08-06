@@ -22,7 +22,7 @@ body {
 }
 
 /* ==================================== */
-/* 2. HEADER E TOOLBAR        */
+/* 2. HEADER E TOOLBAR (DESKTOP)  */
 /* ==================================== */
 header {
     background-color: var(--card-bg-color);
@@ -90,7 +90,7 @@ header h1 {
 }
 
 /* ==================================== */
-/* 3. OFFERTE (GRID)           */
+/* 3. OFFERTE (GRID DESKTOP)   */
 /* ==================================== */
 .offers-grid {
     display: grid;
@@ -109,6 +109,8 @@ header h1 {
     display: flex;
     flex-direction: column;
     transition: transform 0.2s;
+    text-decoration: none;
+    color: inherit;
 }
 
 .offer-card:hover {
@@ -124,4 +126,151 @@ header h1 {
 
 .image-container img {
     position: absolute;
-    top:
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.card-content {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.offer-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    min-height: 3rem;
+}
+
+.offer-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-top: auto;
+    margin-bottom: 0.25rem;
+}
+
+.offer-discount {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.offer-button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    font-size: 1rem;
+}
+
+.offer-button:hover {
+    background-color: #0056b3;
+}
+
+/* ==================================== */
+/* 4. MEDIA QUERIES (MOBILE)   */
+/* ==================================== */
+@media (max-width: 768px) {
+    
+    /* Layout dell'header mobile */
+    header {
+        padding: 0.75rem;
+    }
+
+    .header-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .toolbar {
+        width: 100%;
+        gap: 0.5rem;
+    }
+
+    .search-box, .filter-box {
+        width: 100%;
+    }
+
+    #search-input {
+        width: 100%;
+    }
+    
+    /* Layout delle offerte a "cassetti" su mobile */
+    .offers-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .offer-card {
+        flex-direction: row; /* Schede in orizzontale */
+        align-items: center;
+        padding: 0.5rem;
+        box-shadow: 0 2px 4px var(--shadow-color);
+        text-decoration: none; /* Rimuovi la sottolineatura */
+    }
+    
+    .offer-card .image-container {
+        width: 30%; /* L'immagine prende una porzione dello spazio */
+        padding-top: 30%;
+        margin-right: 0.75rem;
+        flex-shrink: 0; /* Impedisce all'immagine di restringersi */
+    }
+
+    .offer-card .card-content {
+        flex-grow: 1; /* Il contenuto prende lo spazio rimanente */
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .offer-card .offer-title {
+        font-size: 0.9rem;
+        min-height: auto;
+        margin-bottom: 0.25rem;
+        line-height: 1.2;
+        color: var(--text-color);
+    }
+
+    .offer-card .offer-price {
+        font-size: 1.2rem;
+        margin-bottom: 0;
+        color: var(--primary-color);
+    }
+
+    .offer-card .offer-discount {
+        display: none; /* Nascondiamo lo sconto su mobile per pulizia */
+    }
+
+    .offer-card .offer-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        padding: 0.5rem 1rem;
+        font-size: 1.5rem;
+        background-color: transparent;
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+}
