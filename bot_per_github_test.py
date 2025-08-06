@@ -4,18 +4,15 @@ import re
 import os
 from git import Repo
 
-# Credenziali API Telegram (caricate da segreti GitHub)
-api_id = os.environ.get('API_ID')
-api_hash = os.environ.get('API_HASH')
+# Credenziali del bot (caricate da segreti GitHub)
+telegram_bot_token = os.environ.get('TELEGRAM_BOT_TOKEN')
 channel_username = os.environ.get('CHANNEL_USERNAME')
 
 # Credenziali GitHub (caricate da segreti GitHub)
 github_token = os.environ.get('GH_TOKEN')
 
-# Inizializza il client di Telegram
-# Aggiunto 'session' e 'test' per l'autenticazione non interattiva
-# Il nome 'deal_bot' crea un file di sessione 'deal_bot.session'
-client = TelegramClient('deal_bot', api_id, api_hash)
+# Inizializza il client di Telegram con il token del bot
+client = TelegramClient('deal_bot', 2004068213, telegram_bot_token, base_logger='test')
 
 # Funzione per estrarre i dati da un messaggio
 def extract_offer_data(message):
@@ -62,9 +59,7 @@ def extract_offer_data(message):
 async def generate_and_sync_json():
     offers = []
     
-    # Questo è un modo migliore per gestire il client
     async with client:
-        # Recupera il canale
         channel = await client.get_entity(channel_username)
         
         async for message in client.iter_messages(channel, limit=50):
