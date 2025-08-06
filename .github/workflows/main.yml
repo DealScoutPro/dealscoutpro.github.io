@@ -2,7 +2,7 @@ name: Update Offers
 
 on:
   schedule:
-    - cron: '*/5 * * * *' # Esegui ogni 5 minuti
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -25,8 +25,7 @@ jobs:
 
       - name: Run bot script
         env:
-          API_ID: ${{ secrets.TELEGRAM_API_ID }}
-          API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           CHANNEL_USERNAME: ${{ secrets.TELEGRAM_CHANNEL_USERNAME }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
