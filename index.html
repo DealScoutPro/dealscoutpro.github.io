@@ -15,51 +15,78 @@
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 20px;
-            justify-content: center;
         }
         .offer-card {
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 20px;
-            width: 300px;
-            text-align: center;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            height: 150px; /* Altezza fissa per l'intero rettangolo */
+            overflow: hidden;
+            gap: 15px;
         }
-        .offer-card img {
-            max-width: 100%;
-            height: auto;
+        .offer-image-container {
+            flex-shrink: 0;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
             border-radius: 4px;
-            margin-bottom: 15px;
         }
-        .offer-card h3 {
-            font-size: 1.2em;
-            margin-top: 0;
-            height: 60px; /* Altezza fissa per i titoli */
+        .offer-image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .offer-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             overflow: hidden;
         }
-        .offer-card p {
-            font-size: 1em;
+        .offer-details h3 {
+            font-size: 1.1em;
+            margin: 0 0 5px 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .offer-details p {
+            margin: 0;
+            font-size: 0.9em;
             color: #555;
         }
-        .offer-card .price {
-            font-size: 1.5em;
+        .price {
+            font-size: 1.3em;
             color: #e44d26;
             font-weight: bold;
         }
-        .offer-card .discount {
+        .discount {
             color: #28a745;
             font-weight: bold;
+            margin-left: 5px;
         }
-        .offer-card a {
+        .offer-button-container {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+        }
+        .offer-button {
             display: inline-block;
             background-color: #ff9900;
             color: #fff;
             padding: 10px 20px;
             text-decoration: none;
             border-radius: 5px;
-            margin-top: 15px;
+            white-space: nowrap;
+            text-align: center;
         }
     </style>
 </head>
@@ -80,16 +107,22 @@
                     card.className = 'offer-card';
 
                     const title = offer.title || 'Offerta speciale';
-                    const image = offer.image || 'https://via.placeholder.com/300';
+                    const image = offer.image || 'https://via.placeholder.com/120x120.png?text=No+Image';
                     const price = offer.price ? `€${offer.price.toFixed(2).replace('.', ',')}` : 'Non disponibile';
                     const discount = offer.discount ? `<span class="discount">(-${offer.discount}%)</span>` : '';
                     const link = offer.link || '#';
 
                     card.innerHTML = `
-                        <img src="${image}" alt="${title}">
-                        <h3>${title}</h3>
-                        <p class="price">${price} ${discount}</p>
-                        <a href="${link}" target="_blank">Vai all'offerta</a>
+                        <div class="offer-image-container">
+                            <img src="${image}" alt="${title}">
+                        </div>
+                        <div class="offer-details">
+                            <h3>${title}</h3>
+                            <p class="price">${price} ${discount}</p>
+                        </div>
+                        <div class="offer-button-container">
+                            <a href="${link}" class="offer-button" target="_blank">Vai all'offerta</a>
+                        </div>
                     `;
 
                     container.appendChild(card);
