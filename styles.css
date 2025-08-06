@@ -1,33 +1,37 @@
-/* ==================================== */
-/* 1. STILI FONDAMENTALI (MOBILE-FIRST)*/
-/* ==================================== */
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
-
-:root {
-    --primary-color: #007bff;
-    --secondary-color: #28a745;
-    --background-color: #f5f5f5;
-    --card-bg-color: #fff;
-    --text-color: #333;
-    --light-text-color: #6c757d;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-}
-
+/* Stili Generali */
 body {
-    font-family: 'Open Sans', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f0f2f5;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
 }
 
-/* ==================================== */
-/* 2. HEADER E TOOLBAR (MOBILE)       */
-/* ==================================== */
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Header */
 header {
-    background-color: var(--card-bg-color);
-    padding: 0.75rem;
-    box-shadow: 0 2px 4px var(--shadow-color);
+    background-color: #fff;
+    padding: 1rem 0;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -35,216 +39,177 @@ header {
 
 .header-container {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
-header h1 {
-    font-size: 1.5rem;
-    font-weight: 700;
+.header-container h1 {
     margin: 0;
+    font-size: 1.8rem;
+    color: #007bff;
 }
 
 .toolbar {
     display: flex;
-    flex-direction: column;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
     width: 100%;
-    gap: 0.5rem;
 }
 
-.search-box {
+@media (min-width: 768px) {
+    .toolbar {
+        margin-top: 0;
+        width: auto;
+    }
+}
+
+.search-box, .filter-box {
     display: flex;
-    border-radius: 5px;
-    overflow: hidden;
-    width: 100%;
+    align-items: center;
 }
 
-#search-input {
+.search-box input {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    border-radius: 4px;
     flex-grow: 1;
-    border: 1px solid #ced4da;
-    border-right: none;
-    padding: 0.75rem;
-    font-size: 1rem;
-    outline: none;
 }
 
-#search-button {
-    background-color: #e9ecef;
-    border: 1px solid #ced4da;
-    padding: 0.75rem 1rem;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-#filter-button {
-    background-color: var(--primary-color);
-    color: var(--card-bg-color);
+.search-box button {
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    padding: 0.75rem 1rem;
-    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
     cursor: pointer;
-    font-size: 1rem;
-    width: 100%;
+    margin-left: -1px;
+}
+
+.filter-box {
+    position: relative;
+}
+
+.filter-box button {
+    background-color: #f0f2f5;
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .dropdown-content {
     display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 4px;
+    right: 0;
 }
 
-/* ==================================== */
-/* 3. OFFERTE (MOBILE)           */
-/* ==================================== */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Main Content */
+main {
+    padding: 2rem 1rem;
+}
+
 .offers-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
 }
 
 .offer-card {
-    background-color: var(--card-bg-color);
+    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 4px var(--shadow-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    transition: transform 0.2s;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0.5rem;
-    text-decoration: none;
-    color: inherit;
+    flex-direction: column;
 }
 
 .offer-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 10px var(--shadow-color);
 }
 
-.image-container {
+/* Correzione immagini per ridimensionamento */
+.card-image-container {
+    width: 100%;
+    height: 250px; /* Altezza fissa per mantenere il rettangolo */
+    overflow: hidden; /* Nasconde l'immagine che esce dai bordi */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    width: 30%;
-    padding-top: 30%;
-    margin-right: 0.75rem;
-    flex-shrink: 0;
 }
 
-.image-container img {
-    position: absolute;
-    top: 0;
-    left: 0;
+.card-image-container img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover; /* Adatta l'immagine al rettangolo senza distorcerla */
 }
 
 .card-content {
-    flex-grow: 1;
-    padding: 0.5rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    flex-grow: 1;
 }
 
-.offer-title {
-    font-size: 0.9rem;
-    font-weight: 600;
+.card-content h4 {
+    font-size: 1.1rem;
     margin-top: 0;
-    margin-bottom: 0.25rem;
-    line-height: 1.2;
-    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
-.offer-price {
+.card-content .price {
     font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-top: auto;
-    margin-bottom: 0;
+    font-weight: bold;
+    color: #d9534f;
+    margin: 0.5rem 0;
 }
 
-.offer-discount {
-    display: none;
+.card-content .discount {
+    font-size: 1rem;
+    color: #5cb85c;
+    font-weight: bold;
+    margin-bottom: 1rem;
 }
 
-.offer-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: auto;
-    padding: 0.5rem 1rem;
-    font-size: 1.5rem;
-    background-color: transparent;
-    color: var(--primary-color);
+.cta-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+    align-self: flex-start;
+}
+
+.cta-button:hover {
+    background-color: #0056b3;
     text-decoration: none;
-    margin-left: auto;
-}
-
-/* ==================================== */
-/* 4. MEDIA QUERIES (DESKTOP)   */
-/* ==================================== */
-@media (min-width: 720px) {
-
-    .header-container {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 1rem;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    
-    .toolbar {
-        flex-direction: row;
-        width: auto;
-    }
-
-    #filter-button {
-        width: auto;
-    }
-
-    .offers-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.5rem;
-        padding: 1.5rem;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    .offer-card {
-        flex-direction: column;
-        padding: 0;
-    }
-
-    .image-container {
-        width: 100%;
-        padding-top: 75%;
-        margin-right: 0;
-    }
-
-    .card-content {
-        width: 100%;
-        padding: 1rem;
-    }
-
-    .offer-title {
-        font-size: 1rem;
-        min-height: 3rem;
-    }
-
-    .offer-price {
-        font-size: 1.4rem;
-    }
-
-    .offer-discount {
-        display: block;
-        font-size: 0.875rem;
-    }
-
-    .offer-button {
-        display: block;
-        padding: 0.75rem;
-        font-size: 1rem;
-        background-color: var(--primary-color);
-        color: #fff;
-        margin-left: 0;
-    }
 }
