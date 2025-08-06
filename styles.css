@@ -118,6 +118,7 @@ header h1 {
 .offer-button:hover {
     background-color: #0056b3;
 }
+
 /* Media query per schermi più piccoli */
 @media (max-width: 768px) {
     
@@ -129,7 +130,8 @@ header h1 {
     }
 
     header h1 {
-        font-size: 20px;
+        font-size: 24px;
+        margin-bottom: 10px;
     }
 
     .toolbar {
@@ -145,12 +147,19 @@ header h1 {
 
     #search-input {
         width: calc(100% - 60px); 
+        font-size: 16px;
+    }
+
+    #search-button, #filter-button {
+        padding: 8px;
+        font-size: 16px;
     }
     
     /* Layout delle offerte su mobile */
     .offers-grid {
-        grid-template-columns: 1fr; /* Una colonna per schermo */
+        grid-template-columns: 1fr;
         gap: 15px;
+        padding: 15px;
     }
 
     .offer-card {
@@ -167,21 +176,22 @@ header h1 {
         padding: 10px;
     }
     
+    /* Dimensione dei font per la leggibilità */
     .offer-title {
-        font-size: 14px;
+        font-size: 16px;
         min-height: auto;
     }
 
     .offer-price {
-        font-size: 18px;
+        font-size: 20px;
     }
 
     .offer-discount {
-        font-size: 12px;
+        font-size: 14px;
     }
 
     .offer-button {
-        padding: 8px;
-        font-size: 14px;
+        padding: 10px;
+        font-size: 16px;
     }
 }
