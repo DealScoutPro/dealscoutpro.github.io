@@ -182,7 +182,7 @@ header h1 {
 /* ==================================== */
 /* 4. MEDIA QUERIES (DESKTOP)   */
 /* ==================================== */
-@media (min-width: 769px) {
+@media (min-width: 768px) {
 
     .header-container {
         flex-direction: row;
