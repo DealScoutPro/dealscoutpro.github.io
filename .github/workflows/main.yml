@@ -28,7 +28,7 @@ jobs:
           API_ID: ${{ secrets.TELEGRAM_API_ID }}
           API_HASH: ${{ secrets.TELEGRAM_API_HASH }}
           CHANNEL_USERNAME: ${{ secrets.TELEGRAM_CHANNEL_USERNAME }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO_PATH: ${{ github.workspace }}
         run: |
           python bot_per_github_test.py
