@@ -118,3 +118,44 @@ header h1 {
 .offer-button:hover {
     background-color: #0056b3;
 }
+/* Media query per schermi più piccoli */
+@media (max-width: 768px) {
+    /* Il layout a griglia si adatta a una singola colonna */
+    .offers-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Riduzione della dimensione del font e dei margini nell'header */
+    header h1 {
+        font-size: 20px;
+    }
+
+    .toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .search-box, .filter-box {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    #search-input {
+        width: calc(100% - 40px); /* Previene l'overflow su schermi piccoli */
+    }
+
+    .offer-card {
+        flex-direction: row; /* Scheda disposta orizzontalmente su mobile */
+    }
+
+    .image-container {
+        width: 40%;
+        padding-top: 30%; /* Rapporto d'aspetto più piccolo */
+    }
+
+    .card-content {
+        width: 60%;
+    }
+}
