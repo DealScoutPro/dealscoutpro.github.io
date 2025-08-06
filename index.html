@@ -1,34 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
-  <title>DealScoutPro</title>
-  <link rel="stylesheet" href="styles.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DealScoutPro - Le migliori offerte Amazon</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .offer-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+        .offer-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .offer-card h3 {
+            font-size: 1.2em;
+            margin-top: 0;
+            height: 60px; /* Altezza fissa per i titoli */
+            overflow: hidden;
+        }
+        .offer-card p {
+            font-size: 1em;
+            color: #555;
+        }
+        .offer-card .price {
+            font-size: 1.5em;
+            color: #e44d26;
+            font-weight: bold;
+        }
+        .offer-card .discount {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .offer-card a {
+            display: inline-block;
+            background-color: #ff9900;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <div class="header-container">
-        <h1>DealScoutPro</h1>
-        <div class="toolbar">
-            <div class="search-box">
-                <input type="text" id="search-input" placeholder="Cerca offerte...">
-                <button id="search-button">🔍</button>
-            </div>
-            <div class="filter-box">
-                <button id="filter-button">Filtra ▼</button>
-                <div id="filter-dropdown" class="dropdown-content">
-                </div>
-            </div>
+    <h1 style="text-align: center; color: #333;">Le ultime offerte Amazon</h1>
+    
+    <div id="offers-container" class="container">
         </div>
-    </div>
-  </header>
 
-  <main>
-    <div id="offers-container" class="offers-grid">
-      </div>
-  </main>
+    <script>
+        fetch('data.json')
+            .then(response => response.json())
+            .then(offers => {
+                const container = document.getElementById('offers-container');
+                offers.forEach(offer => {
+                    const card = document.createElement('div');
+                    card.className = 'offer-card';
 
-  <script src="script.js"></script>
+                    const title = offer.title || 'Offerta speciale';
+                    const image = offer.image || 'https://via.placeholder.com/300';
+                    const price = offer.price ? `€${offer.price.toFixed(2).replace('.', ',')}` : 'Non disponibile';
+                    const discount = offer.discount ? `<span class="discount">(-${offer.discount}%)</span>` : '';
+                    const link = offer.link || '#';
+
+                    card.innerHTML = `
+                        <img src="${image}" alt="${title}">
+                        <h3>${title}</h3>
+                        <p class="price">${price} ${discount}</p>
+                        <a href="${link}" target="_blank">Vai all'offerta</a>
+                    `;
+
+                    container.appendChild(card);
+                });
+            })
+            .catch(error => console.error('Errore nel caricamento del file JSON:', error));
+    </script>
+
 </body>
 </html>
