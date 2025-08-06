@@ -121,22 +121,23 @@ header h1 {
 /* Media query per schermi più piccoli */
 @media (max-width: 768px) {
     
-    /* Disposizione dell'header su schermi piccoli */
+    /* Layout dell'header mobile */
     header {
         flex-direction: column;
         align-items: flex-start;
         padding: 10px;
     }
 
-    /* Stile della barra degli strumenti */
+    header h1 {
+        font-size: 20px;
+    }
+
     .toolbar {
         flex-direction: column;
-        align-items: flex-start;
         width: 100%;
         margin-top: 10px;
     }
 
-    /* Stile della barra di ricerca e del filtro */
     .search-box, .filter-box {
         width: 100%;
         margin-top: 5px;
@@ -146,9 +147,10 @@ header h1 {
         width: calc(100% - 60px); 
     }
     
-    /* Stile delle schede delle offerte su schermi piccoli */
+    /* Layout delle offerte su mobile */
     .offers-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Una colonna per schermo */
+        gap: 15px;
     }
 
     .offer-card {
@@ -162,6 +164,24 @@ header h1 {
 
     .card-content {
         width: 100%;
-        padding: 15px;
+        padding: 10px;
     }
-        }
+    
+    .offer-title {
+        font-size: 14px;
+        min-height: auto;
+    }
+
+    .offer-price {
+        font-size: 18px;
+    }
+
+    .offer-discount {
+        font-size: 12px;
+    }
+
+    .offer-button {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
