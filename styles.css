@@ -120,16 +120,15 @@ header h1 {
 }
 /* Media query per schermi più piccoli */
 @media (max-width: 768px) {
-    /* Il layout a griglia si adatta a una singola colonna */
-    .offers-grid {
-        grid-template-columns: 1fr;
-    }
     
-    /* Riduzione della dimensione del font e dei margini nell'header */
-    header h1 {
-        font-size: 20px;
+    /* Disposizione dell'header su schermi piccoli */
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
     }
 
+    /* Stile della barra degli strumenti */
     .toolbar {
         flex-direction: column;
         align-items: flex-start;
@@ -137,25 +136,32 @@ header h1 {
         margin-top: 10px;
     }
 
+    /* Stile della barra di ricerca e del filtro */
     .search-box, .filter-box {
         width: 100%;
-        margin-top: 10px;
+        margin-top: 5px;
     }
 
     #search-input {
-        width: calc(100% - 40px); /* Previene l'overflow su schermi piccoli */
+        width: calc(100% - 60px); 
+    }
+    
+    /* Stile delle schede delle offerte su schermi piccoli */
+    .offers-grid {
+        grid-template-columns: 1fr;
     }
 
     .offer-card {
-        flex-direction: row; /* Scheda disposta orizzontalmente su mobile */
+        flex-direction: column;
     }
 
     .image-container {
-        width: 40%;
-        padding-top: 30%; /* Rapporto d'aspetto più piccolo */
+        width: 100%;
+        padding-top: 75%;
     }
 
     .card-content {
-        width: 60%;
+        width: 100%;
+        padding: 15px;
     }
-}
+        }
