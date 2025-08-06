@@ -1,68 +1,101 @@
 document.addEventListener('DOMContentLoaded', () => {
     const offersContainer = document.getElementById('offers-container');
     const searchInput = document.getElementById('search-input');
+    const searchButton = document.getElementById('search-button');
+    const filterButton = document.getElementById('filter-button');
     const filterDropdown = document.getElementById('filter-dropdown');
-    let offersData = [];
+    let allOffers = [];
+    let uniqueCategories = new Set();
 
-    // Funzione per caricare i dati dal file JSON
-    async function fetchOffers() {
-        try {
-            const response = await fetch('data.json');
-            offersData = await response.json();
-            displayOffers(offersData);
-            populateFilters();
-        } catch (error) {
-            console.error('Errore nel caricamento dei dati:', error);
-            offersContainer.innerHTML = '<p>Errore nel caricamento delle offerte. Riprova più tardi.</p>';
-        }
-    }
-
-    // Funzione per visualizzare le offerte
-    function displayOffers(offers) {
+    const renderOffers = (offers) => {
         offersContainer.innerHTML = '';
-        offers.forEach(offer => {
-            const offerCard = document.createElement('div');
-            offerCard.className = 'offer-card';
-
-            offerCard.innerHTML = `
-                <div class="image-container">
-                    <img src="${offer.url_immagine}" alt="${offer.titolo}">
-                </div>
-                <div class="card-content">
-                    <h2 class="offer-title">${offer.titolo}</h2>
-                    <p class="offer-price">€${offer.prezzo.toFixed(2).replace('.', ',')}</p>
-                    <p class="offer-discount">${offer.sconto_percentuale}% di sconto</p>
-                    <a href="${offer.link_affiliazione}" class="offer-button" target="_blank">Vedi l'offerta</a>
-                </div>
-            `;
-            offersContainer.appendChild(offerCard);
-        });
-    }
-
-    // Funzione per popolare i filtri in base alle categorie uniche
-    function populateFilters() {
-        const categories = [...new Set(offersData.map(offer => offer.categoria))];
-        filterDropdown.innerHTML = '';
-        categories.forEach(cat => {
-            const filterLink = document.createElement('a');
-            filterLink.href = '#';
-            filterLink.innerText = cat;
-            filterLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                const filteredOffers = offersData.filter(offer => offer.categoria === cat);
-                displayOffers(filteredOffers);
+        if (offers.length === 0) {
+            offersContainer.innerHTML = '<p class="text-center">Nessuna offerta disponibile al momento.</p>';
+        } else {
+            offers.forEach(offer => {
+                const offerCard = document.createElement('div');
+                offerCard.className = 'offer-card';
+                offerCard.innerHTML = `
+                    <div class="card-image-container">
+                        <img src="${offer.image}" alt="${offer.title}">
+                    </div>
+                    <div class="card-content">
+                        <h4>${offer.title}</h4>
+                        <p class="price">Prezzo: €${offer.price.toFixed(2).replace('.', ',')}</p>
+                        <p class="discount">Sconto: -${offer.discount}%</p>
+                        <a href="${offer.link}" class="cta-button" target="_blank">Vai all'offerta</a>
+                    </div>
+                `;
+                offersContainer.appendChild(offerCard);
             });
-            filterDropdown.appendChild(filterLink);
-        });
-    }
+        }
+    };
 
-    // Logica per il pulsante di ricerca
-    searchInput.addEventListener('keyup', (e) => {
-        const searchText = e.target.value.toLowerCase();
-        const filteredOffers = offersData.filter(offer => offer.titolo.toLowerCase().includes(searchText));
-        displayOffers(filteredOffers);
+    const filterOffers = (category) => {
+        const filteredOffers = allOffers.filter(offer => offer.category.toLowerCase() === category.toLowerCase());
+        renderOffers(filteredOffers);
+    };
+
+    const createFilterDropdown = () => {
+        filterDropdown.innerHTML = '';
+        uniqueCategories.forEach(category => {
+            const filterItem = document.createElement('a');
+            filterItem.href = "#";
+            filterItem.className = "dropdown-item";
+            filterItem.textContent = category;
+            filterItem.addEventListener('click', (e) => {
+                e.preventDefault();
+                filterOffers(category);
+                filterDropdown.style.display = "none";
+            });
+            filterDropdown.appendChild(filterItem);
+        });
+        // Aggiungi un'opzione per mostrare tutte le offerte
+        const allItem = document.createElement('a');
+        allItem.href = "#";
+        allItem.className = "dropdown-item";
+        allItem.textContent = "Tutte le offerte";
+        allItem.addEventListener('click', (e) => {
+            e.preventDefault();
+            renderOffers(allOffers);
+            filterDropdown.style.display = "none";
+        });
+        filterDropdown.appendChild(allItem);
+    };
+
+    filterButton.addEventListener('click', () => {
+        filterDropdown.style.display = filterDropdown.style.display === 'block' ? 'none' : 'block';
     });
 
-    // Avvia il caricamento delle offerte all'inizio
-    fetchOffers();
+    searchButton.addEventListener('click', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredOffers = allOffers.filter(offer => offer.title.toLowerCase().includes(searchTerm));
+        renderOffers(filteredOffers);
+    });
+
+    // Funzione principale che carica i dati
+    fetch('data.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Errore di rete o file non trovato');
+            }
+            return response.json();
+        })
+        .then(data => {
+            allOffers = data;
+            data.forEach(offer => {
+                // Aggiungi un campo categoria fittizio per il filtraggio
+                // Se lo script Python non lo aggiunge, possiamo usare una categoria di default
+                if (!offer.category) {
+                    offer.category = "Generico";
+                }
+                uniqueCategories.add(offer.category);
+            });
+            renderOffers(allOffers);
+            createFilterDropdown();
+        })
+        .catch(error => {
+            console.error('Errore nel caricamento delle offerte:', error);
+            offersContainer.innerHTML = `<p class="text-center text-danger">Errore nel caricamento delle offerte. Riprova più tardi.</p>`;
+        });
 });
