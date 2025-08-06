@@ -186,25 +186,26 @@ main {
     padding: 0;
 }
 
+/* Rimpicciolisci il testo */
 .card-content h4 {
-    font-size: 1.1rem;
+    font-size: 1rem; /* Ridotto da 1.1rem */
     margin: 0 0 5px 0;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3; /* Aumentato a 3 righe per più testo */
     -webkit-box-orient: vertical;
 }
 
 .card-content .price {
-    font-size: 1.2rem;
+    font-size: 1.1rem; /* Ridotto da 1.2rem */
     font-weight: bold;
     color: #d9534f;
     margin: 0.5rem 0;
 }
 
 .card-content .discount {
-    font-size: 1rem;
+    font-size: 0.9rem; /* Ridotto da 1rem */
     color: #5cb85c;
     font-weight: bold;
     margin-bottom: 1rem;
