@@ -1,0 +1,103 @@
+[
+<<<<<<< HEAD
+    {
+        "title": "🏠 Offerte per la Casa e il Giardino \n\nXiaomi Robot Vacuum S20, Robot Aspirapolvere Lavapavimenti, As...",
+        "image": null,
+        "price": "156,99 €",
+        "discount": "-8%",
+        "link": "https://amzn.to/40Nyk6U"
+    },
+    {
+        "title": "💼 Prodotti per l'Ufficio \n\nKrups Nespresso Inissia XN1005, Macchina da caffè, Sistema Capsule Nespre...",
+        "image": null,
+        "price": "79,00 €",
+        "discount": "-34%",
+        "link": "https://amzn.to/45ipgIu"
+    },
+    {
+        "title": "👟 Articoli Sportivi e Fitness \n\nPistola Massaggio Muscolare con Testa Calda e Fredda, RENPHO Massagg...",
+        "image": null,
+        "price": "96,51 €",
+        "discount": "-31%",
+        "link": "https://amzn.to/4mtLiiq"
+    },
+    {
+        "title": "💡 Occasione Tech \n\nSONGMICS Sedia da Ufficio Girevole, Altezza Regolabile, Poltrona da Gaming...\n\n💸 ...",
+        "image": null,
+        "price": "89,99 €",
+        "discount": "-22%",
+        "link": "https://amzn.to/4omH5il"
+    },
+    {
+        "title": "💼 Prodotti per l'Ufficio \n\nSONGMICS Sedia da Ufficio, Sedia a Rete Girevole, Altezza e Poggiapiedi.....",
+        "image": null,
+        "price": "99,99 €",
+        "discount": "-23%",
+        "link": "https://amzn.to/4omGUnb"
+    },
+    {
+        "title": "🍳 Utensili e accessori per la Cucina \n\nPhilips Airfryer Serie 2000 - Friggitrice ad aria da 4,2L, 15...",
+        "image": null,
+        "price": "69,99 €",
+        "discount": "-22%",
+        "link": "https://amzn.to/3HbnAZm"
+    },
+    {
+        "title": "🍳 Utensili e accessori per la Cucina \n\nLagostina Ingenio Mineralis Eco Set Padelle Antiaderenti in A...",
+        "image": null,
+        "price": "175,50 €",
+        "discount": "-12%",
+        "link": "https://amzn.to/4mOtLlp"
+    },
+    {
+        "title": "🛍️ Moda e Stile \n\nVans - Copy of Old Skool Platform Cuadros VN0A3B3UHRK1\n\n💸 Prezzo: 61,99 € ()\n\n🎉 Ot...",
+        "image": null,
+        "price": "61,99 €",
+        "discount": "-17%",
+        "link": "https://amzn.to/4lbQsyw"
+    },
+    {
+        "title": "🛍️ Moda e Stile \n\nPinko Love Classic Puff Cl Sheep Nap, Borsa Donna, Taglia Unica\n\n💸 Prezzo: 271,00 ...",
+        "image": null,
+        "price": "271,00 €",
+        "discount": "-30%",
+        "link": "https://amzn.to/46EcvKH"
+    },
+    {
+        "title": "🛍️ Moda e Stile \n\nadidas Hoops 3.0 Low Classic Vintage Shoes, Sneakers Uomo\n\n💸 Prezzo: 43,90 € ()\n\n🔥...",
+        "image": null,
+        "price": "43,90 €",
+        "discount": "-32%",
+        "link": "https://amzn.to/4orQPrK"
+    },
+    {
+        "title": "👟 Articoli Sportivi e Fitness \n\nXiaomi Smart Band 9 Active, Schermo TFT 1.47\", Monitoraggio Salute: ...",
+        "image": null,
+        "price": "20,99 €",
+        "discount": "-22%",
+        "link": "https://amzn.to/4ooojqQ"
+    }
+]
+=======
+  {
+    "id": "B0123ABCDE",
+    "categoria": "tech",
+    "titolo": "Cuffie Bluetooth a Cancellazione di Rumore, 40H di Autonomia...",
+    "prezzo": 59.99,
+    "prezzo_originale": 99.99,
+    "sconto_percentuale": 40,
+    "url_immagine": "https://m.media-amazon.com/images/I/71uKqf4i7GL._AC_SX466_.jpg",
+    "link_affiliazione": "https://www.amazon.it/Cuffie-Bluetooth-Cancellazione-Rumore-Autonomia/dp/B0123ABCDE"
+  },
+  {
+    "id": "B0678FGHIJ",
+    "categoria": "cucina",
+    "titolo": "Set di Padelle Antiaderenti in Ceramica, 3 Pezzi...",
+    "prezzo": 34.50,
+    "prezzo_originale": 55.00,
+    "sconto_percentuale": 37,
+    "url_immagine": "https://m.media-amazon.com/images/I/610tLq1JpAL._AC_SX466_.jpg",
+    "link_affiliazione": "https://www.amazon.it/Padelle-Antiaderenti-Ceramica-3-Pezzi/dp/B0678FGHIJ"
+  }
+]
+>>>>>>> c2079338b098b51e64ad6cdadc549ba0d9b43d47
