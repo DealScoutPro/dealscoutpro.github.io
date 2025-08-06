@@ -32,13 +32,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const filterOffers = (category) => {
-        const filteredOffers = allOffers.filter(offer => offer.category.toLowerCase() === category.toLowerCase());
+        if (category === "Tutte le offerte") {
+            renderOffers(allOffers);
+            return;
+        }
+        const filteredOffers = allOffers.filter(offer => (offer.category || "Generico").toLowerCase() === category.toLowerCase());
         renderOffers(filteredOffers);
     };
 
     const createFilterDropdown = () => {
         filterDropdown.innerHTML = '';
-        uniqueCategories.forEach(category => {
+        const sortedCategories = Array.from(uniqueCategories).sort();
+
+        sortedCategories.forEach(category => {
             const filterItem = document.createElement('a');
             filterItem.href = "#";
             filterItem.className = "dropdown-item";
@@ -50,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             filterDropdown.appendChild(filterItem);
         });
-        // Aggiungi un'opzione per mostrare tutte le offerte
+
         const allItem = document.createElement('a');
         allItem.href = "#";
         allItem.className = "dropdown-item";
@@ -67,9 +73,12 @@ document.addEventListener('DOMContentLoaded', () => {
         filterDropdown.style.display = filterDropdown.style.display === 'block' ? 'none' : 'block';
     });
 
-    searchButton.addEventListener('click', () => {
+    searchInput.addEventListener('input', () => {
         const searchTerm = searchInput.value.toLowerCase();
-        const filteredOffers = allOffers.filter(offer => offer.title.toLowerCase().includes(searchTerm));
+        const filteredOffers = allOffers.filter(offer => 
+            offer.title.toLowerCase().includes(searchTerm) || 
+            (offer.category && offer.category.toLowerCase().includes(searchTerm))
+        );
         renderOffers(filteredOffers);
     });
 
@@ -84,12 +93,12 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             allOffers = data;
             data.forEach(offer => {
-                // Aggiungi un campo categoria fittizio per il filtraggio
-                // Se lo script Python non lo aggiunge, possiamo usare una categoria di default
-                if (!offer.category) {
-                    offer.category = "Generico";
+                if (offer.category) {
+                    uniqueCategories.add(offer.category);
+                } else {
+                    offer.category = "Generico"; // Assegna una categoria di default
+                    uniqueCategories.add("Generico");
                 }
-                uniqueCategories.add(offer.category);
             });
             renderOffers(allOffers);
             createFilterDropdown();
