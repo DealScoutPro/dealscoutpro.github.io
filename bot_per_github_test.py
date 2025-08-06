@@ -14,6 +14,7 @@ github_token = os.environ.get('GH_TOKEN')
 
 # Inizializza il client di Telegram
 # Aggiunto 'session' e 'test' per l'autenticazione non interattiva
+# Il nome 'deal_bot' crea un file di sessione 'deal_bot.session'
 client = TelegramClient('deal_bot', api_id, api_hash)
 
 # Funzione per estrarre i dati da un messaggio
