@@ -7,13 +7,17 @@ from git import Repo
 # Credenziali del bot (caricate da segreti GitHub)
 telegram_bot_token = os.environ.get('TELEGRAM_BOT_TOKEN')
 channel_username = os.environ.get('CHANNEL_USERNAME')
+# Questi non sono più utilizzati per l'autenticazione, ma servono comunque
+# per l'inizializzazione del client. Puoi usare valori fittizi ma validi.
+api_id = 2004068213 # Valore fittizio, ma deve essere un numero
+api_hash = 'qualche_stringa' # Valore fittizio, ma deve essere una stringa
 
 # Credenziali GitHub (caricate da segreti GitHub)
 github_token = os.environ.get('GH_TOKEN')
 
 # Inizializza il client di Telegram con il token del bot
-# Il secondo parametro è il token, l'API hash non è necessario per un bot.
-client = TelegramClient('deal_bot', telegram_bot_token)
+# Il secondo parametro è l'api_id e il terzo è l'api_hash
+client = TelegramClient('deal_bot', api_id, api_hash)
 
 # Funzione per estrarre i dati da un messaggio
 def extract_offer_data(message):
@@ -60,17 +64,18 @@ def extract_offer_data(message):
 async def generate_and_sync_json():
     offers = []
     
-    # Questo è un modo migliore per gestire il client
-    async with client:
-        # Recupera il canale
-        channel = await client.get_entity(channel_username)
-        
-        async for message in client.iter_messages(channel, limit=50):
-            if not message.text:
-                continue
-            offer = extract_offer_data(message)
-            if offer['link']:
-                offers.append(offer)
+    # Autenticazione esplicita in modalità bot
+    await client.start(bot_token=telegram_bot_token)
+    
+    # Recupera il canale
+    channel = await client.get_entity(channel_username)
+    
+    async for message in client.iter_messages(channel, limit=50):
+        if not message.text:
+            continue
+        offer = extract_offer_data(message)
+        if offer['link']:
+            offers.append(offer)
 
     json_path = os.path.join(os.getcwd(), 'data.json')
 
@@ -105,5 +110,4 @@ async def main():
     await generate_and_sync_json()
 
 if __name__ == '__main__':
-    with client:
-        client.loop.run_until_complete(main())
+    client.loop.run_until_complete(main())
