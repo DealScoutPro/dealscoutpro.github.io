@@ -131,8 +131,15 @@ main {
 
 .offers-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: 1fr; /* Una colonna per mobile */
     gap: 1.5rem;
+}
+
+/* Griglia per schermi più grandi (768px in su) */
+@media (min-width: 768px) {
+    .offers-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
 }
 
 .offer-card {
@@ -141,46 +148,48 @@ main {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.2s;
-    display: flex;
-    flex-direction: column;
+    display: flex; /* Flexbox per le 3 sezioni */
+    min-height: 150px;
+    gap: 15px;
+    padding: 15px;
 }
 
 .offer-card:hover {
     transform: translateY(-5px);
 }
 
-/* Correzione immagini per ridimensionamento */
 .card-image-container {
-    width: 100%;
-    height: 250px; /* Altezza fissa per mantenere il rettangolo */
-    overflow: hidden; /* Nasconde l'immagine che esce dai bordi */
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
 }
 
 .card-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Adatta l'immagine al rettangolo senza distorcerla */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Adatta l'immagine al rettangolo */
 }
 
-.card-content {
-    padding: 1.5rem;
+.card-content-wrapper {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    justify-content: space-between; /* Spinge il pulsante in basso */
+    padding: 0;
 }
 
 .card-content h4 {
     font-size: 1.1rem;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-    flex-grow: 1;
+    margin: 0 0 5px 0;
     overflow: hidden;
+    text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2; /* Limita il titolo a 2 righe */
     -webkit-box-orient: vertical;
 }
 
