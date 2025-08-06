@@ -111,7 +111,6 @@ header h1 {
     flex-direction: row;
     align-items: center;
     padding: 0.5rem;
-    transition: transform 0.2s;
     text-decoration: none;
     color: inherit;
 }
@@ -187,9 +186,12 @@ header h1 {
 
     .header-container {
         flex-direction: row;
+        justify-content: space-between;
         gap: 1rem;
+        max-width: 1200px;
+        margin: 0 auto;
     }
-
+    
     .toolbar {
         flex-direction: row;
         width: auto;
@@ -203,6 +205,8 @@ header h1 {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.5rem;
         padding: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     .offer-card {
