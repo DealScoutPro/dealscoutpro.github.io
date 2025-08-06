@@ -14,7 +14,7 @@ github_token = os.environ.get('GH_TOKEN')
 
 # Inizializza il client di Telegram
 # Aggiunto 'session' e 'test' per l'autenticazione non interattiva
-client = TelegramClient('deal_bot', api_id, api_hash, base_logger='test')
+client = TelegramClient('deal_bot', api_id, api_hash)
 
 # Funzione per estrarre i dati da un messaggio
 def extract_offer_data(message):
@@ -36,7 +36,6 @@ def extract_offer_data(message):
         return data
 
     if message.photo:
-        # Percorso corretto per l'immagine placeholder nel repository
         data['image'] = 'placeholder.jpg'
 
     text = message.text.replace(data['link'], '').strip()
@@ -62,14 +61,18 @@ def extract_offer_data(message):
 async def generate_and_sync_json():
     offers = []
     
-    async for message in client.iter_messages(channel_username, limit=50):
-        if not message.text:
-            continue
-        offer = extract_offer_data(message)
-        if offer['link']:
-            offers.append(offer)
+    # Questo è un modo migliore per gestire il client
+    async with client:
+        # Recupera il canale
+        channel = await client.get_entity(channel_username)
+        
+        async for message in client.iter_messages(channel, limit=50):
+            if not message.text:
+                continue
+            offer = extract_offer_data(message)
+            if offer['link']:
+                offers.append(offer)
 
-    # Il percorso è corretto per l'esecuzione su GitHub Actions
     json_path = os.path.join(os.getcwd(), 'data.json')
 
     with open(json_path, 'w', encoding='utf-8') as f:
@@ -77,7 +80,6 @@ async def generate_and_sync_json():
     
     print(f'File data.json generato con successo in: {json_path}')
 
-    # Sincronizza su GitHub
     try:
         repo = Repo('.')
         repo.index.add(['data.json'])
@@ -85,7 +87,6 @@ async def generate_and_sync_json():
         if repo.index.diff("HEAD"):
             repo.index.commit("Aggiornamento offerte automatico")
             
-            # Sostituiamo il token GH_TOKEN con le credenziali per il push
             origin = repo.remote(name='origin')
             origin_url = origin.url.replace('https://', f'https://x-access-token:{github_token}@')
             
@@ -102,9 +103,7 @@ async def generate_and_sync_json():
 
 # Avvia la generazione del file JSON
 async def main():
-    await client.start()
     await generate_and_sync_json()
-    await client.run_until_disconnected()
 
 if __name__ == '__main__':
     with client:
