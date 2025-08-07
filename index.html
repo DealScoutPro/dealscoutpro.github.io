@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DealScoutPro - Le migliori offerte Amazon</title>
+    <title>DealScoutPro</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -13,119 +14,133 @@
             <h1>DealScoutPro</h1>
             <div class="toolbar">
                 <div class="search-box">
-                    <input type="text" placeholder="Cerca offerte..." id="search-input">
-                    <button>Cerca</button>
+                    <input type="text" id="searchInput" placeholder="Cerca offerte...">
+                    <button id="searchButton"><i class="fas fa-search"></i></button>
                 </div>
                 <div class="filter-box">
-                    <button onclick="toggleDropdown()">Filtri</button>
-                    <div id="filter-dropdown" class="dropdown-content">
-                        <a href="#" data-category="all">Tutte le categorie</a>
-                        <a href="#" data-category="tech">Tech</a>
-                        <a href="#" data-category="moda">Moda</a>
-                        <a href="#" data-category="cucina">Cucina</a>
-                        <a href="#" data-category="ufficio">Ufficio</a>
-                        </div>
+                    <button id="filterButton">Filtra <i class="fas fa-filter"></i></button>
+                    <div id="filterDropdown" class="dropdown-content">
+                        <a href="#" class="filter-option" data-filter="all">Tutti</a>
+                        <a href="#" class="filter-option" data-filter="elettronica">Elettronica</a>
+                        <a href="#" class="filter-option" data-filter="arredamento">Arredamento</a>
+                        <a href="#" class="filter-option" data-filter="abbigliamento">Abbigliamento</a>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
     <main>
-        <div id="offers-grid" class="offers-grid">
-            </div>
+        <div class="container">
+            <section class="offers-grid" id="offersGrid">
+                </section>
+        </div>
     </main>
-
+    
     <script>
-        function toggleDropdown() {
-            document.getElementById("filter-dropdown").classList.toggle("show");
-        }
-
-        window.onclick = function(event) {
-            if (!event.target.matches('.filter-box button')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
+        document.addEventListener('DOMContentLoaded', () => {
+            const offersGrid = document.getElementById('offersGrid');
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const filterButton = document.getElementById('filterButton');
+            const filterDropdown = document.getElementById('filterDropdown');
+            const filterOptions = document.querySelectorAll('.filter-option');
+            let allOffers = [];
+        
+            const fetchOffers = async () => {
+                try {
+                    const response = await fetch('data.json');
+                    allOffers = await response.json();
+                    displayOffers(allOffers);
+                } catch (error) {
+                    console.error('Errore nel caricamento delle offerte:', error);
+                    offersGrid.innerHTML = '<p>Errore nel caricamento delle offerte.</p>';
                 }
-            }
-        }
-
-        function formatTitle(title) {
-            // Rimuove la punteggiatura finale come virgole o punti, per evitare troncamenti ambigui
-            return title.replace(/[,.]\s*$/, '').trim();
-        }
-
-        fetch('data.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Errore di rete: ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(offers => {
-                const offersGrid = document.getElementById('offers-grid');
-                if (!offersGrid) {
-                    console.error("L'elemento con ID 'offers-grid' non è stato trovato.");
+            };
+        
+            const createOfferCard = (offer) => {
+                const oldPrice = (offer.price / (1 - (offer.discount / 100))).toFixed(2);
+                
+                const card = document.createElement('article');
+                card.classList.add('offer-card');
+                card.innerHTML = `
+                    <div class="card-image-container">
+                        <img src="${offer.image}" alt="${offer.title}">
+                        <span class="discount-badge red-discount">${offer.discount}%</span>
+                    </div>
+                    <div class="card-content-wrapper">
+                        <div class="card-content">
+                            <h4>${offer.title}</h4>
+                        </div>
+                        <div class="bottom-row">
+                            <div class="price-container">
+                                <span class="current-price">€${offer.price.toFixed(2)}</span>
+                                <span class="old-price">€${oldPrice}</span>
+                            </div>
+                            <a href="${offer.link}" class="cta-button"></a>
+                        </div>
+                    </div>
+                `;
+                return card;
+            };
+        
+            const displayOffers = (offers) => {
+                offersGrid.innerHTML = '';
+                if (offers.length === 0) {
+                    offersGrid.innerHTML = '<p>Nessuna offerta trovata.</p>';
                     return;
                 }
-                if (!Array.isArray(offers)) {
-                    console.error("Il file data.json non contiene un array.");
-                    return;
-                }
-
                 offers.forEach(offer => {
-                    const card = document.createElement('div');
-                    card.className = 'offer-card';
-
-                    const title = formatTitle(offer.title || 'Offerta speciale');
-                    const image = offer.image || 'https://via.placeholder.com/300';
-                    const link = offer.link || '#';
-                    const discount = offer.discount || null;
-                    const currentPrice = offer.price || 'Non disponibile';
-
-                    let oldPrice = offer.oldPrice || null;
-                    if (discount && currentPrice !== 'Non disponibile' && !oldPrice) {
-                        oldPrice = (currentPrice / (1 - discount / 100)).toFixed(2);
-                    }
-
-                    let discountColorClass = '';
-                    if (discount) {
-                        if (discount >= 40) {
-                            discountColorClass = 'red-discount';
-                        } else if (discount >= 21) {
-                            discountColorClass = 'orange-discount';
-                        } else if (discount >= 10) {
-                            discountColorClass = 'green-discount';
-                        } else if (discount > 0) {
-                            discountColorClass = 'blue-discount';
-                        }
-                    }
-
-                    card.innerHTML = `
-                        <div class="card-image-container">
-                            <img src="${image}" alt="${title}">
-                            ${discount ? `<div class="discount-badge ${discountColorClass}">-${discount}%</div>` : ''}
-                        </div>
-                        <div class="card-content-wrapper">
-                            <div class="card-content">
-                                <h4>${title}</h4>
-                            </div>
-                            <div class="bottom-row">
-                                <div class="price-container">
-                                    <span class="current-price">${currentPrice}€</span>
-                                    ${oldPrice ? `<span class="old-price">${oldPrice}€</span>` : ''}
-                                </div>
-                                <a href="${link}" class="cta-button" target="_blank"></a>
-                            </div>
-                        </div>
-                    `;
-                    offersGrid.appendChild(card);
+                    offersGrid.appendChild(createOfferCard(offer));
                 });
-            })
-            .catch(error => console.error('Errore nel caricamento del file JSON:', error));
+            };
+        
+            // Funzionalità di ricerca e filtro (momentaneamente disabilitate per mancanza dati)
+            const filterOffers = (searchTerm, filterCategory) => {
+                const filtered = allOffers.filter(offer => {
+                    const matchesSearch = offer.title.toLowerCase().includes(searchTerm.toLowerCase());
+                    // Per ora, la categoria non è presente nei dati, quindi il filtro è sempre vero.
+                    const matchesCategory = true;
+                    return matchesSearch && matchesCategory;
+                });
+                displayOffers(filtered);
+            };
+        
+            // Gestione dei filtri
+            filterButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                filterDropdown.classList.toggle('show');
+            });
+        
+            window.addEventListener('click', () => {
+                if (filterDropdown.classList.contains('show')) {
+                    filterDropdown.classList.remove('show');
+                }
+            });
+        
+            filterOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // const category = e.target.getAttribute('data-filter'); // Attivare in seguito
+                    const searchTerm = searchInput.value;
+                    filterOffers(searchTerm, 'all');
+                });
+            });
+        
+            // Gestione della ricerca
+            searchButton.addEventListener('click', () => {
+                const searchTerm = searchInput.value;
+                filterOffers(searchTerm, 'all');
+            });
+        
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchButton.click();
+                }
+            });
+        
+            fetchOffers();
+        });
     </script>
-
 </body>
 </html>
