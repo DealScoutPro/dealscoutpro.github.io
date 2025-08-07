@@ -53,13 +53,13 @@ header {
     color: #007bff;
 }
 
-/* Modifiche per la barra strumenti unificata e responsive */
+/* Nuova barra strumenti unificata e responsive */
 .toolbar {
     display: flex;
     gap: 0.5rem;
     width: 100%;
     margin-top: 1rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
 }
 
@@ -67,7 +67,6 @@ header {
     .toolbar {
         margin-top: 0;
         width: auto;
-        flex-wrap: nowrap;
     }
 }
 
@@ -105,6 +104,7 @@ header {
     position: relative;
     display: flex;
     align-items: center;
+    flex-shrink: 0; /* Impedisce ai pulsanti di restringersi */
 }
 
 .filter-box button, .sort-box button {
