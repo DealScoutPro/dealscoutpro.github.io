@@ -151,7 +151,7 @@ main {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
     display: flex;
-    align-items: stretch; /* Allinea gli elementi per avere la stessa altezza */
+    align-items: stretch;
     gap: 15px;
     padding: 15px;
     overflow: visible; /* Essenziale per mostrare la bolla sconto */
@@ -168,10 +168,10 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    /* Rimosso 'overflow: hidden;' per mostrare la bolla sconto */
     border-radius: 4px;
     position: relative;
-    background-color: #fff; /* Sfondo bianco per uniformità */
+    background-color: #fff;
 }
 
 .card-image-container img {
@@ -216,7 +216,7 @@ main {
 }
 
 .card-content {
-    flex-grow: 1; /* Il titolo prende tutto lo spazio rimanente */
+    flex-grow: 1;
     padding-bottom: 0;
 }
 
