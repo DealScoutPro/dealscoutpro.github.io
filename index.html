@@ -52,6 +52,17 @@
             }
         }
         
+        function formatTitle(title) {
+            const forbiddenCharacters = [',', '.', '!', '?', '...'];
+            let formattedTitle = title;
+            forbiddenCharacters.forEach(char => {
+                if (formattedTitle.endsWith(char)) {
+                    formattedTitle = formattedTitle.slice(0, -char.length);
+                }
+            });
+            return formattedTitle.trim();
+        }
+
         fetch('data.json')
             .then(response => {
                 if (!response.ok) {
@@ -74,13 +85,17 @@
                     const card = document.createElement('div');
                     card.className = 'offer-card';
                     
-                    const title = offer.title || 'Offerta speciale';
+                    const title = formatTitle(offer.title || 'Offerta speciale');
                     const image = offer.image || 'https://via.placeholder.com/300';
                     const link = offer.link || '#';
-                    const oldPrice = offer.oldPrice || null;
                     const discount = offer.discount || null;
                     const currentPrice = offer.price || 'Non disponibile';
                     
+                    let oldPrice = offer.oldPrice || null;
+                    if (discount && currentPrice !== 'Non disponibile' && !oldPrice) {
+                        oldPrice = (currentPrice / (1 - discount / 100)).toFixed(2);
+                    }
+
                     let discountColorClass = '';
                     if (discount) {
                         if (discount >= 40) {
