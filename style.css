@@ -170,7 +170,7 @@ main {
     align-items: center;
     overflow: hidden;
     border-radius: 4px;
-    position: relative; /* Per posizionare la bolla dello sconto */
+    position: relative;
 }
 
 .card-image-container img {
@@ -183,13 +183,25 @@ main {
     position: absolute;
     top: -8px;
     left: -8px;
-    background-color: #007bff; /* Colore di default per lo sconto */
     color: #fff;
     padding: 5px 10px;
     border-radius: 12px;
     font-size: 0.9rem;
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+/* Classi per colori dinamici dello sconto */
+.blue-discount {
+    background-color: #007bff;
+}
+.green-discount {
+    background-color: #5cb85c;
+}
+.orange-discount {
+    background-color: #f0ad4e;
+}
+.red-discount {
+    background-color: #d9534f;
 }
 
 .card-content-wrapper {
@@ -201,7 +213,7 @@ main {
 }
 
 .card-content {
-    flex-grow: 1; /* Permette al contenuto di espandersi */
+    flex-grow: 1;
 }
 
 .card-content h4 {
@@ -213,7 +225,7 @@ main {
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     line-height: 1.3;
-    height: 3.9rem; /* Altezza fissa per 3 righe (1.3rem * 3) */
+    height: 3.9rem;
 }
 
 .price-container {
@@ -226,12 +238,12 @@ main {
 .current-price {
     font-size: 1.2rem;
     font-weight: bold;
-    color: #d9534f;
+    color: #5cb85c;
 }
 
 .old-price {
     font-size: 1rem;
-    color: #999;
+    color: #d9534f;
     text-decoration: line-through;
 }
 
@@ -240,10 +252,10 @@ main {
     background-color: #007bff;
     color: #fff;
     padding: 0.75rem 1.5rem;
-    border-radius: 20px; /* Molto arrotondato */
+    border-radius: 20px;
     text-align: center;
     font-weight: bold;
-    align-self: flex-end; /* Sposta il pulsante a destra */
+    align-self: flex-end;
 }
 
 .cta-button:hover {
