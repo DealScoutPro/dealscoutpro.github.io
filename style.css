@@ -59,6 +59,7 @@ header {
     flex-wrap: wrap;
     margin-top: 1rem;
     width: 100%;
+    justify-content: flex-start;
 }
 
 @media (min-width: 768px) {
@@ -101,6 +102,7 @@ header {
     position: relative;
     display: flex;
     align-items: center;
+    white-space: nowrap;
 }
 
 .filter-box button, .sort-box button {
@@ -230,6 +232,10 @@ main {
 }
 .red-discount {
     background-color: #dc3545;
+}
+/* Aggiunto stile per sconti bassi */
+.grey-discount {
+    background-color: #6c757d;
 }
 
 .card-content-wrapper {
