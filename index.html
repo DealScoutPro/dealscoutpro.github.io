@@ -72,8 +72,10 @@
                     return 'blue-discount';
                 } else if (discount >= 10) {
                     return 'orange-discount';
+                } else if (discount > 0) {
+                    return 'grey-discount';
                 } else {
-                    return ''; // Nessun colore per sconti bassi
+                    return '';
                 }
             };
         
@@ -132,8 +134,8 @@
                 const activeFilter = document.querySelector('.filter-option.active');
                 const filterType = activeFilter ? activeFilter.getAttribute('data-filter') : 'all';
                 
-                const sortBy = sortButton.getAttribute('data-sort-by');
-                const sortOrder = sortButton.getAttribute('data-sort-order');
+                const sortBy = document.querySelector('.sort-option.active').getAttribute('data-sort-by');
+                const sortOrder = document.querySelector('.sort-option.active').getAttribute('data-sort-order');
 
                 let filtered = allOffers.filter(offer => {
                     const matchesSearch = offer.title.toLowerCase().includes(searchTerm.toLowerCase());
@@ -173,16 +175,31 @@
                 displayOffers(currentFilteredOffers);
             };
         
-            // Gestione dei filtri
+            // Gestione dei menu a tendina
+            const toggleDropdown = (button, dropdown) => {
+                const isVisible = dropdown.classList.contains('show');
+                
+                // Chiudi tutti i dropdown
+                document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
+
+                // Apri o chiudi il dropdown cliccato
+                if (!isVisible) {
+                    dropdown.classList.add('show');
+                }
+            };
+
             filterButton.addEventListener('click', (e) => {
                 e.stopPropagation();
-                filterDropdown.classList.toggle('show');
-                sortDropdown.classList.remove('show');
+                toggleDropdown(filterButton, filterDropdown);
+            });
+            
+            sortButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleDropdown(sortButton, sortDropdown);
             });
         
             window.addEventListener('click', () => {
-                filterDropdown.classList.remove('show');
-                sortDropdown.classList.remove('show');
+                document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
             });
         
             filterOptions.forEach(option => {
@@ -194,33 +211,11 @@
                 });
             });
         
-            // Gestione dell'ordinamento
-            sortButton.addEventListener('click', (e) => {
-                e.stopPropagation();
-                sortDropdown.classList.toggle('show');
-                filterDropdown.classList.remove('show');
-            });
-
             sortOptions.forEach(option => {
                 option.addEventListener('click', (e) => {
                     e.preventDefault();
                     sortOptions.forEach(opt => opt.classList.remove('active'));
                     e.target.classList.add('active');
-
-                    const sortBy = e.target.getAttribute('data-sort-by');
-                    const sortOrder = e.target.getAttribute('data-sort-order');
-                    
-                    sortButton.setAttribute('data-sort-by', sortBy);
-                    sortButton.setAttribute('data-sort-order', sortOrder);
-
-                    // Aggiorna l'icona del pulsante
-                    const icon = sortButton.querySelector('i');
-                    if (sortBy === 'price') {
-                        icon.className = sortOrder === 'asc' ? 'fas fa-sort-amount-down-alt' : 'fas fa-sort-amount-up-alt';
-                    } else if (sortBy === 'discount') {
-                        icon.className = sortOrder === 'asc' ? 'fas fa-sort-amount-down-alt' : 'fas fa-sort-amount-up-alt';
-                    }
-
                     filterAndSortOffers();
                 });
             });
