@@ -1,6 +1,6 @@
 /* Stili Generali */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f9;
@@ -30,6 +30,7 @@ header {
     margin: 0;
     font-size: 2em;
     color: #333;
+    font-weight: bold;
 }
 
 .toolbar {
@@ -47,6 +48,7 @@ header {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 16px;
 }
 
 .search-box button,
@@ -57,6 +59,13 @@ header {
     background-color: #f0f0f0;
     cursor: pointer;
     border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.search-box button:hover,
+.filter-box button:hover,
+.sort-box button:hover {
+    background-color: #e0e0e0;
 }
 
 /* Stili per le offerte */
@@ -74,6 +83,11 @@ header {
     position: relative;
     display: flex;
     flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+}
+
+.offer-card:hover {
+    transform: translateY(-5px);
 }
 
 .card-image-container {
