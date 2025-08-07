@@ -181,28 +181,28 @@ main {
 
 .discount-badge {
     position: absolute;
-    top: 5px; /* Spostato più in basso */
-    left: 5px; /* Spostato più a destra */
+    top: 5px;
+    left: 5px;
     color: #fff;
-    padding: 4px 10px; /* Aumentato il padding per un design più elegante */
-    border-radius: 15px; /* Aumentato il raggio per renderla più stondata */
+    padding: 4px 10px;
+    border-radius: 15px;
     font-size: 0.8rem;
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* Classi per colori dinamici dello sconto */
+/* Classi per colori dinamici dello sconto con trasparenza */
 .blue-discount {
-    background-color: #007bff;
+    background-color: rgba(0, 123, 255, 0.8);
 }
 .green-discount {
-    background-color: #5cb85c;
+    background-color: rgba(92, 184, 92, 0.8);
 }
 .orange-discount {
-    background-color: #f0ad4e;
+    background-color: rgba(240, 173, 78, 0.8);
 }
 .red-discount {
-    background-color: #d9534f;
+    background-color: rgba(217, 83, 79, 0.8);
 }
 
 .card-content-wrapper {
@@ -215,6 +215,7 @@ main {
 
 .card-content {
     flex-grow: 1;
+    margin-bottom: 5px;
 }
 
 .card-content h4 {
@@ -243,28 +244,42 @@ main {
 }
 
 .current-price {
-    font-size: 1rem; /* Ridotto per allinearsi alla bolla */
+    font-size: 1rem;
     font-weight: bold;
     color: #5cb85c;
 }
 
 .old-price {
-    font-size: 0.9rem; /* Ridotto per allinearsi */
+    font-size: 0.9rem;
     color: #d9534f;
     text-decoration: line-through;
 }
 
+/* Nuovo stile per il pulsante rotondo con icona a triangolo */
 .cta-button {
     background-color: #007bff;
-    color: #fff;
-    padding: 0.4rem 0.8rem;
-    border-radius: 16px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 0.9rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: relative;
+    transition: background-color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cta-button:hover {
     background-color: #0056b3;
-    text-decoration: none;
+}
+
+/* Triangolo vettoriale generato con CSS */
+.cta-button::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 7px 0 7px 14px;
+    border-color: transparent transparent transparent #fff;
+    margin-left: 2px;
 }
