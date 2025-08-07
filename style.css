@@ -79,12 +79,11 @@ header {
     flex-grow: 1;
     min-width: 150px;
     background-color: #fff;
-    padding-right: 0.5rem; /* Aggiunto spazio a destra del campo di ricerca */
 }
 
 .search-box input {
     border: none;
-    padding: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem; /* Aggiunto padding a sinistra per la spaziatura */
     flex-grow: 1;
     outline: none;
     font-size: 1rem;
@@ -223,7 +222,7 @@ main {
     font-size: 0.7rem;
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    opacity: 0.8; /* Aggiunto effetto trasparenza */
+    opacity: 0.8;
 }
 
 /* Classi per colori dinamici dello sconto */
