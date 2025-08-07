@@ -181,8 +181,8 @@ main {
 
 .discount-badge {
     position: absolute;
-    top: 0px; /* Spostato più in alto */
-    left: 0px; /* Spostato più a sinistra */
+    top: 5px; /* Spostato più in basso */
+    left: 5px; /* Spostato più a destra */
     color: #fff;
     padding: 4px 10px; /* Aumentato il padding per un design più elegante */
     border-radius: 15px; /* Aumentato il raggio per renderla più stondata */
@@ -243,13 +243,13 @@ main {
 }
 
 .current-price {
-    font-size: 1.2rem;
+    font-size: 1rem; /* Ridotto per allinearsi alla bolla */
     font-weight: bold;
     color: #5cb85c;
 }
 
 .old-price {
-    font-size: 1rem;
+    font-size: 0.9rem; /* Ridotto per allinearsi */
     color: #d9534f;
     text-decoration: line-through;
 }
