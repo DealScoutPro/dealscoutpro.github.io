@@ -41,6 +41,49 @@
         }
 
         window.onclick = function(event) {
+            if (!event.target.matches('.filter-box button')) {<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DealScoutPro - Le migliori offerte Amazon</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <h1>DealScoutPro</h1>
+            <div class="toolbar">
+                <div class="search-box">
+                    <input type="text" placeholder="Cerca offerte..." id="search-input">
+                    <button>Cerca</button>
+                </div>
+                <div class="filter-box">
+                    <button onclick="toggleDropdown()">Filtri</button>
+                    <div id="filter-dropdown" class="dropdown-content">
+                        <a href="#" data-category="all">Tutte le categorie</a>
+                        <a href="#" data-category="tech">Tech</a>
+                        <a href="#" data-category="moda">Moda</a>
+                        <a href="#" data-category="cucina">Cucina</a>
+                        <a href="#" data-category="ufficio">Ufficio</a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div id="offers-grid" class="offers-grid">
+            </div>
+    </main>
+
+    <script>
+        function toggleDropdown() {
+            document.getElementById("filter-dropdown").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
             if (!event.target.matches('.filter-box button')) {
                 var dropdowns = document.getElementsByClassName("dropdown-content");
                 for (var i = 0; i < dropdowns.length; i++) {
@@ -54,7 +97,8 @@
 
         function formatTitle(title) {
             // Rimuove punteggiatura finale o spazi superflui
-            return title.replace(/[,.!?...]$/, '').trim();
+            let formattedTitle = title.replace(/[,.!?...]$/, '').trim();
+            return formattedTitle;
         }
 
         fetch('data.json')
@@ -114,8 +158,8 @@
                             </div>
                             <div class="bottom-row">
                                 <div class="price-container">
-                                    <span class="current-price">€${currentPrice}</span>
-                                    ${oldPrice ? `<span class="old-price">€${oldPrice}</span>` : ''}
+                                    <span class="current-price">${currentPrice}€</span>
+                                    ${oldPrice ? `<span class="old-price">${oldPrice}€</span>` : ''}
                                 </div>
                                 <a href="${link}" class="cta-button" target="_blank"></a>
                             </div>
