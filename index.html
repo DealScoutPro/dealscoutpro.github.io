@@ -51,11 +51,11 @@
                 }
             }
         }
-        
+
         function formatTitle(title) {
-            const forbiddenCharacters = [',', '.', '!', '?', '...'];
+            const forbiddenEndingCharacters = [',', '.', '!', '?', '...'];
             let formattedTitle = title;
-            forbiddenCharacters.forEach(char => {
+            forbiddenEndingCharacters.forEach(char => {
                 if (formattedTitle.endsWith(char)) {
                     formattedTitle = formattedTitle.slice(0, -char.length);
                 }
@@ -84,13 +84,13 @@
                 offers.forEach(offer => {
                     const card = document.createElement('div');
                     card.className = 'offer-card';
-                    
+
                     const title = formatTitle(offer.title || 'Offerta speciale');
                     const image = offer.image || 'https://via.placeholder.com/300';
                     const link = offer.link || '#';
                     const discount = offer.discount || null;
                     const currentPrice = offer.price || 'Non disponibile';
-                    
+
                     let oldPrice = offer.oldPrice || null;
                     if (discount && currentPrice !== 'Non disponibile' && !oldPrice) {
                         oldPrice = (currentPrice / (1 - discount / 100)).toFixed(2);
@@ -117,12 +117,14 @@
                         <div class="card-content-wrapper">
                             <div class="card-content">
                                 <h4>${title}</h4>
+                            </div>
+                            <div class="bottom-row">
                                 <div class="price-container">
                                     <span class="current-price">€${currentPrice}</span>
                                     ${oldPrice ? `<span class="old-price">€${oldPrice}</span>` : ''}
                                 </div>
+                                <a href="${link}" class="cta-button" target="_blank">Vedi l'offerta</a>
                             </div>
-                            <a href="${link}" class="cta-button" target="_blank">Vedi l'offerta</a>
                         </div>
                     `;
                     offersGrid.appendChild(card);
