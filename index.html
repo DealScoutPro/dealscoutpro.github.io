@@ -6,6 +6,7 @@
     <title>DealScoutPro</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
 
@@ -59,24 +60,17 @@
             let allOffers = [];
 
             const getDiscountColorClass = (discount) => {
-                if (discount >= 50) {
-                    return 'red-discount';
-                } else if (discount >= 30) {
-                    return 'green-discount';
-                } else if (discount >= 20) {
-                    return 'blue-discount';
-                } else if (discount >= 10) {
-                    return 'orange-discount';
-                } else if (discount > 0) {
-                    return 'grey-discount';
-                } else {
-                    return '';
-                }
+                if (discount >= 50) return 'red-discount';
+                if (discount >= 30) return 'green-discount';
+                if (discount >= 20) return 'blue-discount';
+                if (discount >= 10) return 'orange-discount';
+                if (discount > 0) return 'grey-discount';
+                return '';
             };
-        
+
             const fetchOffers = async () => {
                 try {
-                    const response = await fetch('data.json?v=' + new Date().getTime());
+                    const response = await fetch('data.json');
                     allOffers = await response.json();
                     filterAndSortOffers();
                 } catch (error) {
@@ -84,7 +78,7 @@
                     offersGrid.innerHTML = '<p>Errore nel caricamento delle offerte.</p>';
                 }
             };
-        
+
             const createOfferCard = (offer) => {
                 const oldPrice = (offer.price / (1 - (offer.discount / 100))).toFixed(2);
                 const discountColorClass = getDiscountColorClass(offer.discount);
@@ -111,16 +105,14 @@
                 `;
                 return card;
             };
-        
+
             const displayOffers = (offers) => {
                 offersGrid.innerHTML = '';
                 if (offers.length === 0) {
                     offersGrid.innerHTML = '<p>Nessuna offerta trovata.</p>';
                     return;
                 }
-                offers.forEach(offer => {
-                    offersGrid.appendChild(createOfferCard(offer));
-                });
+                offers.forEach(offer => offersGrid.appendChild(createOfferCard(offer)));
             };
 
             const filterAndSortOffers = () => {
@@ -134,56 +126,29 @@
                 
                 let filtered = allOffers.filter(offer => {
                     const matchesSearch = offer.title.toLowerCase().includes(searchTerm);
-
-                    if (filterType === 'all') {
-                        return matchesSearch;
-                    } else if (filterType === 'discount-50') {
-                        return matchesSearch && offer.discount >= 50;
-                    } else if (filterType === 'discount-30') {
-                        return matchesSearch && offer.discount >= 30;
-                    } else if (filterType === 'discount-20') {
-                        return matchesSearch && offer.discount >= 20;
-                    } else if (filterType === 'discount-10') {
-                        return matchesSearch && offer.discount >= 10;
-                    }
+                    if (filterType === 'all') return matchesSearch;
+                    if (filterType === 'discount-50') return matchesSearch && offer.discount >= 50;
+                    if (filterType === 'discount-30') return matchesSearch && offer.discount >= 30;
+                    if (filterType === 'discount-20') return matchesSearch && offer.discount >= 20;
+                    if (filterType === 'discount-10') return matchesSearch && offer.discount >= 10;
                     return matchesSearch;
                 });
                 
                 filtered.sort((a, b) => {
-                    let valA, valB;
-                    if (sortBy === 'price') {
-                        valA = a.price;
-                        valB = b.price;
-                    } else if (sortBy === 'discount') {
-                        valA = a.discount;
-                        valB = b.discount;
-                    }
+                    let valA = a[sortBy];
+                    let valB = b[sortBy];
 
-                    if (sortOrder === 'asc') {
-                        return valA - valB;
-                    } else {
-                        return valB - valA;
-                    }
+                    if (sortOrder === 'asc') return valA - valB;
+                    return valB - valA;
                 });
 
                 displayOffers(filtered);
             };
-        
-            // Gestione dei menu a tendina
+
             const toggleDropdown = (dropdown) => {
                 const isVisible = dropdown.classList.contains('show');
-                
-                document.querySelectorAll('.dropdown-content').forEach(d => {
-                    if (d !== dropdown) {
-                        d.classList.remove('show');
-                    }
-                });
-
-                if (!isVisible) {
-                    dropdown.classList.add('show');
-                } else {
-                    dropdown.classList.remove('show');
-                }
+                document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
+                if (!isVisible) dropdown.classList.add('show');
             };
 
             filterButton.addEventListener('click', (e) => {
@@ -195,13 +160,13 @@
                 e.stopPropagation();
                 toggleDropdown(sortDropdown);
             });
-        
+
             document.addEventListener('click', (e) => {
-                if (!filterDropdown.contains(e.target) && !sortDropdown.contains(e.target) && !filterButton.contains(e.target) && !sortButton.contains(e.target)) {
+                if (!filterButton.contains(e.target) && !sortButton.contains(e.target) && !filterDropdown.contains(e.target) && !sortDropdown.contains(e.target)) {
                     document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
                 }
             });
-        
+
             document.querySelectorAll('.filter-option').forEach(option => {
                 option.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -211,7 +176,7 @@
                     filterDropdown.classList.remove('show');
                 });
             });
-        
+
             document.querySelectorAll('.sort-option').forEach(option => {
                 option.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -232,14 +197,14 @@
                     sortDropdown.classList.remove('show');
                 });
             });
-        
+
             searchButton.addEventListener('click', (e) => {
                 e.preventDefault();
                 filterAndSortOffers();
             });
 
             searchInput.addEventListener('input', filterAndSortOffers);
-        
+
             fetchOffers();
         });
     </script>
