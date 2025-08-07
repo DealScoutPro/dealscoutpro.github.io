@@ -1,22 +1,40 @@
 /* Stili Generali */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f0f2f5;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 1rem;
 }
 
+/* Header */
 header {
     background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+    padding: 1rem 0;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .header-container {
@@ -24,66 +42,155 @@ header {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
 .header-container h1 {
     margin: 0;
-    font-size: 2em;
-    color: #333;
-    font-weight: bold;
+    font-size: 1.8rem;
+    color: #007bff;
 }
 
+/* Nuova barra strumenti unificata e responsive */
 .toolbar {
     display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 1rem;
+    align-items: stretch;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .toolbar {
+        margin-top: 0;
+        width: auto;
+    }
 }
 
 .search-box {
     display: flex;
     align-items: center;
+    flex-grow: 1;
+    min-width: 150px;
+    background-color: #fff;
+    position: relative;
+    padding: 0;
 }
 
 .search-box input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
+    border: none;
+    padding: 0.5rem 1rem;
+    flex-grow: 1;
+    outline: none;
+    font-size: 1rem;
+    width: 100%;
+    padding-right: 3rem;
 }
 
-.search-box button,
-.filter-box button,
-.sort-box button {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    background-color: #f0f0f0;
+.search-box button {
+    background-color: transparent;
+    color: #007bff;
+    border: none;
     cursor: pointer;
+    font-size: 1.1rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    padding: 0 1rem;
+}
+
+.filter-box, .sort-box {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+    flex-shrink: 0;
+    border-left: 1px solid #ccc;
+}
+
+.filter-box button, .sort-box button {
+    background-color: #fff;
+    color: #007bff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: background-color 0.2s;
+    height: 100%;
+}
+
+.filter-box button:hover, .sort-box button:hover {
+    background-color: #f0f2f5;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
     border-radius: 4px;
-    transition: background-color 0.3s;
+    right: 0;
+    top: 100%;
+    margin-top: 0.5rem;
 }
 
-.search-box button:hover,
-.filter-box button:hover,
-.sort-box button:hover {
-    background-color: #e0e0e0;
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.2s;
 }
 
-/* Stili per le offerte */
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown-content a.active {
+    background-color: #e2e6ea;
+    font-weight: bold;
+}
+
+.show {
+    display: block;
+}
+
+/* Main Content */
+main {
+    padding: 2rem 1rem;
+}
+
 .offers-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .offers-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
 }
 
 .offer-card {
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    overflow: hidden;
-    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
     display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease-in-out;
+    align-items: stretch;
+    gap: 15px;
+    padding: 15px;
+    overflow: visible;
 }
 
 .offer-card:hover {
@@ -91,152 +198,126 @@ header {
 }
 
 .card-image-container {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
     position: relative;
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
+    background-color: #fff;
 }
 
-.offer-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+.card-image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
 .discount-badge {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 50px;
+    top: -8px;
+    left: -8px;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
     font-weight: bold;
-    font-size: 0.9em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    opacity: 0.8;
 }
 
-.red-discount { background-color: #e74c3c; }
-.green-discount { background-color: #27ae60; }
-.blue-discount { background-color: #3498db; }
-.orange-discount { background-color: #f39c12; }
-.grey-discount { background-color: #7f8c8d; }
+/* Classi per colori dinamici dello sconto */
+.blue-discount {
+    background-color: #007bff;
+}
+.green-discount {
+    background-color: #28a745;
+}
+.orange-discount {
+    background-color: #ffc107;
+}
+.red-discount {
+    background-color: #dc3545;
+}
+.grey-discount {
+    background-color: #6c757d;
+}
 
 .card-content-wrapper {
-    padding: 15px;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    flex-grow: 1;
+    padding: 0;
 }
 
 .card-content {
     flex-grow: 1;
+    padding-bottom: 0;
 }
 
-.offer-card h4 {
-    margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1.2em;
-    color: #333;
-    line-height: 1.4;
+.card-content h4 {
+    font-size: 0.9rem;
+    margin: 0 0 5px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.5;
+    max-height: calc(1.5rem * 3);
 }
 
 .bottom-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 15px;
+    margin-top: auto;
 }
 
 .price-container {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    gap: 10px;
 }
 
 .current-price {
-    font-size: 1.4em;
+    font-size: 0.9rem;
     font-weight: bold;
-    color: #2c3e50;
+    color: #5cb85c;
 }
 
 .old-price {
-    font-size: 0.9em;
-    color: #7f8c8d;
+    font-size: 0.9rem;
+    color: #d9534f;
     text-decoration: line-through;
 }
 
 .cta-button {
-    background-color: #3498db;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
+    background-color: #007bff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: relative;
+    transition: background-color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cta-button:hover {
-    background-color: #2980b9;
+    background-color: #0056b3;
 }
 
-/* Dropdown menu styles */
-.filter-box, .sort-box {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-.dropdown-content.show {
+.cta-button::after {
+    content: '';
     display: block;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
-
-.dropdown-content a.active {
-    background-color: #3498db;
-    color: white;
-}
-
-/* Stili per la visualizzazione mobile */
-@media (max-width: 768px) {
-    .header-container {
-        flex-direction: column;
-    }
-
-    .toolbar {
-        margin-top: 15px;
-        justify-content: center;
-        width: 100%;
-    }
-
-    .search-box {
-        width: 100%;
-    }
-
-    .search-box input {
-        flex-grow: 1;
-    }
-
-    .offers-grid {
-        grid-template-columns: 1fr;
-    }
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 7px 0 7px 14px;
+    border-color: transparent transparent transparent #fff;
+    margin-left: 2px;
 }
