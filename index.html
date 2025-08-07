@@ -76,7 +76,7 @@
         
             const fetchOffers = async () => {
                 try {
-                    const response = await fetch('data.json');
+                    const response = await fetch('data.json?v=' + new Date().getTime()); // Aggiunto per evitare la cache
                     allOffers = await response.json();
                     filterAndSortOffers();
                 } catch (error) {
