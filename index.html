@@ -18,7 +18,7 @@
                     <button id="searchButton"><i class="fas fa-search"></i></button>
                 </div>
                 <div class="filter-box">
-                    <button id="filterButton">Filtra <i class="fas fa-filter"></i></button>
+                    <button id="filterButton"><i class="fas fa-filter"></i></button>
                     <div id="filterDropdown" class="dropdown-content">
                         <a href="#" class="filter-option active" data-filter="all">Tutti</a>
                         <a href="#" class="filter-option" data-filter="discount-50">Sconto > 50%</a>
@@ -28,9 +28,7 @@
                     </div>
                 </div>
                 <div class="sort-box">
-                    <button id="sortButton" data-sort-by="price" data-sort-order="asc">
-                        Ordina <i class="fas fa-sort-amount-down-alt"></i>
-                    </button>
+                    <button id="sortButton"><i class="fas fa-sort-amount-down-alt"></i></button>
                     <div id="sortDropdown" class="dropdown-content">
                         <a href="#" class="sort-option active" data-sort-by="price" data-sort-order="asc">Prezzo crescente</a>
                         <a href="#" class="sort-option" data-sort-by="price" data-sort-order="desc">Prezzo decrescente</a>
@@ -179,10 +177,8 @@
             const toggleDropdown = (button, dropdown) => {
                 const isVisible = dropdown.classList.contains('show');
                 
-                // Chiudi tutti i dropdown
                 document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
 
-                // Apri o chiudi il dropdown cliccato
                 if (!isVisible) {
                     dropdown.classList.add('show');
                 }
@@ -216,6 +212,17 @@
                     e.preventDefault();
                     sortOptions.forEach(opt => opt.classList.remove('active'));
                     e.target.classList.add('active');
+                    
+                    const sortBy = e.target.getAttribute('data-sort-by');
+                    const sortOrder = e.target.getAttribute('data-sort-order');
+                    
+                    const icon = sortButton.querySelector('i');
+                    if (sortBy === 'price') {
+                        icon.className = sortOrder === 'asc' ? 'fas fa-sort-amount-down-alt' : 'fas fa-sort-amount-up-alt';
+                    } else if (sortBy === 'discount') {
+                        icon.className = sortOrder === 'asc' ? 'fas fa-percentage' : 'fas fa-percentage fa-rotate-180';
+                    }
+
                     filterAndSortOffers();
                 });
             });
