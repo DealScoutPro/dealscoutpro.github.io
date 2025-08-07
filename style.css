@@ -56,14 +56,14 @@ header {
 /* Nuova barra strumenti unificata e responsive */
 .toolbar {
     display: flex;
-    gap: 0; /* Rimuove lo spazio tra gli elementi */
+    gap: 0;
     width: 100%;
     margin-top: 1rem;
     flex-wrap: nowrap;
     align-items: stretch;
     border: 1px solid #ccc;
     border-radius: 4px;
-    overflow: hidden; /* Nasconde gli angoli arrotondati interni */
+    overflow: hidden;
 }
 
 @media (min-width: 768px) {
@@ -79,6 +79,7 @@ header {
     flex-grow: 1;
     min-width: 150px;
     background-color: #fff;
+    padding-right: 0.5rem; /* Aggiunto spazio a destra del campo di ricerca */
 }
 
 .search-box input {
@@ -106,7 +107,7 @@ header {
     display: flex;
     align-items: stretch;
     flex-shrink: 0;
-    border-left: 1px solid #ccc; /* Aggiunge il divisorio */
+    border-left: 1px solid #ccc;
 }
 
 .filter-box button, .sort-box button {
@@ -222,6 +223,7 @@ main {
     font-size: 0.7rem;
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    opacity: 0.8; /* Aggiunto effetto trasparenza */
 }
 
 /* Classi per colori dinamici dello sconto */
