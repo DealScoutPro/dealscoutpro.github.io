@@ -130,6 +130,7 @@ header {
     background-color: #f0f2f5;
 }
 
+/* Dropdown menu styles */
 .dropdown-content {
     display: none;
     position: absolute;
