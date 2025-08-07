@@ -154,7 +154,7 @@ main {
     align-items: stretch;
     gap: 15px;
     padding: 15px;
-    overflow: visible; /* Essenziale per mostrare la bolla sconto */
+    overflow: visible;
 }
 
 .offer-card:hover {
@@ -168,7 +168,6 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Rimosso 'overflow: hidden;' per mostrare la bolla sconto */
     border-radius: 4px;
     position: relative;
     background-color: #fff;
@@ -182,15 +181,15 @@ main {
 
 .discount-badge {
     position: absolute;
-    top: -10px;
-    left: -10px;
+    top: -8px; /* Posizionamento regolato per l'effetto desiderato */
+    left: -8px; /* Posizionamento regolato per l'effetto desiderato */
     color: #fff;
     padding: 2px 8px;
     border-radius: 12px;
     font-size: 0.7rem;
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    transform: rotate(-45deg);
+    /* Rimosso 'transform: rotate(-45deg);' per renderla orizzontale */
 }
 
 /* Classi per colori dinamici dello sconto con trasparenza */
