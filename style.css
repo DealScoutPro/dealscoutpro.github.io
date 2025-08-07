@@ -1,3 +1,4 @@
+
 /* Stili Generali */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -55,7 +56,7 @@ header {
 
 .toolbar {
     display: flex;
-    gap: 1rem;
+    gap: 0.5rem;
     flex-wrap: wrap;
     margin-top: 1rem;
     width: 100%;
@@ -68,38 +69,56 @@ header {
     }
 }
 
-.search-box, .filter-box {
+.search-box {
     display: flex;
     align-items: center;
-}
-
-.search-box input {
     border: 1px solid #ccc;
-    padding: 0.5rem;
     border-radius: 4px;
     flex-grow: 1;
 }
 
+.search-box input {
+    border: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    flex-grow: 1;
+    outline: none;
+}
+
 .search-box button {
+    background-color: #fff;
+    color: #007bff;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-box, .sort-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.filter-box button, .sort-box button {
     background-color: #007bff;
     color: #fff;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
     cursor: pointer;
-    margin-left: -1px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
 }
 
-.filter-box {
-    position: relative;
-}
-
-.filter-box button {
-    background-color: #f0f2f5;
-    border: 1px solid #ccc;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
+.filter-box button:hover, .sort-box button:hover {
+    background-color: #0056b3;
 }
 
 .dropdown-content {
@@ -111,18 +130,27 @@ header {
     z-index: 1;
     border-radius: 4px;
     right: 0;
+    top: 100%;
+    margin-top: 0.5rem;
 }
 
 .dropdown-content a {
-    color: black;
+    color: #333;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    transition: background-color 0.2s;
 }
 
 .dropdown-content a:hover {
     background-color: #f1f1f1;
 }
+
+.dropdown-content a.active {
+    background-color: #e2e6ea;
+    font-weight: bold;
+}
+
 .show {
     display: block;
 }
@@ -134,7 +162,7 @@ main {
 
 .offers-grid {
     display: grid;
-    grid-template-columns: 1fr; /* Una colonna per mobile */
+    grid-template-columns: 1fr;
     gap: 1.5rem;
 }
 
@@ -181,29 +209,28 @@ main {
 
 .discount-badge {
     position: absolute;
-    top: -8px; /* Posizionamento regolato per l'effetto desiderato */
-    left: -8px; /* Posizionamento regolato per l'effetto desiderato */
+    top: -8px;
+    left: -8px;
     color: #fff;
     padding: 2px 8px;
     border-radius: 12px;
     font-size: 0.7rem;
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    /* Rimosso 'transform: rotate(-45deg);' per renderla orizzontale */
 }
 
-/* Classi per colori dinamici dello sconto con trasparenza */
+/* Classi per colori dinamici dello sconto */
 .blue-discount {
-    background-color: rgba(0, 123, 255, 0.8);
+    background-color: #007bff;
 }
 .green-discount {
-    background-color: rgba(92, 184, 92, 0.8);
+    background-color: #28a745;
 }
 .orange-discount {
-    background-color: rgba(240, 173, 78, 0.8);
+    background-color: #ffc107;
 }
 .red-discount {
-    background-color: rgba(217, 83, 79, 0.8);
+    background-color: #dc3545;
 }
 
 .card-content-wrapper {
