@@ -56,11 +56,14 @@ header {
 /* Nuova barra strumenti unificata e responsive */
 .toolbar {
     display: flex;
-    gap: 0.5rem;
+    gap: 0; /* Rimuove lo spazio tra gli elementi */
     width: 100%;
     margin-top: 1rem;
     flex-wrap: nowrap;
-    align-items: center;
+    align-items: stretch;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden; /* Nasconde gli angoli arrotondati interni */
 }
 
 @media (min-width: 768px) {
@@ -73,18 +76,17 @@ header {
 .search-box {
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
     flex-grow: 1;
     min-width: 150px;
+    background-color: #fff;
 }
 
 .search-box input {
     border: none;
     padding: 0.5rem;
-    border-radius: 4px;
     flex-grow: 1;
     outline: none;
+    font-size: 1rem;
 }
 
 .search-box button {
@@ -92,9 +94,8 @@ header {
     color: #007bff;
     border: none;
     padding: 0.5rem;
-    border-radius: 0 4px 4px 0;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 1.1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -103,26 +104,27 @@ header {
 .filter-box, .sort-box {
     position: relative;
     display: flex;
-    align-items: center;
-    flex-shrink: 0; /* Impedisce ai pulsanti di restringersi */
+    align-items: stretch;
+    flex-shrink: 0;
+    border-left: 1px solid #ccc; /* Aggiunge il divisorio */
 }
 
 .filter-box button, .sort-box button {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #fff;
+    color: #007bff;
     border: none;
     padding: 0.5rem 1rem;
-    border-radius: 4px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    font-size: 1.1rem;
     transition: background-color 0.2s;
-    white-space: nowrap;
+    height: 100%;
 }
 
 .filter-box button:hover, .sort-box button:hover {
-    background-color: #0056b3;
+    background-color: #f0f2f5;
 }
 
 .dropdown-content {
@@ -170,7 +172,6 @@ main {
     gap: 1.5rem;
 }
 
-/* Griglia per schermi più grandi (768px in su) */
 @media (min-width: 768px) {
     .offers-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -236,7 +237,6 @@ main {
 .red-discount {
     background-color: #dc3545;
 }
-/* Aggiunto stile per sconti bassi */
 .grey-discount {
     background-color: #6c757d;
 }
