@@ -51,7 +51,7 @@
                 }
             }
         }
-
+        
         fetch('data.json')
             .then(response => {
                 if (!response.ok) {
@@ -80,11 +80,24 @@
                     const oldPrice = offer.oldPrice || null;
                     const discount = offer.discount || null;
                     const currentPrice = offer.price || 'Non disponibile';
+                    
+                    let discountColorClass = '';
+                    if (discount) {
+                        if (discount >= 40) {
+                            discountColorClass = 'red-discount';
+                        } else if (discount >= 21) {
+                            discountColorClass = 'orange-discount';
+                        } else if (discount >= 10) {
+                            discountColorClass = 'green-discount';
+                        } else if (discount > 0) {
+                            discountColorClass = 'blue-discount';
+                        }
+                    }
 
                     card.innerHTML = `
                         <div class="card-image-container">
                             <img src="${image}" alt="${title}">
-                            ${discount ? `<div class="discount-badge">-${discount}%</div>` : ''}
+                            ${discount ? `<div class="discount-badge ${discountColorClass}">-${discount}%</div>` : ''}
                         </div>
                         <div class="card-content-wrapper">
                             <div class="card-content">
