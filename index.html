@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -51,6 +52,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const offersGrid = document.getElementById('offersGrid');
             const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
             const filterButton = document.getElementById('filterButton');
             const filterDropdown = document.getElementById('filterDropdown');
             const filterOptions = document.querySelectorAll('.filter-option');
@@ -79,7 +81,7 @@
                 try {
                     const response = await fetch('data.json');
                     allOffers = await response.json();
-                    filterAndSortOffers(); // Carica e filtra le offerte all'avvio
+                    filterAndSortOffers();
                 } catch (error) {
                     console.error('Errore nel caricamento delle offerte:', error);
                     offersGrid.innerHTML = '<p>Errore nel caricamento delle offerte.</p>';
@@ -224,6 +226,10 @@
                 });
             });
         
+            searchButton.addEventListener('click', () => {
+                filterAndSortOffers();
+            });
+
             searchInput.addEventListener('input', filterAndSortOffers);
         
             fetchOffers();
