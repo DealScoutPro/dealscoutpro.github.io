@@ -233,6 +233,11 @@
                 });
             });
         
+            searchButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                filterAndSortOffers();
+            });
+
             searchInput.addEventListener('input', filterAndSortOffers);
         
             fetchOffers();
