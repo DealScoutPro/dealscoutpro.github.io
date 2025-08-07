@@ -20,14 +20,23 @@
                 <div class="filter-box">
                     <button id="filterButton">Filtra <i class="fas fa-filter"></i></button>
                     <div id="filterDropdown" class="dropdown-content">
-                        <a href="#" class="filter-option" data-filter="all">Tutti</a>
+                        <a href="#" class="filter-option active" data-filter="all">Tutti</a>
+                        <a href="#" class="filter-option" data-filter="discount-50">Sconto > 50%</a>
                         <a href="#" class="filter-option" data-filter="discount-30">Sconto > 30%</a>
                         <a href="#" class="filter-option" data-filter="discount-20">Sconto > 20%</a>
                         <a href="#" class="filter-option" data-filter="discount-10">Sconto > 10%</a>
                     </div>
                 </div>
                 <div class="sort-box">
-                    <button id="sortButton" data-sort-order="asc">Prezzo <i class="fas fa-sort-amount-down-alt"></i></button>
+                    <button id="sortButton" data-sort-by="price" data-sort-order="asc">
+                        Ordina <i class="fas fa-sort-amount-down-alt"></i>
+                    </button>
+                    <div id="sortDropdown" class="dropdown-content">
+                        <a href="#" class="sort-option active" data-sort-by="price" data-sort-order="asc">Prezzo crescente</a>
+                        <a href="#" class="sort-option" data-sort-by="price" data-sort-order="desc">Prezzo decrescente</a>
+                        <a href="#" class="sort-option" data-sort-by="discount" data-sort-order="desc">Sconto maggiore</a>
+                        <a href="#" class="sort-option" data-sort-by="discount" data-sort-order="asc">Sconto minore</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,21 +58,25 @@
             const filterDropdown = document.getElementById('filterDropdown');
             const filterOptions = document.querySelectorAll('.filter-option');
             const sortButton = document.getElementById('sortButton');
+            const sortDropdown = document.getElementById('sortDropdown');
+            const sortOptions = document.querySelectorAll('.sort-option');
             let allOffers = [];
             let currentFilteredOffers = [];
 
             const getDiscountColorClass = (discount) => {
-                if (discount >= 30) {
+                if (discount >= 50) {
+                    return 'red-discount';
+                } else if (discount >= 30) {
                     return 'green-discount';
                 } else if (discount >= 20) {
                     return 'blue-discount';
                 } else if (discount >= 10) {
                     return 'orange-discount';
                 } else {
-                    return 'red-discount';
+                    return ''; // Nessun colore per sconti bassi
                 }
             };
-
+        
             const fetchOffers = async () => {
                 try {
                     const response = await fetch('data.json');
@@ -118,6 +131,8 @@
                 const searchTerm = searchInput.value;
                 const activeFilter = document.querySelector('.filter-option.active');
                 const filterType = activeFilter ? activeFilter.getAttribute('data-filter') : 'all';
+                
+                const sortBy = sortButton.getAttribute('data-sort-by');
                 const sortOrder = sortButton.getAttribute('data-sort-order');
 
                 let filtered = allOffers.filter(offer => {
@@ -125,6 +140,8 @@
 
                     if (filterType === 'all') {
                         return matchesSearch;
+                    } else if (filterType === 'discount-50') {
+                        return matchesSearch && offer.discount >= 50;
                     } else if (filterType === 'discount-30') {
                         return matchesSearch && offer.discount >= 30;
                     } else if (filterType === 'discount-20') {
@@ -135,11 +152,22 @@
                     return matchesSearch;
                 });
                 
-                if (sortOrder === 'asc') {
-                    filtered.sort((a, b) => a.price - b.price);
-                } else {
-                    filtered.sort((a, b) => b.price - a.price);
-                }
+                filtered.sort((a, b) => {
+                    let valA, valB;
+                    if (sortBy === 'price') {
+                        valA = a.price;
+                        valB = b.price;
+                    } else if (sortBy === 'discount') {
+                        valA = a.discount;
+                        valB = b.discount;
+                    }
+
+                    if (sortOrder === 'asc') {
+                        return valA - valB;
+                    } else {
+                        return valB - valA;
+                    }
+                });
 
                 currentFilteredOffers = filtered;
                 displayOffers(currentFilteredOffers);
@@ -149,12 +177,12 @@
             filterButton.addEventListener('click', (e) => {
                 e.stopPropagation();
                 filterDropdown.classList.toggle('show');
+                sortDropdown.classList.remove('show');
             });
         
             window.addEventListener('click', () => {
-                if (filterDropdown.classList.contains('show')) {
-                    filterDropdown.classList.remove('show');
-                }
+                filterDropdown.classList.remove('show');
+                sortDropdown.classList.remove('show');
             });
         
             filterOptions.forEach(option => {
@@ -166,6 +194,37 @@
                 });
             });
         
+            // Gestione dell'ordinamento
+            sortButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                sortDropdown.classList.toggle('show');
+                filterDropdown.classList.remove('show');
+            });
+
+            sortOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    sortOptions.forEach(opt => opt.classList.remove('active'));
+                    e.target.classList.add('active');
+
+                    const sortBy = e.target.getAttribute('data-sort-by');
+                    const sortOrder = e.target.getAttribute('data-sort-order');
+                    
+                    sortButton.setAttribute('data-sort-by', sortBy);
+                    sortButton.setAttribute('data-sort-order', sortOrder);
+
+                    // Aggiorna l'icona del pulsante
+                    const icon = sortButton.querySelector('i');
+                    if (sortBy === 'price') {
+                        icon.className = sortOrder === 'asc' ? 'fas fa-sort-amount-down-alt' : 'fas fa-sort-amount-up-alt';
+                    } else if (sortBy === 'discount') {
+                        icon.className = sortOrder === 'asc' ? 'fas fa-sort-amount-down-alt' : 'fas fa-sort-amount-up-alt';
+                    }
+
+                    filterAndSortOffers();
+                });
+            });
+        
             // Gestione della ricerca
             searchButton.addEventListener('click', filterAndSortOffers);
         
@@ -173,19 +232,6 @@
                 if (e.key === 'Enter') {
                     filterAndSortOffers();
                 }
-            });
-
-            // Gestione dell'ordinamento
-            sortButton.addEventListener('click', () => {
-                const currentOrder = sortButton.getAttribute('data-sort-order');
-                if (currentOrder === 'asc') {
-                    sortButton.setAttribute('data-sort-order', 'desc');
-                    sortButton.innerHTML = `Prezzo <i class="fas fa-sort-amount-up-alt"></i>`;
-                } else {
-                    sortButton.setAttribute('data-sort-order', 'asc');
-                    sortButton.innerHTML = `Prezzo <i class="fas fa-sort-amount-down-alt"></i>`;
-                }
-                filterAndSortOffers();
             });
 
             fetchOffers();
