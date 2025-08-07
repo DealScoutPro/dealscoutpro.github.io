@@ -51,7 +51,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             const offersGrid = document.getElementById('offersGrid');
             const searchInput = document.getElementById('searchInput');
-            const searchButton = document.getElementById('searchButton');
             const filterButton = document.getElementById('filterButton');
             const filterDropdown = document.getElementById('filterDropdown');
             const sortButton = document.getElementById('sortButton');
@@ -196,8 +195,10 @@
                 toggleDropdown(sortDropdown);
             });
         
-            document.addEventListener('click', () => {
-                document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
+            document.addEventListener('click', (e) => {
+                if (!filterDropdown.contains(e.target) && !sortDropdown.contains(e.target) && !filterButton.contains(e.target) && !sortButton.contains(e.target)) {
+                    document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
+                }
             });
         
             document.querySelectorAll('.filter-option').forEach(option => {
@@ -223,7 +224,7 @@
                     if (sortBy === 'price') {
                         icon.className = sortOrder === 'asc' ? 'fas fa-sort-amount-down-alt' : 'fas fa-sort-amount-up-alt';
                     } else if (sortBy === 'discount') {
-                        icon.className = sortOrder === 'desc' ? 'fas fa-percentage' : 'fas fa-percentage fa-rotate-180';
+                        icon.className = sortOrder === 'desc' ? 'fas fa-percent' : 'fas fa-percent fa-flip-vertical';
                     }
 
                     filterAndSortOffers();
@@ -231,10 +232,6 @@
                 });
             });
         
-            searchButton.addEventListener('click', () => {
-                filterAndSortOffers();
-            });
-
             searchInput.addEventListener('input', filterAndSortOffers);
         
             fetchOffers();
