@@ -51,16 +51,10 @@
                 }
             }
         }
-
+        
         function formatTitle(title) {
-            const forbiddenEndingCharacters = [',', '.', '!', '?', '...'];
-            let formattedTitle = title;
-            forbiddenEndingCharacters.forEach(char => {
-                if (formattedTitle.endsWith(char)) {
-                    formattedTitle = formattedTitle.slice(0, -char.length);
-                }
-            });
-            return formattedTitle.trim();
+            // Rimuove punteggiatura finale o spazi superflui
+            return title.replace(/[,.!?...]$/, '').trim();
         }
 
         fetch('data.json')
@@ -123,7 +117,7 @@
                                     <span class="current-price">€${currentPrice}</span>
                                     ${oldPrice ? `<span class="old-price">€${oldPrice}</span>` : ''}
                                 </div>
-                                <a href="${link}" class="cta-button" target="_blank">Vedi l'offerta</a>
+                                <a href="${link}" class="cta-button" target="_blank">→</a>
                             </div>
                         </div>
                     `;
