@@ -51,7 +51,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             const offersGrid = document.getElementById('offersGrid');
             const searchInput = document.getElementById('searchInput');
-            const searchButton = document.getElementById('searchButton');
             const filterButton = document.getElementById('filterButton');
             const filterDropdown = document.getElementById('filterDropdown');
             const filterOptions = document.querySelectorAll('.filter-option');
@@ -59,7 +58,6 @@
             const sortDropdown = document.getElementById('sortDropdown');
             const sortOptions = document.querySelectorAll('.sort-option');
             let allOffers = [];
-            let currentFilteredOffers = [];
 
             const getDiscountColorClass = (discount) => {
                 if (discount >= 50) {
@@ -81,8 +79,7 @@
                 try {
                     const response = await fetch('data.json');
                     allOffers = await response.json();
-                    currentFilteredOffers = [...allOffers];
-                    displayOffers(currentFilteredOffers);
+                    filterAndSortOffers(); // Carica e filtra le offerte all'avvio
                 } catch (error) {
                     console.error('Errore nel caricamento delle offerte:', error);
                     offersGrid.innerHTML = '<p>Errore nel caricamento delle offerte.</p>';
@@ -128,15 +125,16 @@
             };
 
             const filterAndSortOffers = () => {
-                const searchTerm = searchInput.value;
+                const searchTerm = searchInput.value.toLowerCase();
                 const activeFilter = document.querySelector('.filter-option.active');
                 const filterType = activeFilter ? activeFilter.getAttribute('data-filter') : 'all';
                 
-                const sortBy = document.querySelector('.sort-option.active').getAttribute('data-sort-by');
-                const sortOrder = document.querySelector('.sort-option.active').getAttribute('data-sort-order');
-
+                const activeSortOption = document.querySelector('.sort-option.active');
+                const sortBy = activeSortOption ? activeSortOption.getAttribute('data-sort-by') : 'price';
+                const sortOrder = activeSortOption ? activeSortOption.getAttribute('data-sort-order') : 'asc';
+                
                 let filtered = allOffers.filter(offer => {
-                    const matchesSearch = offer.title.toLowerCase().includes(searchTerm.toLowerCase());
+                    const matchesSearch = offer.title.toLowerCase().includes(searchTerm);
 
                     if (filterType === 'all') {
                         return matchesSearch;
@@ -169,8 +167,7 @@
                     }
                 });
 
-                currentFilteredOffers = filtered;
-                displayOffers(currentFilteredOffers);
+                displayOffers(filtered);
             };
         
             // Gestione dei menu a tendina
@@ -194,7 +191,7 @@
                 toggleDropdown(sortButton, sortDropdown);
             });
         
-            window.addEventListener('click', () => {
+            document.addEventListener('click', () => {
                 document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
             });
         
@@ -220,22 +217,15 @@
                     if (sortBy === 'price') {
                         icon.className = sortOrder === 'asc' ? 'fas fa-sort-amount-down-alt' : 'fas fa-sort-amount-up-alt';
                     } else if (sortBy === 'discount') {
-                        icon.className = sortOrder === 'asc' ? 'fas fa-percentage' : 'fas fa-percentage fa-rotate-180';
+                        icon.className = sortOrder === 'desc' ? 'fas fa-percentage' : 'fas fa-percentage fa-rotate-180';
                     }
 
                     filterAndSortOffers();
                 });
             });
         
-            // Gestione della ricerca
-            searchButton.addEventListener('click', filterAndSortOffers);
+            searchInput.addEventListener('input', filterAndSortOffers);
         
-            searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    filterAndSortOffers();
-                }
-            });
-
             fetchOffers();
         });
     </script>
