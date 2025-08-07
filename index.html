@@ -21,10 +21,13 @@
                     <button id="filterButton">Filtra <i class="fas fa-filter"></i></button>
                     <div id="filterDropdown" class="dropdown-content">
                         <a href="#" class="filter-option" data-filter="all">Tutti</a>
-                        <a href="#" class="filter-option" data-filter="elettronica">Elettronica</a>
-                        <a href="#" class="filter-option" data-filter="arredamento">Arredamento</a>
-                        <a href="#" class="filter-option" data-filter="abbigliamento">Abbigliamento</a>
+                        <a href="#" class="filter-option" data-filter="discount-30">Sconto > 30%</a>
+                        <a href="#" class="filter-option" data-filter="discount-20">Sconto > 20%</a>
+                        <a href="#" class="filter-option" data-filter="discount-10">Sconto > 10%</a>
                     </div>
+                </div>
+                <div class="sort-box">
+                    <button id="sortButton" data-sort-order="asc">Prezzo <i class="fas fa-sort-amount-down-alt"></i></button>
                 </div>
             </div>
         </div>
@@ -45,13 +48,28 @@
             const filterButton = document.getElementById('filterButton');
             const filterDropdown = document.getElementById('filterDropdown');
             const filterOptions = document.querySelectorAll('.filter-option');
+            const sortButton = document.getElementById('sortButton');
             let allOffers = [];
-        
+            let currentFilteredOffers = [];
+
+            const getDiscountColorClass = (discount) => {
+                if (discount >= 30) {
+                    return 'green-discount';
+                } else if (discount >= 20) {
+                    return 'blue-discount';
+                } else if (discount >= 10) {
+                    return 'orange-discount';
+                } else {
+                    return 'red-discount';
+                }
+            };
+
             const fetchOffers = async () => {
                 try {
                     const response = await fetch('data.json');
                     allOffers = await response.json();
-                    displayOffers(allOffers);
+                    currentFilteredOffers = [...allOffers];
+                    displayOffers(currentFilteredOffers);
                 } catch (error) {
                     console.error('Errore nel caricamento delle offerte:', error);
                     offersGrid.innerHTML = '<p>Errore nel caricamento delle offerte.</p>';
@@ -60,13 +78,14 @@
         
             const createOfferCard = (offer) => {
                 const oldPrice = (offer.price / (1 - (offer.discount / 100))).toFixed(2);
+                const discountColorClass = getDiscountColorClass(offer.discount);
                 
                 const card = document.createElement('article');
                 card.classList.add('offer-card');
                 card.innerHTML = `
                     <div class="card-image-container">
                         <img src="${offer.image}" alt="${offer.title}">
-                        <span class="discount-badge red-discount">${offer.discount}%</span>
+                        <span class="discount-badge ${discountColorClass}">${offer.discount}%</span>
                     </div>
                     <div class="card-content-wrapper">
                         <div class="card-content">
@@ -94,16 +113,36 @@
                     offersGrid.appendChild(createOfferCard(offer));
                 });
             };
-        
-            // Funzionalità di ricerca e filtro (momentaneamente disabilitate per mancanza dati)
-            const filterOffers = (searchTerm, filterCategory) => {
-                const filtered = allOffers.filter(offer => {
+
+            const filterAndSortOffers = () => {
+                const searchTerm = searchInput.value;
+                const activeFilter = document.querySelector('.filter-option.active');
+                const filterType = activeFilter ? activeFilter.getAttribute('data-filter') : 'all';
+                const sortOrder = sortButton.getAttribute('data-sort-order');
+
+                let filtered = allOffers.filter(offer => {
                     const matchesSearch = offer.title.toLowerCase().includes(searchTerm.toLowerCase());
-                    // Per ora, la categoria non è presente nei dati, quindi il filtro è sempre vero.
-                    const matchesCategory = true;
-                    return matchesSearch && matchesCategory;
+
+                    if (filterType === 'all') {
+                        return matchesSearch;
+                    } else if (filterType === 'discount-30') {
+                        return matchesSearch && offer.discount >= 30;
+                    } else if (filterType === 'discount-20') {
+                        return matchesSearch && offer.discount >= 20;
+                    } else if (filterType === 'discount-10') {
+                        return matchesSearch && offer.discount >= 10;
+                    }
+                    return matchesSearch;
                 });
-                displayOffers(filtered);
+                
+                if (sortOrder === 'asc') {
+                    filtered.sort((a, b) => a.price - b.price);
+                } else {
+                    filtered.sort((a, b) => b.price - a.price);
+                }
+
+                currentFilteredOffers = filtered;
+                displayOffers(currentFilteredOffers);
             };
         
             // Gestione dei filtri
@@ -121,24 +160,34 @@
             filterOptions.forEach(option => {
                 option.addEventListener('click', (e) => {
                     e.preventDefault();
-                    // const category = e.target.getAttribute('data-filter'); // Attivare in seguito
-                    const searchTerm = searchInput.value;
-                    filterOffers(searchTerm, 'all');
+                    filterOptions.forEach(opt => opt.classList.remove('active'));
+                    e.target.classList.add('active');
+                    filterAndSortOffers();
                 });
             });
         
             // Gestione della ricerca
-            searchButton.addEventListener('click', () => {
-                const searchTerm = searchInput.value;
-                filterOffers(searchTerm, 'all');
-            });
+            searchButton.addEventListener('click', filterAndSortOffers);
         
             searchInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
-                    searchButton.click();
+                    filterAndSortOffers();
                 }
             });
-        
+
+            // Gestione dell'ordinamento
+            sortButton.addEventListener('click', () => {
+                const currentOrder = sortButton.getAttribute('data-sort-order');
+                if (currentOrder === 'asc') {
+                    sortButton.setAttribute('data-sort-order', 'desc');
+                    sortButton.innerHTML = `Prezzo <i class="fas fa-sort-amount-up-alt"></i>`;
+                } else {
+                    sortButton.setAttribute('data-sort-order', 'asc');
+                    sortButton.innerHTML = `Prezzo <i class="fas fa-sort-amount-down-alt"></i>`;
+                }
+                filterAndSortOffers();
+            });
+
             fetchOffers();
         });
     </script>
