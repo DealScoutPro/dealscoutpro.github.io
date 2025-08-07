@@ -210,16 +210,16 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 0;
+    /* Rimosso l'altezza fissa */
 }
 
 .card-content {
-    flex-grow: 1;
+    flex-grow: 1; /* Il titolo prende tutto lo spazio rimanente */
     padding-bottom: 0;
 }
 
 .card-content h4 {
-    font-size: 0.9rem; /* Ridotto il font per un look più professionale */
+    font-size: 0.9rem;
     margin: 0 0 5px 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -234,7 +234,8 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
+    /* Rimosso margin-top per allineare al fondo */
+    margin-top: auto;
 }
 
 .price-container {
@@ -244,13 +245,13 @@ main {
 }
 
 .current-price {
-    font-size: 0.9rem; /* Unificato con il prezzo vecchio */
+    font-size: 0.9rem;
     font-weight: bold;
     color: #5cb85c;
 }
 
 .old-price {
-    font-size: 0.9rem; /* Unificato con il prezzo attuale */
+    font-size: 0.9rem;
     color: #d9534f;
     text-decoration: line-through;
 }
