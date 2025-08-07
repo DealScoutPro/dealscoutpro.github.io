@@ -181,15 +181,16 @@ main {
 
 .discount-badge {
     position: absolute;
-    top: 5px; /* Spostato più in basso */
-    left: 5px; /* Spostato più a destra */
+    top: 0px; /* Spostato più in alto */
+    left: 0px; /* Spostato più a sinistra */
     color: #fff;
-    padding: 3px 8px; /* Ridotto il padding */
-    border-radius: 10px; /* Ridotto il raggio */
-    font-size: 0.8rem; /* Ridotto il font */
+    padding: 4px 10px; /* Aumentato il padding per un design più elegante */
+    border-radius: 15px; /* Aumentato il raggio per renderla più stondata */
+    font-size: 0.8rem;
     font-weight: bold;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
+
 /* Classi per colori dinamici dello sconto */
 .blue-discount {
     background-color: #007bff;
@@ -228,11 +229,17 @@ main {
     height: 3.9rem;
 }
 
+.bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
 .price-container {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin: 0.5rem 0;
 }
 
 .current-price {
@@ -248,15 +255,13 @@ main {
 }
 
 .cta-button {
-    display: inline-block;
     background-color: #007bff;
     color: #fff;
-    padding: 0.4rem 0.8rem; /* Ridotto il padding */
-    border-radius: 16px; /* Ridotto il raggio */
+    padding: 0.4rem 0.8rem;
+    border-radius: 16px;
     text-align: center;
     font-weight: bold;
-    font-size: 0.9rem; /* Ridotto il font-size */
-    align-self: flex-end;
+    font-size: 0.9rem;
 }
 
 .cta-button:hover {
