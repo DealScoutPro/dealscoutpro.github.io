@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Logica esistente per la gestione delle offerte
     const offersGrid = document.getElementById('offersGrid');
-    const searchInput = document.getElementById('searchInput');
-    const searchButton = document.getElementById('searchButton');
-    const filterButton = document.getElementById('filterButton');
-    const filterDropdown = document.getElementById('filterDropdown');
-    const sortButton = document.getElementById('sortButton');
-    const sortDropdown = document.getElementById('sortDropdown');
+    const searchInput = document.querySelector('.search-box input');
+    const searchButton = document.querySelector('.search-box button');
+    const filterButton = document.getElementById('filter-btn');
+    const filterDropdown = document.getElementById('filter-dropdown');
+    const sortButton = document.getElementById('sort-btn');
+    const sortDropdown = document.getElementById('sort-dropdown');
     const clearFiltersButton = document.getElementById('clearFilters');
     let allOffers = [];
 
@@ -25,14 +26,16 @@ document.addEventListener('DOMContentLoaded', () => {
             filterAndSortOffers();
         } catch (error) {
             console.error('Errore nel caricamento delle offerte:', error);
-            offersGrid.innerHTML = '<p>Errore nel caricamento delle offerte.</p>';
+            if (offersGrid) {
+                offersGrid.innerHTML = '<p>Errore nel caricamento delle offerte.</p>';
+            }
         }
     };
 
     const createOfferCard = (offer) => {
         const oldPrice = (offer.price / (1 - (offer.discount / 100))).toFixed(2);
         const discountColorClass = getDiscountColorClass(offer.discount);
-        
+
         const card = document.createElement('article');
         card.classList.add('offer-card');
         card.innerHTML = `
@@ -57,25 +60,28 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const displayOffers = (offers) => {
-        offersGrid.innerHTML = '';
-        if (offers.length === 0) {
-            offersGrid.innerHTML = '<p>Nessuna offerta trovata.</p>';
-            return;
+        if (offersGrid) {
+            offersGrid.innerHTML = '';
+            if (offers.length === 0) {
+                offersGrid.innerHTML = '<p>Nessuna offerta trovata.</p>';
+                return;
+            }
+            offers.forEach(offer => offersGrid.appendChild(createOfferCard(offer)));
         }
-        offers.forEach(offer => offersGrid.appendChild(createOfferCard(offer)));
     };
 
     const filterAndSortOffers = () => {
         const searchTerm = searchInput.value.toLowerCase();
         
         const selectedFilters = Array.from(document.querySelectorAll('.filter-option input:checked')).map(input => input.dataset.filter);
-        const sortBy = document.querySelector('.sort-option.active').dataset.sortBy;
-        const sortOrder = document.querySelector('.sort-option.active').dataset.sortOrder;
-        
+        const sortByElement = document.querySelector('.sort-option.active');
+        const sortBy = sortByElement ? sortByElement.dataset.sortBy : 'default';
+        const sortOrder = sortByElement ? sortByElement.dataset.sortOrder : 'desc';
+
         let filtered = allOffers.filter(offer => {
             const matchesSearch = offer.title.toLowerCase().includes(searchTerm);
             
-            if (selectedFilters.includes('all')) {
+            if (selectedFilters.includes('all') || selectedFilters.length === 0) {
                 return matchesSearch;
             }
 
@@ -86,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (filter === 'discount-20' && offer.discount >= 20) matchesFilters = true;
                 if (filter === 'discount-10' && offer.discount >= 10) matchesFilters = true;
             }
-
             return matchesSearch && matchesFilters;
         });
         
@@ -99,11 +104,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 return valB - valA;
             });
         }
-
         displayOffers(filtered);
     };
 
     const toggleDropdown = (dropdown) => {
+        if (!dropdown) return;
         const isVisible = dropdown.classList.contains('show');
         document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
         if (!isVisible) {
@@ -111,22 +116,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    filterButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (filterDropdown) {
+    if (filterButton && filterDropdown) {
+        filterButton.addEventListener('click', (e) => {
+            e.stopPropagation();
             toggleDropdown(filterDropdown);
-        }
-    });
+        });
+    }
     
-    sortButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (sortDropdown) {
+    if (sortButton && sortDropdown) {
+        sortButton.addEventListener('click', (e) => {
+            e.stopPropagation();
             toggleDropdown(sortDropdown);
-        }
-    });
+        });
+    }
 
     document.addEventListener('click', (e) => {
-        if (!filterButton.contains(e.target) && !sortButton.contains(e.target) && !filterDropdown.contains(e.target) && !sortDropdown.contains(e.target)) {
+        const isInsideDropdown = (filterButton && filterButton.contains(e.target)) ||
+                                 (sortButton && sortButton.contains(e.target)) ||
+                                 (filterDropdown && filterDropdown.contains(e.target)) ||
+                                 (sortDropdown && sortDropdown.contains(e.target));
+        if (!isInsideDropdown) {
             document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
         }
     });
@@ -141,26 +150,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
             } else if (e.target.checked) {
-                filterAllInput.checked = false;
-            }
-
-            const anyOtherChecked = Array.from(document.querySelectorAll('.filter-option input:not(#filter-all)')).some(cb => cb.checked);
-            if (!anyOtherChecked) {
-                filterAllInput.checked = true;
+                if (filterAllInput) filterAllInput.checked = false;
             }
             
+            const anyOtherChecked = Array.from(document.querySelectorAll('.filter-option input:not(#filter-all)')).some(cb => cb.checked);
+            if (!anyOtherChecked) {
+                if (filterAllInput) filterAllInput.checked = true;
+            }
             filterAndSortOffers();
         });
     });
 
-    clearFiltersButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        document.querySelectorAll('.filter-option input').forEach(cb => {
-            cb.checked = false;
+    if (clearFiltersButton) {
+        clearFiltersButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelectorAll('.filter-option input').forEach(cb => {
+                cb.checked = false;
+            });
+            const filterAllInput = document.getElementById('filter-all');
+            if (filterAllInput) filterAllInput.checked = true;
+            filterAndSortOffers();
         });
-        document.getElementById('filter-all').checked = true;
-        filterAndSortOffers();
-    });
+    }
 
     document.querySelectorAll('.sort-option').forEach(option => {
         option.addEventListener('click', (e) => {
@@ -172,69 +183,78 @@ document.addEventListener('DOMContentLoaded', () => {
             const sortOrder = e.target.getAttribute('data-sort-order');
             
             const icon = sortButton.querySelector('i');
-            if (sortBy === 'default') {
-                icon.className = 'fas fa-sort-amount-down-alt';
-            } else if (sortBy === 'price') {
-                icon.className = sortOrder === 'asc' ? 'fas fa-sort-amount-down-alt' : 'fas fa-sort-amount-up-alt';
-            } else if (sortBy === 'discount') {
-                icon.className = sortOrder === 'desc' ? 'fas fa-percent' : 'fas fa-percent fa-flip-vertical';
+            if (icon) {
+                if (sortBy === 'default') {
+                    icon.className = 'fas fa-sort';
+                } else if (sortBy === 'price') {
+                    icon.className = sortOrder === 'asc' ? 'fas fa-sort-amount-down-alt' : 'fas fa-sort-amount-up-alt';
+                } else if (sortBy === 'discount') {
+                    icon.className = sortOrder === 'desc' ? 'fas fa-percent' : 'fas fa-percent';
+                }
             }
 
             filterAndSortOffers();
-            sortDropdown.classList.remove('show');
+            if (sortDropdown) sortDropdown.classList.remove('show');
         });
     });
 
-    searchButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        filterAndSortOffers();
-    });
+    if (searchButton) {
+        searchButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            filterAndSortOffers();
+        });
+    }
 
-    searchInput.addEventListener('input', filterAndSortOffers);
-
-    fetchOffers();
-});
-document.addEventListener('DOMContentLoaded', () => {
-    // Logica per night mode
+    if (searchInput) {
+        searchInput.addEventListener('input', filterAndSortOffers);
+    }
+    
+    // Logica per night mode e PWA
     const themeSwitch = document.getElementById('checkbox');
     const nightModeClass = 'night-mode';
     const currentTheme = localStorage.getItem('theme');
-
+    
     if (currentTheme === nightModeClass) {
         document.body.classList.add(nightModeClass);
-        themeSwitch.checked = true;
+        if (themeSwitch) themeSwitch.checked = true;
     }
 
-    themeSwitch.addEventListener('change', () => {
-        document.body.classList.toggle(nightModeClass);
-        if (document.body.classList.contains(nightModeClass)) {
-            localStorage.setItem('theme', nightModeClass);
-        } else {
-            localStorage.setItem('theme', 'light-mode');
-        }
-    });
+    if (themeSwitch) {
+        themeSwitch.addEventListener('change', () => {
+            document.body.classList.toggle(nightModeClass);
+            if (document.body.classList.contains(nightModeClass)) {
+                localStorage.setItem('theme', nightModeClass);
+            } else {
+                localStorage.setItem('theme', 'light-mode');
+            }
+        });
+    }
 
-    // Logica per PWA
+    // Logica PWA
     let deferredPrompt;
     const installButton = document.getElementById('pwa-install-button');
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installButton.style.display = 'block';
-    });
+    if (installButton) {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.style.display = 'block';
+        });
 
-    installButton.addEventListener('click', () => {
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
-                } else {
-                    console.log('User dismissed the install prompt');
-                }
-                deferredPrompt = null;
-            });
-        }
-    });
+        installButton.addEventListener('click', () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        });
+    }
+
+    fetchOffers();
 });
