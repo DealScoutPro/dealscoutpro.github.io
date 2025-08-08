@@ -61,7 +61,6 @@ header {
     align-items: stretch;
     border: 1px solid #ccc;
     border-radius: 4px;
-    
 }
 
 @media (min-width: 768px) {
@@ -163,6 +162,9 @@ header {
 
 .show {
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
     z-index: 1000;
 }
 
