@@ -10,6 +10,7 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
+    padding-inline: 1rem; /* Padding laterale uniforme per tutto il body */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -49,7 +50,7 @@ header {
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0;
 }
 
 .header-title-wrapper {
@@ -254,7 +255,7 @@ header {
 
 /* Main Content */
 main {
-    padding: 2rem 1rem;
+    padding: 2rem 0; /* Rimosso il padding laterale */
 }
 
 .offers-grid {
