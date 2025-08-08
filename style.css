@@ -141,7 +141,40 @@ header {
     right: 0;
     top: 100%;
     margin-top: 0.5rem;
+    padding: 8px 0;
 }
+
+/* New styles for checkboxes */
+.dropdown-content .checkbox-option {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.dropdown-content .checkbox-option:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown-content .checkbox-option input {
+    margin-right: 10px;
+}
+
+#clearFilters {
+    display: block;
+    padding: 8px 16px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    color: #d9534f;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+#clearFilters:hover {
+    background-color: #f0f2f5;
+}
+
 
 .dropdown-content a {
     color: #333;
