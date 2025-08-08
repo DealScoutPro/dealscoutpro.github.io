@@ -194,3 +194,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchOffers();
 });
+document.addEventListener('DOMContentLoaded', () => {
+    // Logica per night mode
+    const themeSwitch = document.getElementById('checkbox');
+    const nightModeClass = 'night-mode';
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme === nightModeClass) {
+        document.body.classList.add(nightModeClass);
+        themeSwitch.checked = true;
+    }
+
+    themeSwitch.addEventListener('change', () => {
+        document.body.classList.toggle(nightModeClass);
+        if (document.body.classList.contains(nightModeClass)) {
+            localStorage.setItem('theme', nightModeClass);
+        } else {
+            localStorage.setItem('theme', 'light-mode');
+        }
+    });
+
+    // Logica per PWA
+    let deferredPrompt;
+    const installButton = document.getElementById('pwa-install-button');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        installButton.style.display = 'block';
+    });
+
+    installButton.addEventListener('click', () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the install prompt');
+                } else {
+                    console.log('User dismissed the install prompt');
+                }
+                deferredPrompt = null;
+            });
+        }
+    });
+});
