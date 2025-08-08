@@ -23,7 +23,7 @@ a:hover {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem 0.5rem; /* Ridotto il padding laterale */
+    padding: 0; /* Rimosso il padding */
 }
 
 /* Header */
@@ -249,7 +249,7 @@ header {
 
 /* Main Content */
 main {
-    padding: 2rem 1rem;
+    padding: 2rem 1rem; /* Padding uniforme per una corretta visualizzazione su schermi stretti */
 }
 
 .offers-grid {
@@ -355,10 +355,10 @@ main {
 
 .bottom-row {
     display: flex;
-    justify-content: space-between; /* Spinge a destra il pulsante */
+    justify-content: space-between;
     align-items: center;
     margin-top: auto;
-    flex-wrap: nowrap; /* Impedisce agli elementi di andare a capo */
+    flex-wrap: nowrap;
     gap: 10px;
 }
 
@@ -366,8 +366,8 @@ main {
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-shrink: 1; /* Permette al contenitore di restringersi */
-    min-width: 0; /* Previene overflow del testo */
+    flex-shrink: 1;
+    min-width: 0;
 }
 
 .current-price {
@@ -382,7 +382,7 @@ main {
     color: #d9534f;
     text-decoration: line-through;
     flex-shrink: 1;
-    white-space: nowrap; /* Previene la divisione del testo */
+    white-space: nowrap;
 }
 
 .cta-button {
