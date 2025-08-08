@@ -97,19 +97,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleDropdown = (dropdown) => {
         const isVisible = dropdown.classList.contains('show');
         document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
-        if (!isVisible) dropdown.classList.add('show');
+        if (!isVisible) {
+            dropdown.classList.add('show');
+            console.log('Classe "show" aggiunta a:', dropdown);
+            console.log('Classi attuali dell\'elemento:', dropdown.classList);
+        } else {
+            console.log('Classe "show" rimossa da:', dropdown);
+            console.log('Classi attuali dell\'elemento:', dropdown.classList);
+        }
     };
 
     filterButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        console.log('Pulsante filtro cliccato. La funzione toggleDropdown verrà eseguita.');
-        toggleDropdown(filterDropdown);
+        console.log('Pulsante filtro cliccato.');
+        if (filterDropdown) {
+            toggleDropdown(filterDropdown);
+        } else {
+            console.error('Errore: Elemento "filterDropdown" non trovato.');
+        }
     });
     
     sortButton.addEventListener('click', (e) => {
         e.stopPropagation();
-        console.log('Pulsante ordinamento cliccato. La funzione toggleDropdown verrà eseguita.');
-        toggleDropdown(sortDropdown);
+        console.log('Pulsante ordinamento cliccato.');
+        if (sortDropdown) {
+            toggleDropdown(sortDropdown);
+        } else {
+            console.error('Errore: Elemento "sortDropdown" non trovato.');
+        }
     });
 
     document.addEventListener('click', (e) => {
