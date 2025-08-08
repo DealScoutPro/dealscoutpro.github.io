@@ -79,7 +79,7 @@ header h1 {
     header {
         flex-direction: column;
         align-items: center;
-        gap: 1rem; /* Aggiunge spazio tra il logo e la toolbar */
+        gap: 1rem;
     }
 
     .toolbar {
