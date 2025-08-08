@@ -1,18 +1,48 @@
+/* Palette di colori */
+:root {
+    /* Colori Giorno */
+    --body-bg: #f0f2f5;
+    --header-bg: #fff;
+    --card-bg: #fff;
+    --text-color: #333;
+    --link-color: #659abc;
+    --primary-color: #00508a;
+    --border-color: #ddd;
+}
+
+/* Colori Notte */
+.night-mode {
+    --body-bg: #121212;
+    --header-bg: #1e1e1e;
+    --card-bg: #2d2d2d;
+    --text-color: #e0e0e0;
+    --link-color: #9cb3c9;
+    --primary-color: #3476a6;
+    --border-color: #444;
+}
+
+/* Reset e Box-Sizing per layout responsivi */
+* {
+    box-sizing: border-box;
+}
+
 /* Stili Generali */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #f0f2f5;
+    background-color: var(--body-bg);
+    color: var(--text-color);
     margin: 0;
     padding: 0;
     line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    color: #333;
+    color: var(--text-color);
 }
 
 a {
-    color: #659abc; /* Nuovo blu per link */
+    color: var(--link-color);
     text-decoration: none;
 }
 
@@ -23,28 +53,23 @@ a:hover {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0; /* Rimosso il padding */
+    padding: 0 1rem;
 }
 
 /* Header */
 header {
-    background-color: #fff;
-    padding: 1rem 0;
-    border-bottom: 1px solid #ddd;
+    background-color: var(--header-bg);
+    padding: 1rem 1rem;
+    border-bottom: 1px solid var(--border-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
-}
-
-.header-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
+    transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
 }
 
 .header-title-wrapper {
@@ -58,29 +83,39 @@ header {
     height: 65px;
     border-radius: 12px;
     object-fit: cover;
-    border: 2.5px solid #659abc; /* Colore del bordo logo */
+    border: 2.5px solid var(--link-color);
 }
 
-.header-container h1 {
+header h1 {
     margin: 0;
     font-size: 1.8rem;
-    color: #00508a; /* Nuovo blu per il titolo */
+    color: var(--primary-color);
 }
 
-/* Nuova barra strumenti unificata e responsive */
+/* Toolbar responsive */
 .toolbar {
     display: flex;
-    width: 100%;
-    margin-top: 1rem;
     align-items: stretch;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
+    flex-wrap: nowrap;
+    width: auto;
+    transition: border-color 0.3s ease;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 767px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header-title-wrapper {
+        margin-bottom: 1rem;
+    }
+
     .toolbar {
+        width: 100%;
         margin-top: 0;
-        width: auto;
     }
 }
 
@@ -89,7 +124,7 @@ header {
     align-items: center;
     flex-grow: 1;
     min-width: 150px;
-    background-color: #fff;
+    background-color: var(--card-bg);
     position: relative;
     padding: 0;
 }
@@ -102,11 +137,14 @@ header {
     font-size: 1rem;
     width: 100%;
     padding-right: 3rem;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .search-box button {
     background-color: transparent;
-    color: #659abc; /* Nuovo blu per l'icona */
+    color: var(--link-color);
     border: none;
     cursor: pointer;
     font-size: 1.1rem;
@@ -122,12 +160,13 @@ header {
     display: flex;
     align-items: stretch;
     flex-shrink: 0;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid var(--border-color);
+    transition: border-left-color 0.3s ease;
 }
 
 .filter-box button, .sort-box button {
-    background-color: #fff;
-    color: #659abc; /* Nuovo blu per le icone */
+    background-color: var(--card-bg);
+    color: var(--link-color);
     border: none;
     padding: 0.5rem 1rem;
     cursor: pointer;
@@ -140,14 +179,93 @@ header {
 }
 
 .filter-box button:hover, .sort-box button:hover {
-    background-color: #f0f2f5;
+    background-color: var(--body-bg);
+}
+
+/* Stile dello switch per il Night Mode */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-color);
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Stile per il pulsante di installazione PWA */
+#pwa-install-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+    margin-left: 1rem;
+}
+
+#pwa-install-button:hover {
+    background-color: var(--link-color);
 }
 
 /* Dropdown menu styles */
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #fff;
+    background-color: var(--card-bg);
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -158,7 +276,6 @@ header {
     padding: 8px 0;
 }
 
-/* New styles for checkboxes */
 .dropdown-content .checkbox-option {
     display: flex;
     align-items: center;
@@ -168,7 +285,7 @@ header {
 }
 
 .dropdown-content .checkbox-option:hover {
-    background-color: #f1f1f1;
+    background-color: var(--body-bg);
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"] {
@@ -177,7 +294,7 @@ header {
     appearance: none;
     width: 18px;
     height: 18px;
-    border: 2px solid #ccc;
+    border: 2px solid var(--border-color);
     border-radius: 4px;
     position: relative;
     cursor: pointer;
@@ -187,12 +304,12 @@ header {
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"]:hover {
-    border-color: #659abc; /* Nuovo blu per l'hover */
+    border-color: var(--link-color);
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"]:checked {
-    background-color: #659abc; /* Nuovo blu per il checked */
-    border-color: #659abc; /* Nuovo blu per il border checked */
+    background-color: var(--link-color);
+    border-color: var(--link-color);
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"]:checked::after {
@@ -211,19 +328,18 @@ header {
     display: block;
     padding: 8px 16px;
     text-align: center;
-    border-top: 1px solid #ddd;
-    color: #d9534f;
+    border-top: 1px solid var(--border-color);
+    color: var(--link-color);
     font-weight: bold;
     transition: background-color 0.2s;
 }
 
 #clearFilters:hover {
-    background-color: #f0f2f5;
+    background-color: var(--body-bg);
 }
 
-
 .dropdown-content a {
-    color: #333;
+    color: var(--text-color);
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -231,11 +347,11 @@ header {
 }
 
 .dropdown-content a:hover {
-    background-color: #f1f1f1;
+    background-color: var(--body-bg);
 }
 
 .dropdown-content a.active {
-    background-color: #e2e6ea;
+    background-color: var(--body-bg);
     font-weight: bold;
 }
 
@@ -249,7 +365,7 @@ header {
 
 /* Main Content */
 main {
-    padding: 2rem 1rem; /* Padding uniforme per una corretta visualizzazione su schermi stretti */
+    padding: 2rem 1rem;
 }
 
 .offers-grid {
@@ -265,10 +381,10 @@ main {
 }
 
 .offer-card {
-    background-color: #fff;
+    background-color: var(--card-bg);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
+    transition: transform 0.2s, background-color 0.3s ease;
     display: flex;
     align-items: stretch;
     gap: 1rem;
@@ -289,7 +405,7 @@ main {
     align-items: center;
     border-radius: 4px;
     position: relative;
-    background-color: #fff;
+    background-color: var(--card-bg);
 }
 
 .card-image-container img {
@@ -311,7 +427,6 @@ main {
     opacity: 0.8;
 }
 
-/* Classi per colori dinamici dello sconto */
 .blue-discount {
     background-color: #007bff;
 }
@@ -386,7 +501,7 @@ main {
 }
 
 .cta-button {
-    background-color: #00508a; /* Nuovo blu per il CTA */
+    background-color: var(--primary-color);
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -399,7 +514,7 @@ main {
 }
 
 .cta-button:hover {
-    background-color: #003a6b; /* Nuovo hover per il CTA */
+    background-color: var(--link-color);
 }
 
 .cta-button::after {
