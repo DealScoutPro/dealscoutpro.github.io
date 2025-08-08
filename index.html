@@ -3,71 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DealScoutPro</title>
+    <title>La tua Web App</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
     <header>
-        <div class="header-container">
-            <div class="header-title-wrapper">
-                <img src="logodealscoutpro.jpg" alt="Logo DealScoutPro" class="header-logo">
-                <h1>DealScoutPro</h1>
+        <div class="header-title-wrapper">
+            <img src="logo.png" alt="Logo" class="header-logo">
+            <h1>Web App</h1>
+        </div>
+        <div class="toolbar">
+            <div class="search-box">
+                <input type="text" placeholder="Cerca offerte...">
+                <button><i class="fas fa-search"></i></button>
             </div>
-            <div class="toolbar">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Cerca offerte...">
-                    <button id="searchButton"><i class="fas fa-search"></i></button>
-                </div>
-                <div class="filter-box">
-                    <button id="filterButton"><i class="fas fa-filter"></i></button>
-                    <div id="filterDropdown" class="dropdown-content">
-                        <div class="filter-option checkbox-option">
-                            <input type="checkbox" id="filter-all" data-filter="all" checked>
-                            <label for="filter-all">Tutti</label>
-                        </div>
-                        <div class="filter-option checkbox-option">
-                            <input type="checkbox" id="filter-50" data-filter="discount-50">
-                            <label for="filter-50">Sconto > 50%</label>
-                        </div>
-                        <div class="filter-option checkbox-option">
-                            <input type="checkbox" id="filter-30" data-filter="discount-30">
-                            <label for="filter-30">Sconto > 30%</label>
-                        </div>
-                        <div class="filter-option checkbox-option">
-                            <input type="checkbox" id="filter-20" data-filter="discount-20">
-                            <label for="filter-20">Sconto > 20%</label>
-                        </div>
-                        <div class="filter-option checkbox-option">
-                            <input type="checkbox" id="filter-10" data-filter="discount-10">
-                            <label for="filter-10">Sconto > 10%</label>
-                        </div>
-                        <a href="#" id="clearFilters">Cancella filtri</a>
+            <div class="filter-box">
+                <button class="dropdown-toggle" id="filter-btn"><i class="fas fa-filter"></i></button>
+                <div class="dropdown-content" id="filter-dropdown">
                     </div>
-                </div>
-                <div class="sort-box">
-                    <button id="sortButton"><i class="fas fa-sort-amount-down-alt"></i></button>
-                    <div id="sortDropdown" class="dropdown-content">
-                        <a href="#" class="sort-option active" data-sort-by="default" data-sort-order="none">Default</a>
-                        <a href="#" class="sort-option" data-sort-by="price" data-sort-order="asc">Prezzo crescente</a>
-                        <a href="#" class="sort-option" data-sort-by="price" data-sort-order="desc">Prezzo decrescente</a>
-                        <a href="#" class="sort-option" data-sort-by="discount" data-sort-order="desc">Sconto maggiore</a>
-                        <a href="#" class="sort-option" data-sort-by="discount" data-sort-order="asc">Sconto minore</a>
-                    </div>
-                </div>
             </div>
+            <div class="sort-box">
+                <button class="dropdown-toggle" id="sort-btn"><i class="fas fa-sort"></i></button>
+                <div class="dropdown-content" id="sort-dropdown">
+                    </div>
+            </div>
+            
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round"></div>
+                </label>
+            </div>
+            
+            <button id="pwa-install-button" style="display: none;">Installa App</button>
         </div>
     </header>
 
-    <main>
-        <div class="container">
-            <section class="offers-grid" id="offersGrid">
-                </section>
-        </div>
-    </main>
-    
+    <main class="container">
+        </main>
+
     <script src="script.js"></script>
+    <script>
+        // Logica per night mode e PWA
+        const themeSwitch = document.getElementById('checkbox');
+        const nightModeClass = 'night-mode';
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === nightModeClass) {
+            document.body.classList.add(nightModeClass);
+            themeSwitch.checked = true;
+        }
+
+        themeSwitch.addEventListener('change', () => {
+            document.body.classList.toggle(nightModeClass);
+            if (document.body.classList.contains(nightModeClass)) {
+                localStorage.setItem('theme', nightModeClass);
+            } else {
+                localStorage.setItem('theme', 'light-mode');
+            }
+        });
+
+        // Logica PWA
+        let deferredPrompt;
+        const installButton = document.getElementById('pwa-install-button');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          deferredPrompt = e;
+          installButton.style.display = 'block';
+        });
+
+        installButton.addEventListener('click', () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+              } else {
+                console.log('User dismissed the install prompt');
+              }
+              deferredPrompt = null;
+            });
+          }
+        });
+    </script>
 </body>
 </html>
