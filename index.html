@@ -18,17 +18,25 @@
         <div class="toolbar">
             <div class="search-box">
                 <input type="text" placeholder="Cerca offerte...">
-                <button><i class="fas fa-search"></i></button>
+                <button id="searchButton"><i class="fas fa-search"></i></button>
             </div>
             <div class="filter-box">
                 <button class="dropdown-toggle" id="filter-btn"><i class="fas fa-filter"></i></button>
                 <div class="dropdown-content" id="filter-dropdown">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="filter-all" data-filter="all" checked>
+                        <label for="filter-all">Tutte le Offerte</label>
                     </div>
+                </div>
             </div>
             <div class="sort-box">
                 <button class="dropdown-toggle" id="sort-btn"><i class="fas fa-sort"></i></button>
                 <div class="dropdown-content" id="sort-dropdown">
-                    </div>
+                    <a href="#" class="sort-option active" data-sort-by="default" data-sort-order="desc">Predefinito</a>
+                    <a href="#" class="sort-option" data-sort-by="price" data-sort-order="asc">Prezzo (crescente)</a>
+                    <a href="#" class="sort-option" data-sort-by="price" data-sort-order="desc">Prezzo (decrescente)</a>
+                    <a href="#" class="sort-option" data-sort-by="discount" data-sort-order="desc">Sconto (maggiore)</a>
+                </div>
             </div>
             
             <div class="theme-switch-wrapper">
@@ -43,52 +51,10 @@
     </header>
 
     <main class="container">
-        </main>
+        <div class="offers-grid" id="offersGrid">
+            </div>
+    </main>
 
     <script src="script.js"></script>
-    <script>
-        // Logica per night mode e PWA
-        const themeSwitch = document.getElementById('checkbox');
-        const nightModeClass = 'night-mode';
-        const currentTheme = localStorage.getItem('theme');
-        
-        if (currentTheme === nightModeClass) {
-            document.body.classList.add(nightModeClass);
-            themeSwitch.checked = true;
-        }
-
-        themeSwitch.addEventListener('change', () => {
-            document.body.classList.toggle(nightModeClass);
-            if (document.body.classList.contains(nightModeClass)) {
-                localStorage.setItem('theme', nightModeClass);
-            } else {
-                localStorage.setItem('theme', 'light-mode');
-            }
-        });
-
-        // Logica PWA
-        let deferredPrompt;
-        const installButton = document.getElementById('pwa-install-button');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-          e.preventDefault();
-          deferredPrompt = e;
-          installButton.style.display = 'block';
-        });
-
-        installButton.addEventListener('click', () => {
-          if (deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-              if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-              } else {
-                console.log('User dismissed the install prompt');
-              }
-              deferredPrompt = null;
-            });
-          }
-        });
-    </script>
 </body>
 </html>
