@@ -254,7 +254,8 @@ header {
 
 /* Main Content */
 main {
-    padding: 2rem 0; /* Rimosso il padding laterale */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 .offers-grid {
