@@ -102,11 +102,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     filterButton.addEventListener('click', (e) => {
         e.stopPropagation();
+        console.log('Pulsante filtro cliccato. La funzione toggleDropdown verrà eseguita.');
         toggleDropdown(filterDropdown);
     });
     
     sortButton.addEventListener('click', (e) => {
         e.stopPropagation();
+        console.log('Pulsante ordinamento cliccato. La funzione toggleDropdown verrà eseguita.');
         toggleDropdown(sortDropdown);
     });
 
