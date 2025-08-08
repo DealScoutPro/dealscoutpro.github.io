@@ -21,11 +21,27 @@
                 <div class="filter-box">
                     <button id="filterButton"><i class="fas fa-filter"></i></button>
                     <div id="filterDropdown" class="dropdown-content">
-                        <a href="#" class="filter-option active" data-filter="all">Tutti</a>
-                        <a href="#" class="filter-option" data-filter="discount-50">Sconto > 50%</a>
-                        <a href="#" class="filter-option" data-filter="discount-30">Sconto > 30%</a>
-                        <a href="#" class="filter-option" data-filter="discount-20">Sconto > 20%</a>
-                        <a href="#" class="filter-option" data-filter="discount-10">Sconto > 10%</a>
+                        <div class="filter-option checkbox-option">
+                            <input type="checkbox" id="filter-all" data-filter="all" checked>
+                            <label for="filter-all">Tutti</label>
+                        </div>
+                        <div class="filter-option checkbox-option">
+                            <input type="checkbox" id="filter-50" data-filter="discount-50">
+                            <label for="filter-50">Sconto > 50%</label>
+                        </div>
+                        <div class="filter-option checkbox-option">
+                            <input type="checkbox" id="filter-30" data-filter="discount-30">
+                            <label for="filter-30">Sconto > 30%</label>
+                        </div>
+                        <div class="filter-option checkbox-option">
+                            <input type="checkbox" id="filter-20" data-filter="discount-20">
+                            <label for="filter-20">Sconto > 20%</label>
+                        </div>
+                        <div class="filter-option checkbox-option">
+                            <input type="checkbox" id="filter-10" data-filter="discount-10">
+                            <label for="filter-10">Sconto > 10%</label>
+                        </div>
+                        <a href="#" id="clearFilters">Cancella filtri</a>
                     </div>
                 </div>
                 <div class="sort-box">
