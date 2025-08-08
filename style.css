@@ -12,7 +12,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-    color: #007bff;
+    color: #659abc; /* Nuovo blu per link */
     text-decoration: none;
 }
 
@@ -58,13 +58,13 @@ header {
     height: 65px;
     border-radius: 12px; 
     object-fit: cover;
-    border: 2.5px solid #007bff;
+    border: 2.5px solid #659abc; /* Colore del bordo logo */
 }
 
 .header-container h1 {
     margin: 0;
     font-size: 1.8rem;
-    color: #007bff;
+    color: #00508a; /* Nuovo blu per il titolo */
 }
 
 /* Nuova barra strumenti unificata e responsive */
@@ -106,7 +106,7 @@ header {
 
 .search-box button {
     background-color: transparent;
-    color: #007bff;
+    color: #659abc; /* Nuovo blu per l'icona */
     border: none;
     cursor: pointer;
     font-size: 1.1rem;
@@ -127,7 +127,7 @@ header {
 
 .filter-box button, .sort-box button {
     background-color: #fff;
-    color: #007bff;
+    color: #659abc; /* Nuovo blu per le icone */
     border: none;
     padding: 0.5rem 1rem;
     cursor: pointer;
@@ -187,12 +187,12 @@ header {
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"]:hover {
-    border-color: #007bff;
+    border-color: #659abc; /* Nuovo blu per l'hover */
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"]:checked {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #659abc; /* Nuovo blu per il checked */
+    border-color: #659abc; /* Nuovo blu per il border checked */
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"]:checked::after {
@@ -379,7 +379,7 @@ main {
 }
 
 .cta-button {
-    background-color: #007bff;
+    background-color: #00508a; /* Nuovo blu per il CTA */
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -391,7 +391,7 @@ main {
 }
 
 .cta-button:hover {
-    background-color: #0056b3;
+    background-color: #003a6b; /* Nuovo hover per il CTA */
 }
 
 .cta-button::after {
