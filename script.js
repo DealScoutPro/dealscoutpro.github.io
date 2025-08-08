@@ -1,260 +1,226 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Logica esistente per la gestione delle offerte
-    const offersGrid = document.getElementById('offersGrid');
-    const searchInput = document.querySelector('.search-box input');
-    const searchButton = document.querySelector('.search-box button');
-    const filterButton = document.getElementById('filter-btn');
+    const themeSwitch = document.getElementById('theme-switch-checkbox');
+    const filterBtn = document.getElementById('filter-btn');
+    const sortBtn = document.getElementById('sort-btn');
     const filterDropdown = document.getElementById('filter-dropdown');
-    const sortButton = document.getElementById('sort-btn');
     const sortDropdown = document.getElementById('sort-dropdown');
-    const clearFiltersButton = document.getElementById('clearFilters');
+    const filterCheckboxes = document.querySelectorAll('.checkbox-option input');
+    const clearFiltersBtn = document.getElementById('clearFilters');
+    const offersGrid = document.getElementById('offers-grid');
+    const searchInput = document.getElementById('search-input');
+    const pwaInstallButton = document.getElementById('pwa-install-button');
+    let deferredPrompt;
     let allOffers = [];
 
-    const getDiscountColorClass = (discount) => {
-        if (discount >= 50) return 'red-discount';
-        if (discount >= 30) return 'green-discount';
-        if (discount >= 20) return 'blue-discount';
-        if (discount >= 10) return 'orange-discount';
-        if (discount > 0) return 'grey-discount';
-        return '';
-    };
+    // Gestione dell'installazione PWA
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        pwaInstallButton.style.display = 'block';
+    });
 
-    const fetchOffers = async () => {
-        try {
-            const response = await fetch('data.json');
-            allOffers = await response.json();
-            filterAndSortOffers();
-        } catch (error) {
-            console.error('Errore nel caricamento delle offerte:', error);
-            if (offersGrid) {
-                offersGrid.innerHTML = '<p>Errore nel caricamento delle offerte.</p>';
-            }
+    pwaInstallButton.addEventListener('click', () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('User accepted the A2HS prompt');
+                } else {
+                    console.log('User dismissed the A2HS prompt');
+                }
+                deferredPrompt = null;
+            });
         }
-    };
+    });
 
-    const createOfferCard = (offer) => {
-        const oldPrice = (offer.price / (1 - (offer.discount / 100))).toFixed(2);
-        const discountColorClass = getDiscountColorClass(offer.discount);
+    // Funzione per generare un'offerta casuale
+    const getRandomOffer = () => {
+        const brands = ['Samsung', 'Apple', 'Xiaomi', 'Sony', 'Logitech', 'MSI', 'Corsair'];
+        const products = ['Smartphone', 'Laptop', 'Smartwatch', 'TV 4K', 'Cuffie Bluetooth', 'Mouse Gaming', 'Tastiera Meccanica'];
+        const conditions = ['Nuovo', 'Ricondizionato', 'Usato'];
+        const discounts = {
+            'blue-discount': 60,
+            'green-discount': 40,
+            'orange-discount': 25,
+            'red-discount': 15,
+            'grey-discount': 5
+        };
 
-        const card = document.createElement('article');
-        card.classList.add('offer-card');
-        card.innerHTML = `
-            <div class="card-image-container">
-                <img src="${offer.image}" alt="${offer.title}">
-                <span class="discount-badge ${discountColorClass}">${offer.discount}%</span>
-            </div>
-            <div class="card-content-wrapper">
-                <div class="card-content">
-                    <h4>${offer.title}</h4>
-                </div>
-                <div class="bottom-row">
-                    <div class="price-container">
-                        <span class="current-price">€${offer.price.toFixed(2)}</span>
-                        <span class="old-price">€${oldPrice}</span>
-                    </div>
-                    <a href="${offer.link}" class="cta-button"></a>
-                </div>
-            </div>
-        `;
-        return card;
-    };
-
-    const displayOffers = (offers) => {
-        if (offersGrid) {
-            offersGrid.innerHTML = '';
-            if (offers.length === 0) {
-                offersGrid.innerHTML = '<p>Nessuna offerta trovata.</p>';
-                return;
-            }
-            offers.forEach(offer => offersGrid.appendChild(createOfferCard(offer)));
-        }
-    };
-
-    const filterAndSortOffers = () => {
-        const searchTerm = searchInput.value.toLowerCase();
+        const randomBrand = brands[Math.floor(Math.random() * brands.length)];
+        const randomProduct = products[Math.floor(Math.random() * products.length)];
+        const randomCondition = conditions[Math.floor(Math.random() * conditions.length)];
+        const randomPrice = (Math.random() * 900 + 100).toFixed(2);
+        const randomOldPrice = (parseFloat(randomPrice) + (parseFloat(randomPrice) * (Math.random() * 0.5 + 0.1))).toFixed(2);
         
-        const selectedFilters = Array.from(document.querySelectorAll('.filter-option input:checked')).map(input => input.dataset.filter);
-        const sortByElement = document.querySelector('.sort-option.active');
-        const sortBy = sortByElement ? sortByElement.dataset.sortBy : 'default';
-        const sortOrder = sortByElement ? sortByElement.dataset.sortOrder : 'desc';
+        const discountPercentage = Math.round(((randomOldPrice - randomPrice) / randomOldPrice) * 100);
+        let discountClass = '';
+        if (discountPercentage >= 50) discountClass = 'blue-discount';
+        else if (discountPercentage >= 30) discountClass = 'green-discount';
+        else if (discountPercentage >= 20) discountClass = 'orange-discount';
+        else if (discountPercentage >= 10) discountClass = 'red-discount';
+        else discountClass = 'grey-discount';
 
-        let filtered = allOffers.filter(offer => {
+        return {
+            id: Date.now() + Math.random(),
+            title: `${randomBrand} ${randomProduct} ${randomCondition}`,
+            price: parseFloat(randomPrice),
+            oldPrice: parseFloat(randomOldPrice),
+            discount: discountPercentage,
+            discountClass: discountClass,
+            image: `https://picsum.photos/120/120?random=${Math.random()}`,
+            condition: randomCondition
+        };
+    };
+
+    // Genera 50 offerte casuali all'avvio
+    for (let i = 0; i < 50; i++) {
+        allOffers.push(getRandomOffer());
+    }
+
+    // Funzione per renderizzare le offerte sulla pagina
+    const renderOffers = (offersToRender) => {
+        offersGrid.innerHTML = offersToRender.map(offer => `
+            <article class="offer-card" data-price="${offer.price}" data-discount="${offer.discount}">
+                <div class="card-image-container">
+                    <img src="${offer.image}" alt="${offer.title}">
+                    <span class="discount-badge ${offer.discountClass}">-${offer.discount}%</span>
+                </div>
+                <div class="card-content-wrapper">
+                    <div class="card-content">
+                        <h4>${offer.title}</h4>
+                        <div class="bottom-row">
+                            <div class="price-container">
+                                <span class="current-price">${offer.price.toFixed(2)}€</span>
+                                <span class="old-price">${offer.oldPrice.toFixed(2)}€</span>
+                            </div>
+                            <a href="#" class="cta-button"></a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        `).join('');
+    };
+
+    // Funzione per filtrare le offerte
+    const filterOffers = () => {
+        const activeFilters = Array.from(filterCheckboxes).filter(cb => cb.checked && cb.id !== 'filter-all').map(cb => cb.dataset.filter);
+        const searchTerm = searchInput.value.toLowerCase().trim();
+
+        let filteredOffers = allOffers.filter(offer => {
             const matchesSearch = offer.title.toLowerCase().includes(searchTerm);
             
-            if (selectedFilters.includes('all') || selectedFilters.length === 0) {
+            if (activeFilters.length === 0) {
                 return matchesSearch;
             }
 
-            let matchesFilters = false;
-            for (const filter of selectedFilters) {
-                if (filter === 'discount-50' && offer.discount >= 50) matchesFilters = true;
-                if (filter === 'discount-30' && offer.discount >= 30) matchesFilters = true;
-                if (filter === 'discount-20' && offer.discount >= 20) matchesFilters = true;
-                if (filter === 'discount-10' && offer.discount >= 10) matchesFilters = true;
-            }
-            return matchesSearch && matchesFilters;
+            const matchesFilter = activeFilters.some(filter => {
+                const discountValue = parseInt(filter.replace('discount-', ''), 10);
+                return offer.discount >= discountValue;
+            });
+
+            return matchesSearch && matchesFilter;
         });
         
-        if (sortBy !== 'default') {
-            filtered.sort((a, b) => {
-                let valA = a[sortBy];
-                let valB = b[sortBy];
+        const activeSort = document.querySelector('.sort-option.active');
+        if (activeSort) {
+            sortOffers(filteredOffers, activeSort.dataset.sortBy, activeSort.dataset.sortOrder);
+        } else {
+            renderOffers(filteredOffers);
+        }
+    };
 
-                if (sortOrder === 'asc') return valA - valB;
-                return valB - valA;
+    // Funzione per ordinare le offerte
+    const sortOffers = (offersToSort, sortBy, sortOrder) => {
+        let sortedOffers = [...offersToSort];
+
+        if (sortBy === 'price') {
+            sortedOffers.sort((a, b) => {
+                if (sortOrder === 'asc') return a.price - b.price;
+                return b.price - a.price;
             });
+        } else if (sortBy === 'discount') {
+            sortedOffers.sort((a, b) => b.discount - a.discount);
         }
-        displayOffers(filtered);
+
+        renderOffers(sortedOffers);
     };
 
-    const toggleDropdown = (dropdown) => {
-        if (!dropdown) return;
-        const isVisible = dropdown.classList.contains('show');
-        document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
-        if (!isVisible) {
-            dropdown.classList.add('show');
-        }
-    };
-
-    if (filterButton && filterDropdown) {
-        filterButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleDropdown(filterDropdown);
-        });
-    }
-    
-    if (sortButton && sortDropdown) {
-        sortButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleDropdown(sortDropdown);
-        });
-    }
-
-    document.addEventListener('click', (e) => {
-        const isInsideDropdown = (filterButton && filterButton.contains(e.target)) ||
-                                 (sortButton && sortButton.contains(e.target)) ||
-                                 (filterDropdown && filterDropdown.contains(e.target)) ||
-                                 (sortDropdown && sortDropdown.contains(e.target));
-        if (!isInsideDropdown) {
-            document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('show'));
-        }
-    });
-
-    document.querySelectorAll('.checkbox-option input').forEach(input => {
-        input.addEventListener('change', (e) => {
-            const filterAllInput = document.getElementById('filter-all');
-            if (e.target.dataset.filter === 'all') {
-                document.querySelectorAll('.filter-option input').forEach(cb => {
-                    if (cb !== filterAllInput) {
-                        cb.checked = false;
-                    }
+    // Gestione filtri
+    filterCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            if (checkbox.id === 'filter-all') {
+                filterCheckboxes.forEach(cb => {
+                    if (cb !== checkbox) cb.checked = false;
                 });
-            } else if (e.target.checked) {
-                if (filterAllInput) filterAllInput.checked = false;
+            } else if (checkbox.checked) {
+                document.getElementById('filter-all').checked = false;
             }
-            
-            const anyOtherChecked = Array.from(document.querySelectorAll('.filter-option input:not(#filter-all)')).some(cb => cb.checked);
+            const anyOtherChecked = Array.from(filterCheckboxes).some(cb => cb.checked && cb.id !== 'filter-all');
             if (!anyOtherChecked) {
-                if (filterAllInput) filterAllInput.checked = true;
+                document.getElementById('filter-all').checked = true;
             }
-            filterAndSortOffers();
+            filterOffers();
         });
     });
 
-    if (clearFiltersButton) {
-        clearFiltersButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.querySelectorAll('.filter-option input').forEach(cb => {
-                cb.checked = false;
-            });
-            const filterAllInput = document.getElementById('filter-all');
-            if (filterAllInput) filterAllInput.checked = true;
-            filterAndSortOffers();
-        });
-    }
+    clearFiltersBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        filterCheckboxes.forEach(cb => cb.checked = false);
+        document.getElementById('filter-all').checked = true;
+        filterOffers();
+    });
 
+    // Gestione ordinamento
     document.querySelectorAll('.sort-option').forEach(option => {
         option.addEventListener('click', (e) => {
             e.preventDefault();
             document.querySelectorAll('.sort-option').forEach(opt => opt.classList.remove('active'));
-            e.target.classList.add('active');
-            
-            const sortBy = e.target.getAttribute('data-sort-by');
-            const sortOrder = e.target.getAttribute('data-sort-order');
-            
-            const icon = sortButton.querySelector('i');
-            if (icon) {
-                if (sortBy === 'default') {
-                    icon.className = 'fas fa-sort';
-                } else if (sortBy === 'price') {
-                    icon.className = sortOrder === 'asc' ? 'fas fa-sort-amount-down-alt' : 'fas fa-sort-amount-up-alt';
-                } else if (sortBy === 'discount') {
-                    icon.className = sortOrder === 'desc' ? 'fas fa-percent' : 'fas fa-percent';
-                }
-            }
-
-            filterAndSortOffers();
-            if (sortDropdown) sortDropdown.classList.remove('show');
+            option.classList.add('active');
+            filterOffers();
         });
     });
 
-    if (searchButton) {
-        searchButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            filterAndSortOffers();
-        });
+    // Gestione ricerca
+    searchInput.addEventListener('input', filterOffers);
+
+    // Gestione Night Mode
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+        document.body.classList.add(savedTheme);
+        if (savedTheme === 'night-mode') {
+            themeSwitch.checked = true;
+        }
     }
 
-    if (searchInput) {
-        searchInput.addEventListener('input', filterAndSortOffers);
-    }
-    
-    // Logica per night mode e PWA
-    const themeSwitch = document.getElementById('checkbox');
-    const nightModeClass = 'night-mode';
-    const currentTheme = localStorage.getItem('theme');
-    
-    if (currentTheme === nightModeClass) {
-        document.body.classList.add(nightModeClass);
-        if (themeSwitch) themeSwitch.checked = true;
-    }
+    themeSwitch.addEventListener('change', () => {
+        if (themeSwitch.checked) {
+            document.body.classList.add('night-mode');
+            localStorage.setItem('theme', 'night-mode');
+        } else {
+            document.body.classList.remove('night-mode');
+            localStorage.setItem('theme', 'day-mode');
+        }
+    });
 
-    if (themeSwitch) {
-        themeSwitch.addEventListener('change', () => {
-            document.body.classList.toggle(nightModeClass);
-            if (document.body.classList.contains(nightModeClass)) {
-                localStorage.setItem('theme', nightModeClass);
-            } else {
-                localStorage.setItem('theme', 'light-mode');
-            }
-        });
-    }
+    // Gestione dropdown
+    document.addEventListener('click', (e) => {
+        if (!filterBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+            filterDropdown.classList.remove('show');
+        }
+        if (!sortBtn.contains(e.target) && !sortDropdown.contains(e.target)) {
+            sortDropdown.classList.remove('show');
+        }
+    });
 
-    // Logica PWA
-    let deferredPrompt;
-    const installButton = document.getElementById('pwa-install-button');
+    filterBtn.addEventListener('click', () => {
+        filterDropdown.classList.toggle('show');
+        sortDropdown.classList.remove('show');
+    });
 
-    if (installButton) {
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installButton.style.display = 'block';
-        });
+    sortBtn.addEventListener('click', () => {
+        sortDropdown.classList.toggle('show');
+        filterDropdown.classList.remove('show');
+    });
 
-        installButton.addEventListener('click', () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                    } else {
-                        console.log('User dismissed the install prompt');
-                    }
-                    deferredPrompt = null;
-                });
-            }
-        });
-    }
-
-    fetchOffers();
+    renderOffers(allOffers);
 });
