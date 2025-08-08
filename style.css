@@ -8,6 +8,7 @@
     --link-color: #659abc;
     --primary-color: #00508a;
     --border-color: #ddd;
+    --image-container-bg: #f8f9fa;
 }
 
 /* Colori Notte */
@@ -19,6 +20,7 @@
     --link-color: #9cb3c9;
     --primary-color: #3476a6;
     --border-color: #444;
+    --image-container-bg: #444;
 }
 
 /* Reset e Box-Sizing per layout responsivi */
@@ -405,7 +407,7 @@ main {
     align-items: center;
     border-radius: 4px;
     position: relative;
-    background-color: var(--card-bg);
+    background-color: var(--image-container-bg);
 }
 
 .card-image-container img {
