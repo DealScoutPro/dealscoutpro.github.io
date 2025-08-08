@@ -31,7 +31,7 @@ a:hover {
     padding: 0 1rem;
 }
 
-/* Header (Layout Desktop di default con griglia) */
+/* Header (Layout Desktop di default) */
 header {
     background-color: #fff;
     padding: 1rem 1rem;
@@ -40,8 +40,8 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 10px;
 }
@@ -72,27 +72,18 @@ header h1 {
     border: 1px solid #ccc;
     border-radius: 4px;
     flex-wrap: nowrap;
-    justify-self: end;
 }
 
-/* Media query per dispositivi mobile */
+/* Media query per dispositivi mobile (con spaziatura corretta) */
 @media (max-width: 719px) {
     header {
-        display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 0;
-    }
-
-    .header-title-wrapper {
-        margin-bottom: 1rem;
-        justify-content: center;
+        gap: 1rem; /* Aggiunge spazio tra il logo e la toolbar */
     }
 
     .toolbar {
         width: 100%;
-        margin-top: 0;
-        justify-self: auto;
     }
 }
 
