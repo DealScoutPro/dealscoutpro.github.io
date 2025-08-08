@@ -31,7 +31,7 @@ a:hover {
     padding: 0 1rem;
 }
 
-/* Header (Layout Desktop di default) */
+/* Header */
 header {
     background-color: #fff;
     padding: 1rem 1rem;
@@ -41,9 +41,7 @@ header {
     top: 0;
     z-index: 1000;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 10px;
 }
 
 .header-title-wrapper {
@@ -74,16 +72,32 @@ header h1 {
     flex-wrap: nowrap;
 }
 
-/* Media query per dispositivi mobile (con spaziatura corretta) */
+/* Media query per dispositivi mobile */
 @media (max-width: 719px) {
     header {
         flex-direction: column;
         align-items: center;
-        gap: 1rem;
+    }
+    
+    .header-title-wrapper {
+        margin-bottom: 1rem; /* Spaziatura tra logo/titolo e toolbar */
     }
 
     .toolbar {
         width: 100%;
+        margin-top: 0;
+    }
+}
+
+/* Media query per dispositivi desktop/tablet */
+@media (min-width: 720px) {
+    header {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .toolbar {
+        margin-left: auto; /* Posiziona la toolbar a destra */
     }
 }
 
