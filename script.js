@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.querySelectorAll('.filter-option input').forEach(input => {
+    document.querySelectorAll('.checkbox-option input').forEach(input => {
         input.addEventListener('change', (e) => {
             const filterAllInput = document.getElementById('filter-all');
             if (e.target.dataset.filter === 'all') {
