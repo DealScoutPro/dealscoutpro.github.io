@@ -44,18 +44,20 @@ header {
 
 .header-container {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Aggiunto per rendere l'header dinamico */
     justify-content: space-between;
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0;
+    gap: 10px;
 }
 
 .header-title-wrapper {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 0; /* Impedisce al titolo di restringersi troppo */
 }
 
 .header-logo {
@@ -80,6 +82,7 @@ header {
     align-items: stretch;
     border: 1px solid #ccc;
     border-radius: 4px;
+    flex-wrap: wrap;
 }
 
 @media (min-width: 768px) {
@@ -93,7 +96,6 @@ header {
     display: flex;
     align-items: center;
     flex-grow: 1;
-    min-width: 150px;
     background-color: #fff;
     position: relative;
     padding: 0;
@@ -126,7 +128,6 @@ header {
     position: relative;
     display: flex;
     align-items: stretch;
-    flex-shrink: 0;
     border-left: 1px solid #ccc;
 }
 
