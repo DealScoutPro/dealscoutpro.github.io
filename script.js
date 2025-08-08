@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterDropdown = document.getElementById('filterDropdown');
     const sortButton = document.getElementById('sortButton');
     const sortDropdown = document.getElementById('sortDropdown');
+    const clearFiltersButton = document.getElementById('clearFilters');
     let allOffers = [];
 
     const getDiscountColorClass = (discount) => {
@@ -66,24 +67,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const filterAndSortOffers = () => {
         const searchTerm = searchInput.value.toLowerCase();
-        const activeFilter = document.querySelector('.filter-option.active');
-        const filterType = activeFilter ? activeFilter.getAttribute('data-filter') : 'all';
         
-        const activeSortOption = document.querySelector('.sort-option.active');
-        const sortBy = activeSortOption ? activeSortOption.getAttribute('data-sort-by') : 'default';
-        const sortOrder = activeSortOption ? activeSortOption.getAttribute('data-sort-order') : 'none';
+        const selectedFilters = Array.from(document.querySelectorAll('.filter-option input:checked')).map(input => input.dataset.filter);
+        const sortBy = document.querySelector('.sort-option.active').dataset.sortBy;
+        const sortOrder = document.querySelector('.sort-option.active').dataset.sortOrder;
         
         let filtered = allOffers.filter(offer => {
             const matchesSearch = offer.title.toLowerCase().includes(searchTerm);
-            if (filterType === 'all') return matchesSearch;
-            if (filterType === 'discount-50') return matchesSearch && offer.discount >= 50;
-            if (filterType === 'discount-30') return matchesSearch && offer.discount >= 30;
-            if (filterType === 'discount-20') return matchesSearch && offer.discount >= 20;
-            if (filterType === 'discount-10') return matchesSearch && offer.discount >= 10;
-            return matchesSearch;
+            
+            if (selectedFilters.includes('all')) {
+                return matchesSearch;
+            }
+
+            let matchesFilters = false;
+            for (const filter of selectedFilters) {
+                if (filter === 'discount-50' && offer.discount >= 50) matchesFilters = true;
+                if (filter === 'discount-30' && offer.discount >= 30) matchesFilters = true;
+                if (filter === 'discount-20' && offer.discount >= 20) matchesFilters = true;
+                if (filter === 'discount-10' && offer.discount >= 10) matchesFilters = true;
+            }
+
+            return matchesSearch && matchesFilters;
         });
         
-        // Ordina solo se l'opzione non è "default"
         if (sortBy !== 'default') {
             filtered.sort((a, b) => {
                 let valA = a[sortBy];
@@ -125,14 +131,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.querySelectorAll('.filter-option').forEach(option => {
-        option.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.querySelectorAll('.filter-option').forEach(opt => opt.classList.remove('active'));
-            e.target.classList.add('active');
+    document.querySelectorAll('.filter-option input').forEach(input => {
+        input.addEventListener('change', (e) => {
+            const filterAllInput = document.getElementById('filter-all');
+            if (e.target.dataset.filter === 'all') {
+                document.querySelectorAll('.filter-option input').forEach(cb => {
+                    if (cb !== filterAllInput) {
+                        cb.checked = false;
+                    }
+                });
+            } else if (e.target.checked) {
+                filterAllInput.checked = false;
+            }
+
+            const anyOtherChecked = Array.from(document.querySelectorAll('.filter-option input:not(#filter-all)')).some(cb => cb.checked);
+            if (!anyOtherChecked) {
+                filterAllInput.checked = true;
+            }
+            
             filterAndSortOffers();
-            filterDropdown.classList.remove('show');
         });
+    });
+
+    clearFiltersButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('.filter-option input').forEach(cb => {
+            cb.checked = false;
+        });
+        document.getElementById('filter-all').checked = true;
+        filterAndSortOffers();
     });
 
     document.querySelectorAll('.sort-option').forEach(option => {
@@ -145,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const sortOrder = e.target.getAttribute('data-sort-order');
             
             const icon = sortButton.querySelector('i');
-            // Aggiungo una logica per l'opzione "Default"
             if (sortBy === 'default') {
                 icon.className = 'fas fa-sort-amount-down-alt';
             } else if (sortBy === 'price') {
