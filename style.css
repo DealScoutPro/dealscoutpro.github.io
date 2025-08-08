@@ -34,14 +34,13 @@ a:hover {
 /* Header */
 header {
     background-color: #fff;
-    padding: 1rem 1rem; /* Padding laterale uniforme */
+    padding: 1rem 1rem;
     border-bottom: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
-    display: flex; /* Aggiunto per un layout flessibile */
-    flex-wrap: wrap;
+    display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
@@ -51,7 +50,6 @@ header {
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-shrink: 0;
 }
 
 .header-logo {
@@ -71,18 +69,26 @@ header h1 {
 /* Nuova barra strumenti unificata e responsive */
 .toolbar {
     display: flex;
-    width: 100%;
-    margin-top: 1rem;
     align-items: stretch;
     border: 1px solid #ccc;
     border-radius: 4px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-title-wrapper {
+        width: 100%;
+        justify-content: center;
+    }
+
     .toolbar {
-        margin-top: 0;
-        width: auto;
+        width: 100%;
+        margin-top: 1rem;
     }
 }
 
