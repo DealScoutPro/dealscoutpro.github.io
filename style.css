@@ -1,3 +1,8 @@
+/* Reset e Box-Sizing per layout responsivi */
+* {
+    box-sizing: border-box;
+}
+
 /* Stili Generali */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -23,7 +28,7 @@ a:hover {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0; /* Rimosso il padding */
+    padding: 0;
 }
 
 /* Header */
@@ -249,7 +254,7 @@ header {
 
 /* Main Content */
 main {
-    padding: 2rem 1rem; /* Padding uniforme per una corretta visualizzazione su schermi stretti */
+    padding: 2rem 1rem;
 }
 
 .offers-grid {
