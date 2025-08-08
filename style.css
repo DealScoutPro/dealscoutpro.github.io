@@ -41,7 +41,7 @@ header {
     top: 0;
     z-index: 1000;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column; /* Impostazione Mobile-First: layout a colonna di default */
     align-items: center;
     gap: 10px;
 }
@@ -66,29 +66,25 @@ header h1 {
     color: #00508a;
 }
 
-/* Nuova barra strumenti unificata e responsive */
 .toolbar {
     display: flex;
     align-items: stretch;
     border: 1px solid #ccc;
     border-radius: 4px;
     flex-wrap: nowrap;
+    width: 100%; /* La toolbar occupa tutta la larghezza su mobile */
 }
 
-@media (max-width: 768px) {
+/* Media query per risoluzioni desktop/tablet */
+@media (min-width: 720px) {
     header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .header-title-wrapper {
-        width: 100%;
-        justify-content: center;
+        flex-direction: row; /* Layout a riga su desktop */
+        justify-content: space-between;
+        align-items: center;
     }
 
     .toolbar {
-        width: 100%;
-        margin-top: 1rem;
+        width: auto; /* La toolbar non occupa tutta la larghezza su desktop */
     }
 }
 
@@ -263,7 +259,7 @@ main {
     gap: 1.5rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 720px) {
     .offers-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
