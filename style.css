@@ -23,7 +23,7 @@ a:hover {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 1rem 0.5rem; /* Ridotto il padding laterale */
 }
 
 /* Header */
@@ -271,7 +271,7 @@ main {
     transition: transform 0.2s;
     display: flex;
     align-items: stretch;
-    gap: 1rem; /* Aumentato lo spazio tra immagine e contenuto */
+    gap: 1rem;
     padding: 15px;
     overflow: visible;
 }
@@ -355,29 +355,34 @@ main {
 
 .bottom-row {
     display: flex;
-    flex-wrap: wrap; /* Permette agli elementi di andare a capo se necessario */
-    justify-content: space-between;
+    justify-content: space-between; /* Spinge a destra il pulsante */
     align-items: center;
     margin-top: auto;
-    gap: 10px; /* Aggiunge spazio tra prezzi e pulsante */
+    flex-wrap: nowrap; /* Impedisce agli elementi di andare a capo */
+    gap: 10px;
 }
 
 .price-container {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 1; /* Permette al contenitore di restringersi */
+    min-width: 0; /* Previene overflow del testo */
 }
 
 .current-price {
     font-size: 0.9rem;
     font-weight: bold;
     color: #5cb85c;
+    flex-shrink: 0;
 }
 
 .old-price {
     font-size: 0.9rem;
     color: #d9534f;
     text-decoration: line-through;
+    flex-shrink: 1;
+    white-space: nowrap; /* Previene la divisione del testo */
 }
 
 .cta-button {
@@ -386,7 +391,7 @@ main {
     height: 40px;
     border-radius: 50%;
     position: relative;
-    flex-shrink: 0; /* Impedisce al pulsante di restringersi */
+    flex-shrink: 0;
     transition: background-color 0.2s;
     display: flex;
     justify-content: center;
