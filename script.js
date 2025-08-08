@@ -70,8 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const filterType = activeFilter ? activeFilter.getAttribute('data-filter') : 'all';
         
         const activeSortOption = document.querySelector('.sort-option.active');
-        const sortBy = activeSortOption ? activeSortOption.getAttribute('data-sort-by') : 'price';
-        const sortOrder = activeSortOption ? activeSortOption.getAttribute('data-sort-order') : 'asc';
+        const sortBy = activeSortOption ? activeSortOption.getAttribute('data-sort-by') : 'default';
+        const sortOrder = activeSortOption ? activeSortOption.getAttribute('data-sort-order') : 'none';
         
         let filtered = allOffers.filter(offer => {
             const matchesSearch = offer.title.toLowerCase().includes(searchTerm);
@@ -83,13 +83,16 @@ document.addEventListener('DOMContentLoaded', () => {
             return matchesSearch;
         });
         
-        filtered.sort((a, b) => {
-            let valA = a[sortBy];
-            let valB = b[sortBy];
+        // Ordina solo se l'opzione non è "default"
+        if (sortBy !== 'default') {
+            filtered.sort((a, b) => {
+                let valA = a[sortBy];
+                let valB = b[sortBy];
 
-            if (sortOrder === 'asc') return valA - valB;
-            return valB - valA;
-        });
+                if (sortOrder === 'asc') return valA - valB;
+                return valB - valA;
+            });
+        }
 
         displayOffers(filtered);
     };
@@ -142,7 +145,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const sortOrder = e.target.getAttribute('data-sort-order');
             
             const icon = sortButton.querySelector('i');
-            if (sortBy === 'price') {
+            // Aggiungo una logica per l'opzione "Default"
+            if (sortBy === 'default') {
+                icon.className = 'fas fa-sort-amount-down-alt';
+            } else if (sortBy === 'price') {
                 icon.className = sortOrder === 'asc' ? 'fas fa-sort-amount-down-alt' : 'fas fa-sort-amount-up-alt';
             } else if (sortBy === 'discount') {
                 icon.className = sortOrder === 'desc' ? 'fas fa-percent' : 'fas fa-percent fa-flip-vertical';
