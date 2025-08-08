@@ -1,8 +1,3 @@
-/* Reset e Box-Sizing per layout responsivi */
-* {
-    box-sizing: border-box;
-}
-
 /* Stili Generali */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -17,7 +12,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-    color: #659abc;
+    color: #659abc; /* Nuovo blu per link */
     text-decoration: none;
 }
 
@@ -28,20 +23,28 @@ a:hover {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0; /* Rimosso il padding */
 }
 
 /* Header */
 header {
     background-color: #fff;
-    padding: 1rem 1rem;
+    padding: 1rem 0;
     border-bottom: 1px solid #ddd;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
+}
+
+.header-container {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
 }
 
 .header-title-wrapper {
@@ -55,49 +58,29 @@ header {
     height: 65px;
     border-radius: 12px;
     object-fit: cover;
-    border: 2.5px solid #659abc;
+    border: 2.5px solid #659abc; /* Colore del bordo logo */
 }
 
-header h1 {
+.header-container h1 {
     margin: 0;
     font-size: 1.8rem;
-    color: #00508a;
+    color: #00508a; /* Nuovo blu per il titolo */
 }
 
+/* Nuova barra strumenti unificata e responsive */
 .toolbar {
     display: flex;
+    width: 100%;
+    margin-top: 1rem;
     align-items: stretch;
     border: 1px solid #ccc;
     border-radius: 4px;
-    flex-wrap: nowrap;
 }
 
-/* Media query per dispositivi mobile */
-@media (max-width: 719px) {
-    header {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .header-title-wrapper {
-        margin-bottom: 1rem; /* Spaziatura tra logo/titolo e toolbar */
-    }
-
+@media (min-width: 768px) {
     .toolbar {
-        width: 100%;
         margin-top: 0;
-    }
-}
-
-/* Media query per dispositivi desktop/tablet */
-@media (min-width: 720px) {
-    header {
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    .toolbar {
-        margin-left: auto; /* Posiziona la toolbar a destra */
+        width: auto;
     }
 }
 
@@ -105,6 +88,7 @@ header h1 {
     display: flex;
     align-items: center;
     flex-grow: 1;
+    min-width: 150px;
     background-color: #fff;
     position: relative;
     padding: 0;
@@ -122,7 +106,7 @@ header h1 {
 
 .search-box button {
     background-color: transparent;
-    color: #659abc;
+    color: #659abc; /* Nuovo blu per l'icona */
     border: none;
     cursor: pointer;
     font-size: 1.1rem;
@@ -137,12 +121,13 @@ header h1 {
     position: relative;
     display: flex;
     align-items: stretch;
+    flex-shrink: 0;
     border-left: 1px solid #ccc;
 }
 
 .filter-box button, .sort-box button {
     background-color: #fff;
-    color: #659abc;
+    color: #659abc; /* Nuovo blu per le icone */
     border: none;
     padding: 0.5rem 1rem;
     cursor: pointer;
@@ -158,6 +143,7 @@ header h1 {
     background-color: #f0f2f5;
 }
 
+/* Dropdown menu styles */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -172,6 +158,7 @@ header h1 {
     padding: 8px 0;
 }
 
+/* New styles for checkboxes */
 .dropdown-content .checkbox-option {
     display: flex;
     align-items: center;
@@ -200,12 +187,12 @@ header h1 {
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"]:hover {
-    border-color: #659abc;
+    border-color: #659abc; /* Nuovo blu per l'hover */
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"]:checked {
-    background-color: #659abc;
-    border-color: #659abc;
+    background-color: #659abc; /* Nuovo blu per il checked */
+    border-color: #659abc; /* Nuovo blu per il border checked */
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"]:checked::after {
@@ -262,8 +249,7 @@ header h1 {
 
 /* Main Content */
 main {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding: 2rem 1rem; /* Padding uniforme per una corretta visualizzazione su schermi stretti */
 }
 
 .offers-grid {
@@ -272,7 +258,7 @@ main {
     gap: 1.5rem;
 }
 
-@media (min-width: 720px) {
+@media (min-width: 768px) {
     .offers-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
@@ -325,6 +311,7 @@ main {
     opacity: 0.8;
 }
 
+/* Classi per colori dinamici dello sconto */
 .blue-discount {
     background-color: #007bff;
 }
@@ -399,7 +386,7 @@ main {
 }
 
 .cta-button {
-    background-color: #00508a;
+    background-color: #00508a; /* Nuovo blu per il CTA */
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -412,7 +399,7 @@ main {
 }
 
 .cta-button:hover {
-    background-color: #003a6b;
+    background-color: #003a6b; /* Nuovo hover per il CTA */
 }
 
 .cta-button::after {
