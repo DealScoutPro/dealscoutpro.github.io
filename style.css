@@ -10,7 +10,6 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    padding-inline: 1rem; /* Padding laterale uniforme per tutto il body */
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -29,7 +28,7 @@ a:hover {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0;
+    padding: 0 1rem; /* Padding laterale uniforme */
 }
 
 /* Header */
