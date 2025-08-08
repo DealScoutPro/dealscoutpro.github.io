@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DealScoutPro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <h1>DealScoutPro</h1>
+            <div class="toolbar">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Cerca offerte...">
+                    <button id="searchButton"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="filter-box">
+                    <button id="filterButton"><i class="fas fa-filter"></i></button>
+                    <div id="filterDropdown" class="dropdown-content">
+                        <a href="#" class="filter-option active" data-filter="all">Tutti</a>
+                        <a href="#" class="filter-option" data-filter="discount-50">Sconto > 50%</a>
+                        <a href="#" class="filter-option" data-filter="discount-30">Sconto > 30%</a>
+                        <a href="#" class="filter-option" data-filter="discount-20">Sconto > 20%</a>
+                        <a href="#" class="filter-option" data-filter="discount-10">Sconto > 10%</a>
+                    </div>
+                </div>
+                <div class="sort-box">
+                    <button id="sortButton"><i class="fas fa-sort-amount-down-alt"></i></button>
+                    <div id="sortDropdown" class="dropdown-content">
+                        <a href="#" class="sort-option active" data-sort-by="price" data-sort-order="asc">Prezzo crescente</a>
+                        <a href="#" class="sort-option" data-sort-by="price" data-sort-order="desc">Prezzo decrescente</a>
+                        <a href="#" class="sort-option" data-sort-by="discount" data-sort-order="desc">Sconto maggiore</a>
+                        <a href="#" class="sort-option" data-sort-by="discount" data-sort-order="asc">Sconto minore</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="offers-grid" id="offersGrid">
+                </section>
+        </div>
+    </main>
+    
+    <script src="script.js"></script>
+</body>
+</html>
