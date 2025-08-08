@@ -17,7 +17,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 a {
-    color: #659abc; /* Nuovo blu per link */
+    color: #659abc;
     text-decoration: none;
 }
 
@@ -28,7 +28,7 @@ a:hover {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem; /* Padding laterale uniforme */
+    padding: 0 1rem;
 }
 
 /* Header */
@@ -63,13 +63,13 @@ header {
     height: 65px;
     border-radius: 12px;
     object-fit: cover;
-    border: 2.5px solid #659abc; /* Colore del bordo logo */
+    border: 2.5px solid #659abc;
 }
 
 .header-container h1 {
     margin: 0;
     font-size: 1.8rem;
-    color: #00508a; /* Nuovo blu per il titolo */
+    color: #00508a;
 }
 
 /* Nuova barra strumenti unificata e responsive */
@@ -111,7 +111,7 @@ header {
 
 .search-box button {
     background-color: transparent;
-    color: #659abc; /* Nuovo blu per l'icona */
+    color: #659abc;
     border: none;
     cursor: pointer;
     font-size: 1.1rem;
@@ -132,7 +132,7 @@ header {
 
 .filter-box button, .sort-box button {
     background-color: #fff;
-    color: #659abc; /* Nuovo blu per le icone */
+    color: #659abc;
     border: none;
     padding: 0.5rem 1rem;
     cursor: pointer;
@@ -148,7 +148,6 @@ header {
     background-color: #f0f2f5;
 }
 
-/* Dropdown menu styles */
 .dropdown-content {
     display: none;
     position: absolute;
@@ -163,7 +162,6 @@ header {
     padding: 8px 0;
 }
 
-/* New styles for checkboxes */
 .dropdown-content .checkbox-option {
     display: flex;
     align-items: center;
@@ -192,12 +190,12 @@ header {
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"]:hover {
-    border-color: #659abc; /* Nuovo blu per l'hover */
+    border-color: #659abc;
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"]:checked {
-    background-color: #659abc; /* Nuovo blu per il checked */
-    border-color: #659abc; /* Nuovo blu per il border checked */
+    background-color: #659abc;
+    border-color: #659abc;
 }
 
 .dropdown-content .checkbox-option input[type="checkbox"]:checked::after {
@@ -317,7 +315,6 @@ main {
     opacity: 0.8;
 }
 
-/* Classi per colori dinamici dello sconto */
 .blue-discount {
     background-color: #007bff;
 }
@@ -392,7 +389,7 @@ main {
 }
 
 .cta-button {
-    background-color: #00508a; /* Nuovo blu per il CTA */
+    background-color: #00508a;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -405,7 +402,7 @@ main {
 }
 
 .cta-button:hover {
-    background-color: #003a6b; /* Nuovo hover per il CTA */
+    background-color: #003a6b;
 }
 
 .cta-button::after {
