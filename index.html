@@ -12,7 +12,7 @@
 
     <header>
         <div class="header-title-wrapper">
-            <img src="logo.png" alt="Logo" class="header-logo">
+            <img src="logodealscoutpro.jpg" alt="Logo" class="header-logo">
             <h1>Web App</h1>
         </div>
         <div class="toolbar">
@@ -21,23 +21,40 @@
                 <button id="searchButton"><i class="fas fa-search"></i></button>
             </div>
             <div class="filter-box">
-                <button class="dropdown-toggle" id="filter-btn"><i class="fas fa-filter"></i></button>
-                <div class="dropdown-content" id="filter-dropdown">
-                    <div class="checkbox-option">
-                        <input type="checkbox" id="filter-all" data-filter="all" checked>
-                        <label for="filter-all">Tutte le Offerte</label>
-                    </div>
-                </div>
-            </div>
-            <div class="sort-box">
-                <button class="dropdown-toggle" id="sort-btn"><i class="fas fa-sort"></i></button>
-                <div class="dropdown-content" id="sort-dropdown">
-                    <a href="#" class="sort-option active" data-sort-by="default" data-sort-order="desc">Predefinito</a>
-                    <a href="#" class="sort-option" data-sort-by="price" data-sort-order="asc">Prezzo (crescente)</a>
-                    <a href="#" class="sort-option" data-sort-by="price" data-sort-order="desc">Prezzo (decrescente)</a>
-                    <a href="#" class="sort-option" data-sort-by="discount" data-sort-order="desc">Sconto (maggiore)</a>
-                </div>
-            </div>
+    <button class="dropdown-toggle" id="filter-btn"><i class="fas fa-filter"></i></button>
+    <div class="dropdown-content" id="filter-dropdown">
+        <div class="checkbox-option">
+            <input type="checkbox" id="filter-all" data-filter="all" checked>
+            <label for="filter-all">Tutte le Offerte</label>
+        </div>
+        <div class="checkbox-option">
+            <input type="checkbox" id="filter-50" data-filter="discount-50">
+            <label for="filter-50">Sconto ≥ 50%</label>
+        </div>
+        <div class="checkbox-option">
+            <input type="checkbox" id="filter-30" data-filter="discount-30">
+            <label for="filter-30">Sconto ≥ 30%</label>
+        </div>
+        <div class="checkbox-option">
+            <input type="checkbox" id="filter-20" data-filter="discount-20">
+            <label for="filter-20">Sconto ≥ 20%</label>
+        </div>
+        <div class="checkbox-option">
+            <input type="checkbox" id="filter-10" data-filter="discount-10">
+            <label for="filter-10">Sconto ≥ 10%</label>
+        </div>
+        <a href="#" id="clearFilters">Azzera filtri</a>
+    </div>
+</div>
+<div class="sort-box">
+    <button class="dropdown-toggle" id="sort-btn"><i class="fas fa-sort"></i></button>
+    <div class="dropdown-content" id="sort-dropdown">
+        <a href="#" class="sort-option active" data-sort-by="default" data-sort-order="desc">Predefinito</a>
+        <a href="#" class="sort-option" data-sort-by="price" data-sort-order="asc">Prezzo (crescente)</a>
+        <a href="#" class="sort-option" data-sort-by="price" data-sort-order="desc">Prezzo (decrescente)</a>
+        <a href="#" class="sort-option" data-sort-by="discount" data-sort-order="desc">Sconto (maggiore)</a>
+    </div>
+</div>
             
             <div class="theme-switch-wrapper">
                 <label class="theme-switch" for="checkbox">
