@@ -162,7 +162,7 @@ header {
 }
 
 .show {
-    display: block;
+    display: block !important;
 }
 
 /* Main Content */
