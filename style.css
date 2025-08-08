@@ -31,7 +31,7 @@ a:hover {
     padding: 0 1rem;
 }
 
-/* Header (Layout Desktop di default) */
+/* Header (Layout Desktop di default con griglia) */
 header {
     background-color: #fff;
     padding: 1rem 1rem;
@@ -40,8 +40,8 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: auto 1fr;
     align-items: center;
     gap: 10px;
 }
@@ -50,7 +50,6 @@ header {
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-shrink: 0;
 }
 
 .header-logo {
@@ -73,24 +72,27 @@ header h1 {
     border: 1px solid #ccc;
     border-radius: 4px;
     flex-wrap: nowrap;
+    justify-self: end;
 }
 
 /* Media query per dispositivi mobile */
 @media (max-width: 719px) {
     header {
-        flex-direction: column; /* Layout a colonna */
-        align-items: center; /* Centra gli elementi */
-        gap: 0; /* Rimuove lo spazio tra i due elementi principali */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
     }
 
     .header-title-wrapper {
-        margin-bottom: 1rem; /* Aggiunge spazio tra logo e toolbar */
+        margin-bottom: 1rem;
         justify-content: center;
     }
 
     .toolbar {
-        width: 100%; /* La toolbar occupa tutta la larghezza */
+        width: 100%;
         margin-top: 0;
+        justify-self: auto;
     }
 }
 
@@ -314,7 +316,7 @@ main {
     border-radius: 12px;
     font-size: 0.7rem;
     font-weight: bold;
-    box-shadow: 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     opacity: 0.8;
 }
 
