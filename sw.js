@@ -1,11 +1,10 @@
 const CACHE_NAME = 'dealscout-cache-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/script.js',
-  '/manifest.json',
-  '/logodealscoutpro.jpg'
+  'index.html',
+  'style.css',
+  'script.js',
+  'manifest.json',
+  'logodealscoutpro.jpg'
 ];
 
 self.addEventListener('install', event => {
