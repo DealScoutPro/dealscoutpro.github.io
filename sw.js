@@ -16,10 +16,26 @@ self.addEventListener('install', event => {
       return cache.addAll(urlsToCache);
     })
   );
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', event => {
+  const cacheWhitelist = [CACHE_NAME];
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cacheName => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
 });
 
 self.addEventListener('fetch', event => {
-  // Gestisce la richiesta per data.json con la strategia "stale-while-revalidate"
   if (event.request.url.includes('data.json')) {
     event.respondWith(
       caches.open(CACHE_NAME).then(cache => {
@@ -33,11 +49,16 @@ self.addEventListener('fetch', event => {
       })
     );
   } else {
-    // Per tutti gli altri file, utilizza la strategia "cache-first"
     event.respondWith(
       caches.match(event.request).then(response => {
         return response || fetch(event.request);
       })
     );
+  }
+});
+
+self.addEventListener('message', event => {
+  if (event.data && event.data.action === 'skipWaiting') {
+    self.skipWaiting();
   }
 });
