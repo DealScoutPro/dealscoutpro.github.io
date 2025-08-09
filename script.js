@@ -200,6 +200,15 @@ document.addEventListener('DOMContentLoaded', () => {
         filterDropdown.classList.remove('show');
     });
 
+    // Gestione espansione titolo al click
+    offersGrid.addEventListener('click', (e) => {
+        const titleElement = e.target.closest('.offer-card h4');
+        if (titleElement) {
+            const card = titleElement.closest('.offer-card');
+            card.classList.toggle('expanded');
+        }
+    });
+
     // Carica i dati da data.json e inizializza il sito
     fetch('data.json')
         .then(response => {
@@ -214,6 +223,5 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
-            // In caso di errore, si può mostrare un messaggio all'utente o caricare un set di dati di fallback.
         });
 });
