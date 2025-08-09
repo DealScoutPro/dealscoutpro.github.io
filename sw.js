@@ -4,7 +4,9 @@ const urlsToCache = [
   'style.css',
   'script.js',
   'manifest.json',
-  'logodealscoutpro.jpg'
+  'logo-192x192.png',
+  'logo-512x512.png',
+  'logodealscoutpro.png'
 ];
 
 self.addEventListener('install', event => {
