@@ -130,7 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 return b.price - a.price;
             });
         } else if (sortBy === 'discount') {
-            sortedOffers.sort((a, b) => b.discount - a.discount);
+            sortedOffers.sort((a, b) => {
+                if (sortOrder === 'desc') return b.discount - a.discount;
+                return a.discount - b.discount;
+            });
         }
 
         renderOffers(sortedOffers);
