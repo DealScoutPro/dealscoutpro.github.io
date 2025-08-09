@@ -1,6 +1,6 @@
 {
   "name": "DealScoutPro",
-  "short_name": "DealScout",
+  "short_name": "DealScoutPro",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
