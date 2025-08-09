@@ -12,6 +12,108 @@ document.addEventListener('DOMContentLoaded', () => {
     let deferredPrompt;
     let allOffers = [];
 
+    // Struttura dati fissa
+    const offersData = [
+        {
+            "title": "Xiaomi Robot Vacuum S20, Robot Aspirapolvere Lavapavimenti, Aspirazione 5.000 Pa, Sistema Navigazione laser LDS, Ampio contenitore della Polvere e Serbatorio dell'Acqua, Controllo Vocale e App",
+            "image": "https://m.media-amazon.com/images/I/71215Q1O34L._AC_SX679_.jpg",
+            "price": 156.99,
+            "discount": 8,
+            "link": "https://amzn.to/45iCp4d"
+        },
+        {
+            "title": "Pistola Massaggio Muscolare con Testa Calda e Fredda, RENPHO Massaggiatore Muscolare Portatile fino a 3200rpm, Pistola Massaggiante Professionale Silenziosa, 5 Testa 5 Velocità, Ricarica di Tipo C",
+            "image": "https://m.media-amazon.com/images/I/61YZQrGrVbL._AC_SX679_.jpg",
+            "price": 96.51,
+            "discount": 31,
+            "link": "https://amzn.to/3Uhldas"
+        },
+        {
+            "title": "SONGMICS Sedia da Ufficio Girevole, Altezza Regolabile, Poltrona da Gaming, Sedia da Computer, con Meccanismo di Inclinazione, Nero OBG56B",
+            "image": "https://m.media-amazon.com/images/I/71lkcaY+pbL._AC_SX679_.jpg",
+            "price": 89.99,
+            "discount": 22,
+            "link": "https://amzn.to/3JkaJoa"
+        },
+        {
+            "title": "SONGMICS Sedia da Ufficio, Sedia a Rete Girevole, Altezza e Poggiapiedi Regolabili, Ergonomica, con Braccioli, Capacità di Carico 120 kg, Nero OBN25BK",
+            "image": "https://m.media-amazon.com/images/I/71IfLhPJbYL._AC_SX679_.jpg",
+            "price": 99.99,
+            "discount": 23,
+            "link": "https://amzn.to/3UgOG48"
+        },
+        {
+            "title": "Lagostina Ingenio Mineralis Eco Set Padelle Antiaderenti in Alluminio 100% Riciclato, Adatto all’Induzione, 10 Pezzi, Casseruola 16cm, Padella 28cm, Tegame 24cm, Wok 26cm, 5 Coperchi e Manico",
+            "image": "https://m.media-amazon.com/images/I/61uW8QaRf8L._AC_SX679_.jpg",
+            "price": 175.5,
+            "discount": 12,
+            "link": "https://amzn.to/46LSge2"
+        },
+        {
+            "title": "Vans - Copy of Old Skool Platform Cuadros VN0A3B3UHRK1",
+            "image": "https://m.media-amazon.com/images/I/51Reh8IDlRL._AC_SX695_.jpg",
+            "price": 61.99,
+            "discount": 17,
+            "link": "https://amzn.to/459Lo9i"
+        },
+        {
+            "title": "Pinko Love Classic Puff Cl Sheep Nap, Borsa Donna, Taglia Unica",
+            "image": "https://m.media-amazon.com/images/I/61CiOZBnPLL._AC_SY695_.jpg",
+            "price": 271.0,
+            "discount": 30,
+            "link": "https://amzn.to/455Adyd"
+        },
+        {
+            "title": "adidas Hoops 3.0 Low Classic Vintage Shoes, Sneakers Uomo",
+            "image": "https://m.media-amazon.com/images/I/41jojxoUiZL._AC_SY695_.jpg",
+            "price": 43.9,
+            "discount": 32,
+            "link": "https://amzn.to/45E9o4j"
+        },
+        {
+            "title": "Philips Airfryer Serie 2000 - Friggitrice ad aria da 4,2L, 1500W, Tecnologia RapidAir, Touchscreen digitale, 13 modalità, 9 funzioni preimpostate, Fino al 90% di grassi in meno, Nero (NA229/00)",
+            "image": "https://m.media-amazon.com/images/I/51EJtxG4ZqL._AC_SX679_.jpg",
+            "price": 69.99,
+            "discount": 22,
+            "link": "https://amzn.to/4onvoHZ"
+        },
+        {
+            "title": "Krups Nespresso Inissia XN1005, Macchina da caffè, Sistema Capsule Nespresso, Serbatoio acqua 0.7L, Ruby Red",
+            "image": "https://m.media-amazon.com/images/I/51rVe9bPc-L._AC_SY879_.jpg",
+            "price": 79.0,
+            "discount": 34,
+            "link": "https://amzn.to/3Ud0d4y"
+        },
+        {
+            "title": "Xiaomi Smart Band 9 Active, Schermo TFT 1.47\", Monitoraggio Salute: SpO2, Frequenza Cardiaca, Sonno e Stress, 50 modalità sportive, Resistenza Acqua 5 ATM, Durata Batteria 18 giorni, Nero",
+            "image": "https://m.media-amazon.com/images/I/61OhQCN2QFL._AC_SX679_.jpg",
+            "price": 20.99,
+            "discount": 22,
+            "link": "https://amzn.to/4lqFrtu"
+        }
+    ];
+
+    // Funzione per calcolare il prezzo vecchio e la classe di sconto
+    const preprocessOffers = (offers) => {
+        return offers.map(offer => {
+            const oldPrice = offer.price / (1 - offer.discount / 100);
+            let discountClass = '';
+            if (offer.discount >= 50) discountClass = 'blue-discount';
+            else if (offer.discount >= 30) discountClass = 'green-discount';
+            else if (offer.discount >= 20) discountClass = 'orange-discount';
+            else if (offer.discount >= 10) discountClass = 'red-discount';
+            else discountClass = 'grey-discount';
+
+            return {
+                ...offer,
+                oldPrice: oldPrice.toFixed(2),
+                discountClass: discountClass
+            };
+        });
+    };
+
+    allOffers = preprocessOffers(offersData);
+
     // Gestione dell'installazione PWA
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
@@ -21,61 +123,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     pwaInstallButton.addEventListener('click', () => {
         if (deferredPrompt) {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('User accepted the A2HS prompt');
-                } else {
-                    console.log('User dismissed the A2HS prompt');
-                }
-                deferredPrompt = null;
-            });
+            const confirmed = window.confirm("Vuoi installare DealScoutPro sul tuo dispositivo?");
+            if (confirmed) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the A2HS prompt');
+                    } else {
+                        console.log('User dismissed the A2HS prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            }
         }
     });
-
-    // Funzione per generare un'offerta casuale
-    const getRandomOffer = () => {
-        const brands = ['Samsung', 'Apple', 'Xiaomi', 'Sony', 'Logitech', 'MSI', 'Corsair'];
-        const products = ['Smartphone', 'Laptop', 'Smartwatch', 'TV 4K', 'Cuffie Bluetooth', 'Mouse Gaming', 'Tastiera Meccanica'];
-        const conditions = ['Nuovo', 'Ricondizionato', 'Usato'];
-        const discounts = {
-            'blue-discount': 60,
-            'green-discount': 40,
-            'orange-discount': 25,
-            'red-discount': 15,
-            'grey-discount': 5
-        };
-
-        const randomBrand = brands[Math.floor(Math.random() * brands.length)];
-        const randomProduct = products[Math.floor(Math.random() * products.length)];
-        const randomCondition = conditions[Math.floor(Math.random() * conditions.length)];
-        const randomPrice = (Math.random() * 900 + 100).toFixed(2);
-        const randomOldPrice = (parseFloat(randomPrice) + (parseFloat(randomPrice) * (Math.random() * 0.5 + 0.1))).toFixed(2);
-        
-        const discountPercentage = Math.round(((randomOldPrice - randomPrice) / randomOldPrice) * 100);
-        let discountClass = '';
-        if (discountPercentage >= 50) discountClass = 'blue-discount';
-        else if (discountPercentage >= 30) discountClass = 'green-discount';
-        else if (discountPercentage >= 20) discountClass = 'orange-discount';
-        else if (discountPercentage >= 10) discountClass = 'red-discount';
-        else discountClass = 'grey-discount';
-
-        return {
-            id: Date.now() + Math.random(),
-            title: `${randomBrand} ${randomProduct} ${randomCondition}`,
-            price: parseFloat(randomPrice),
-            oldPrice: parseFloat(randomOldPrice),
-            discount: discountPercentage,
-            discountClass: discountClass,
-            image: `https://picsum.photos/120/120?random=${Math.random()}`,
-            condition: randomCondition
-        };
-    };
-
-    // Genera 50 offerte casuali all'avvio
-    for (let i = 0; i < 50; i++) {
-        allOffers.push(getRandomOffer());
-    }
 
     // Funzione per renderizzare le offerte sulla pagina
     const renderOffers = (offersToRender) => {
@@ -91,9 +152,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="bottom-row">
                             <div class="price-container">
                                 <span class="current-price">${offer.price.toFixed(2)}€</span>
-                                <span class="old-price">${offer.oldPrice.toFixed(2)}€</span>
+                                <span class="old-price">${offer.oldPrice}€</span>
                             </div>
-                            <a href="#" class="cta-button"></a>
+                            <a href="${offer.link}" class="cta-button" target="_blank"></a>
                         </div>
                     </div>
                 </div>
@@ -109,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let filteredOffers = allOffers.filter(offer => {
             const matchesSearch = offer.title.toLowerCase().includes(searchTerm);
             
-            if (activeFilters.length === 0) {
+            if (activeFilters.length === 0 || document.getElementById('filter-all').checked) {
                 return matchesSearch;
             }
 
