@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Registrazione del Service Worker per il funzionamento PWA e offline
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
+            navigator.serviceWorker.register('sw.js')
                 .then(registration => {
                     console.log('Service Worker registrato con successo:', registration);
                 })
