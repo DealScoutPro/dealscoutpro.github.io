@@ -12,12 +12,30 @@ document.addEventListener('DOMContentLoaded', () => {
     let deferredPrompt;
     let allOffers = [];
 
-    // Registrazione del Service Worker per il funzionamento PWA e offline
+// Registrazione del Service Worker per il funzionamento PWA e offline
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
                 .then(registration => {
                     console.log('Service Worker registrato con successo:', registration);
+
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // Mostra il banner di aggiornamento
+                                const updateBanner = document.createElement('div');
+                                updateBanner.id = 'update-banner';
+                                updateBanner.innerHTML = 'È disponibile una nuova versione! <button id="reload-button">Aggiorna</button>';
+                                document.body.appendChild(updateBanner);
+
+                                document.getElementById('reload-button').addEventListener('click', () => {
+                                    newWorker.postMessage({ action: 'skipWaiting' });
+                                    window.location.reload();
+                                });
+                            }
+                        });
+                    });
                 })
                 .catch(error => {
                     console.log('Registrazione Service Worker fallita:', error);
