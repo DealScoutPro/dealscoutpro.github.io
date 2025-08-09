@@ -12,6 +12,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let deferredPrompt;
     let allOffers = [];
 
+    // Registrazione del Service Worker per il funzionamento PWA e offline
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('Service Worker registrato con successo:', registration);
+                })
+                .catch(error => {
+                    console.log('Registrazione Service Worker fallita:', error);
+                });
+        });
+    }
+
     // Gestione dell'installazione PWA
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
