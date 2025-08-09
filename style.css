@@ -8,7 +8,7 @@
     --link-color: #659abc;
     --primary-color: #00508a;
     --border-color: #ddd;
-    --image-container-bg: #ffffff; /* Sfondo bianco fisso */
+    --image-container-bg: #ffffff;
 }
 
 /* Colori Notte */
@@ -386,6 +386,7 @@ main {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
+    margin-top: 2rem;
 }
 
 @media (min-width: 768px) {
@@ -470,6 +471,13 @@ main {
     -webkit-box-orient: vertical;
     line-height: 1.5;
     max-height: calc(1.5rem * 3);
+    cursor: pointer;
+}
+
+.offer-card.expanded .card-content h4 {
+    -webkit-line-clamp: unset;
+    max-height: unset;
+    overflow: visible;
 }
 
 .bottom-row {
