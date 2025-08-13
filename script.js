@@ -117,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
     };
 
-    // --- NUOVA FUNZIONE PER LA PAGINAZIONE ---
     const displayOffers = () => {
         const startIndex = (currentPage - 1) * offersPerPage;
         const endIndex = startIndex + offersPerPage;
@@ -178,7 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
         paginationContainer.appendChild(nextButton);
     };
 
-    // Funzione per filtrare le offerte (MODIFICATA)
     const filterOffers = () => {
         const activeFilters = Array.from(filterCheckboxes).filter(cb => cb.checked && cb.id !== 'filter-all').map(cb => cb.dataset.filter);
         const searchTerm = searchInput.value.toLowerCase().trim();
@@ -202,14 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeSort) {
             sortOffers(filteredOffers, activeSort.dataset.sortBy, activeSort.dataset.sortOrder);
         } else {
-            // Aggiorno la lista di offerte da mostrare e resetto la pagina
             displayedOffers = filteredOffers;
             currentPage = 1;
             displayOffers();
         }
     };
 
-    // Funzione per ordinare le offerte (MODIFICATA)
     const sortOffers = (offersToSort, sortBy, sortOrder) => {
         let sortedOffers = [...offersToSort];
 
@@ -225,13 +221,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         
-        // Aggiorno la lista di offerte da mostrare e resetto la pagina
         displayedOffers = sortedOffers;
         currentPage = 1;
         displayOffers();
     };
 
-    // Gestione filtri
     filterCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
             if (checkbox.id === 'filter-all') {
@@ -256,20 +250,8 @@ document.addEventListener('DOMContentLoaded', () => {
         filterOffers();
     });
 
-    // Gestione ordinamento
-    document.querySelectorAll('.sort-option').forEach(option => {
-        option.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.querySelectorAll('.sort-option').forEach(opt => opt.classList.remove('active'));
-            option.classList.add('active');
-            filterOffers();
-        });
-    });
-
-    // Gestione ricerca
     searchInput.addEventListener('input', filterOffers);
 
-    // Gestione Night Mode
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
         document.body.classList.add(savedTheme);
@@ -288,7 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Gestione dropdown
     document.addEventListener('click', (e) => {
         if (!filterBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
             filterDropdown.classList.remove('show');
@@ -308,7 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
         filterDropdown.classList.remove('show');
     });
 
-    // Gestione espansione titolo al click
     offersGrid.addEventListener('click', (e) => {
         const titleElement = e.target.closest('.offer-card h4');
         if (titleElement) {
@@ -317,8 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Carica i dati da data.json e inizializza il sito (MODIFICATA)
-    fetch('data.json')
+    // --- RIGA MODIFICATA PER LA STRATEGIA DEL TIMESTAMP ---
+    fetch(`data.json?t=${new Date().getTime()}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -327,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             allOffers = preprocessOffers(data);
-            displayedOffers = allOffers; // Inizializza la lista di offerte da mostrare
+            displayedOffers = allOffers;
             displayOffers();
         })
         .catch(error => {
