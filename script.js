@@ -11,8 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const pwaInstallButton = document.getElementById('pwa-install-button');
     let deferredPrompt;
     let allOffers = [];
+    let displayedOffers = [];
+    
+    // --- PAGINATION VARIABLES ---
+    const paginationContainer = document.getElementById('pagination-container');
+    const offersPerPage = 20;
+    let currentPage = 1;
 
-// Registrazione del Service Worker per il funzionamento PWA e offline
+    // Registrazione del Service Worker per il funzionamento PWA e offline
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('sw.js')
@@ -70,7 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Funzione per calcolare il prezzo vecchio e la classe di sconto
     const preprocessOffers = (offers) => {
         return offers.map(offer => {
-            const oldPrice = offer.price / (1 - offer.discount / 100);
+            // Aggiungo un controllo per evitare divisioni per zero o valori non validi
+            const oldPrice = offer.discount && offer.discount < 100 ? offer.price / (1 - offer.discount / 100) : offer.price;
             let discountClass = '';
             if (offer.discount >= 50) discountClass = 'blue-discount';
             else if (offer.discount >= 30) discountClass = 'green-discount';
@@ -110,7 +117,68 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
     };
 
-    // Funzione per filtrare le offerte
+    // --- NUOVA FUNZIONE PER LA PAGINAZIONE ---
+    const displayOffers = () => {
+        const startIndex = (currentPage - 1) * offersPerPage;
+        const endIndex = startIndex + offersPerPage;
+        const offersToDisplay = displayedOffers.slice(startIndex, endIndex);
+        renderOffers(offersToDisplay);
+        setupPagination();
+    };
+
+    const setupPagination = () => {
+        paginationContainer.innerHTML = '';
+        const pageCount = Math.ceil(displayedOffers.length / offersPerPage);
+        
+        if (pageCount <= 1) {
+            paginationContainer.style.display = 'none';
+            return;
+        } else {
+            paginationContainer.style.display = 'flex';
+        }
+
+        const prevButton = document.createElement('button');
+        prevButton.innerText = 'Precedente';
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => {
+            currentPage--;
+            displayOffers();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        paginationContainer.appendChild(prevButton);
+
+        const maxPageButtons = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
+        let endPage = Math.min(pageCount, startPage + maxPageButtons - 1);
+
+        if (endPage - startPage + 1 < maxPageButtons) {
+            startPage = Math.max(1, endPage - maxPageButtons + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.innerText = i;
+            pageButton.className = i === currentPage ? 'active' : '';
+            pageButton.addEventListener('click', () => {
+                currentPage = i;
+                displayOffers();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            paginationContainer.appendChild(pageButton);
+        }
+
+        const nextButton = document.createElement('button');
+        nextButton.innerText = 'Successiva';
+        nextButton.disabled = currentPage === pageCount;
+        nextButton.addEventListener('click', () => {
+            currentPage++;
+            displayOffers();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        paginationContainer.appendChild(nextButton);
+    };
+
+    // Funzione per filtrare le offerte (MODIFICATA)
     const filterOffers = () => {
         const activeFilters = Array.from(filterCheckboxes).filter(cb => cb.checked && cb.id !== 'filter-all').map(cb => cb.dataset.filter);
         const searchTerm = searchInput.value.toLowerCase().trim();
@@ -134,11 +202,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeSort) {
             sortOffers(filteredOffers, activeSort.dataset.sortBy, activeSort.dataset.sortOrder);
         } else {
-            renderOffers(filteredOffers);
+            // Aggiorno la lista di offerte da mostrare e resetto la pagina
+            displayedOffers = filteredOffers;
+            currentPage = 1;
+            displayOffers();
         }
     };
 
-    // Funzione per ordinare le offerte
+    // Funzione per ordinare le offerte (MODIFICATA)
     const sortOffers = (offersToSort, sortBy, sortOrder) => {
         let sortedOffers = [...offersToSort];
 
@@ -153,8 +224,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 return a.discount - b.discount;
             });
         }
-
-        renderOffers(sortedOffers);
+        
+        // Aggiorno la lista di offerte da mostrare e resetto la pagina
+        displayedOffers = sortedOffers;
+        currentPage = 1;
+        displayOffers();
     };
 
     // Gestione filtri
@@ -243,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Carica i dati da data.json e inizializza il sito
+    // Carica i dati da data.json e inizializza il sito (MODIFICATA)
     fetch('data.json')
         .then(response => {
             if (!response.ok) {
@@ -253,7 +327,8 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             allOffers = preprocessOffers(data);
-            renderOffers(allOffers);
+            displayedOffers = allOffers; // Inizializza la lista di offerte da mostrare
+            displayOffers();
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
